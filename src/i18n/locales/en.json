@@ -138,5 +138,72 @@
     "privacy": "Privacy",
     "terms": "Terms",
     "rights": "All rights reserved"
+  },
+  "onboarding": {
+    "doctor": {
+      "title": "Complete your doctor profile",
+      "last_name": "Last name",
+      "first_name": "First name",
+      "last_name_placeholder": "E.g.: Benali",
+      "first_name_placeholder": "E.g.: Mohamed",
+      "phone": "Phone",
+      "specialty": "Specialty",
+      "specialty_placeholder": "Choose a specialty",
+      "select_tags": "Areas of expertise",
+      "address": "Office address",
+      "address_placeholder": "Street, neighborhood...",
+      "city": "City",
+      "city_placeholder": "E.g.: Algiers",
+      "wilaya": "Wilaya",
+      "wilaya_placeholder": "E.g.: Algiers",
+      "map_placeholder": "Map will be integrated here",
+      "consult_price": "Consultation price",
+      "price_hint": "This price will be shown on your public profile",
+      "profile_photo": "Profile photo",
+      "business_card": "Business card",
+      "upload": "Choose a file",
+      "upload_card": "Click to upload your business card",
+      "availability": "Availability",
+      "closed": "Closed",
+      "previous": "Previous",
+      "next": "Next",
+      "finish": "Finish",
+      "steps": {
+        "personal": "Personal",
+        "specialty": "Specialty",
+        "address": "Address",
+        "pricing": "Pricing",
+        "photos": "Photos",
+        "availability": "Schedule",
+        "summary": "Summary"
+      },
+      "step_titles": {
+        "personal": "Personal information",
+        "specialty": "Specialty and expertise",
+        "address": "Office address",
+        "pricing": "Consultation fee",
+        "photos": "Photo and business card",
+        "availability": "Weekly availability",
+        "summary": "Summary"
+      },
+      "step_descs": {
+        "personal": "Enter your basic information",
+        "specialty": "Select your specialty and areas of expertise",
+        "address": "Provide your medical office address",
+        "pricing": "Set your consultation fee",
+        "photos": "Add your profile photo and business card",
+        "availability": "Configure your availability schedule",
+        "summary": "Review your information before submitting"
+      },
+      "days": {
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday",
+        "sunday": "Sunday"
+      }
+    }
   }
 }

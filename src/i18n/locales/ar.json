@@ -138,5 +138,72 @@
     "privacy": "الخصوصية",
     "terms": "الشروط",
     "rights": "جميع الحقوق محفوظة"
+  },
+  "onboarding": {
+    "doctor": {
+      "title": "أكمل ملفك كطبيب",
+      "last_name": "اللقب",
+      "first_name": "الاسم",
+      "last_name_placeholder": "مثال: بن علي",
+      "first_name_placeholder": "مثال: محمد",
+      "phone": "الهاتف",
+      "specialty": "التخصص",
+      "specialty_placeholder": "اختر تخصصًا",
+      "select_tags": "مجالات الخبرة",
+      "address": "عنوان العيادة",
+      "address_placeholder": "الشارع، الحي...",
+      "city": "المدينة",
+      "city_placeholder": "مثال: الجزائر",
+      "wilaya": "الولاية",
+      "wilaya_placeholder": "مثال: الجزائر",
+      "map_placeholder": "سيتم دمج الخريطة هنا",
+      "consult_price": "سعر الاستشارة",
+      "price_hint": "سيظهر هذا السعر في ملفك العام",
+      "profile_photo": "صورة الملف الشخصي",
+      "business_card": "بطاقة العمل",
+      "upload": "اختر ملفًا",
+      "upload_card": "انقر لتحميل بطاقة العمل",
+      "availability": "أوقات العمل",
+      "closed": "مغلق",
+      "previous": "السابق",
+      "next": "التالي",
+      "finish": "إنهاء",
+      "steps": {
+        "personal": "شخصي",
+        "specialty": "التخصص",
+        "address": "العنوان",
+        "pricing": "التسعير",
+        "photos": "الصور",
+        "availability": "الجدول",
+        "summary": "الملخص"
+      },
+      "step_titles": {
+        "personal": "المعلومات الشخصية",
+        "specialty": "التخصص والخبرة",
+        "address": "عنوان العيادة",
+        "pricing": "رسوم الاستشارة",
+        "photos": "الصورة وبطاقة العمل",
+        "availability": "التوفر الأسبوعي",
+        "summary": "الملخص"
+      },
+      "step_descs": {
+        "personal": "أدخل معلوماتك الأساسية",
+        "specialty": "حدد تخصصك ومجالات خبرتك",
+        "address": "أدخل عنوان عيادتك الطبية",
+        "pricing": "حدد رسوم الاستشارة",
+        "photos": "أضف صورتك الشخصية وبطاقة العمل",
+        "availability": "قم بتكوين جدول التوفر الخاص بك",
+        "summary": "راجع معلوماتك قبل الإرسال"
+      },
+      "days": {
+        "monday": "الإثنين",
+        "tuesday": "الثلاثاء",
+        "wednesday": "الأربعاء",
+        "thursday": "الخميس",
+        "friday": "الجمعة",
+        "saturday": "السبت",
+        "sunday": "الأحد"
+      }
+    }
   }
 }
