@@ -130,6 +130,122 @@
     "edit": "Modifier",
     "delete": "Supprimer"
   },
+  "doctor": {
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "appointments": "Rendez-vous",
+      "messages": "Messages",
+      "reviews": "Avis",
+      "analytics": "Statistiques",
+      "badges": "Badges",
+      "profile": "Profil",
+      "settings": "Préférences",
+      "cardiologist": "Cardiologie"
+    },
+    "dashboard": {
+      "title": "Tableau de bord",
+      "subtitle": "Bienvenue, Dr. Benali",
+      "stats": {
+        "today_appointments": "RDV aujourd'hui",
+        "unread_messages": "Messages non lus",
+        "total_reviews": "Total avis",
+        "monthly_patients": "Patients ce mois"
+      },
+      "upcoming": "Prochains rendez-vous",
+      "view_all": "Voir tout",
+      "status": {
+        "confirmed": "Confirmé",
+        "pending": "En attente",
+        "cancelled": "Annulé"
+      },
+      "badge_progress": "Progression badge",
+      "current_badge": "Badge actuel",
+      "next_badge": "Prochain badge",
+      "reviews_label": "avis",
+      "see_badges": "Voir tous les badges",
+      "recent_reviews": "Avis récents"
+    },
+    "appointments": {
+      "title": "Rendez-vous",
+      "subtitle": "Gérer vos rendez-vous",
+      "all": "Tous",
+      "today": "Aujourd'hui",
+      "upcoming_tab": "À venir",
+      "search": "Rechercher un patient...",
+      "status": {
+        "confirmed": "Confirmé",
+        "pending": "En attente",
+        "cancelled": "Annulé"
+      },
+      "accept": "Accepter",
+      "decline": "Refuser",
+      "today_placeholder": "Les RDV d'aujourd'hui s'afficheront ici",
+      "upcoming_placeholder": "Les prochains RDV s'afficheront ici"
+    },
+    "messages": {
+      "title": "Messages",
+      "subtitle": "Communiquer avec vos patients",
+      "search": "Rechercher une conversation...",
+      "online": "En ligne",
+      "type_message": "Écrire un message..."
+    },
+    "reviews": {
+      "title": "Avis des patients",
+      "subtitle": "Consultez et répondez aux avis",
+      "average": "Note moyenne",
+      "total": "Total des avis",
+      "replied": "Réponses envoyées",
+      "your_reply": "Votre réponse",
+      "reply": "Répondre",
+      "reply_placeholder": "Écrire une réponse...",
+      "send": "Envoyer"
+    },
+    "analytics": {
+      "title": "Statistiques",
+      "subtitle": "Suivez vos performances",
+      "stats": {
+        "profile_views": "Vues du profil",
+        "total_appointments": "Total RDV",
+        "total_patients": "Total patients",
+        "avg_rating": "Note moyenne"
+      },
+      "appointments_chart": "Rendez-vous par mois",
+      "patients_chart": "Patients par mois"
+    },
+    "badges": {
+      "title": "Mes badges",
+      "subtitle": "Suivez votre progression",
+      "current_level": "Niveau actuel",
+      "current_desc": "Continuez pour atteindre le niveau Platinum",
+      "reviews_progress": "Avis",
+      "appointments_progress": "Rendez-vous",
+      "unlocked": "Débloqué",
+      "locked": "Verrouillé"
+    },
+    "profile": {
+      "title": "Mon profil",
+      "subtitle": "Modifier vos informations",
+      "edit": "Modifier le profil"
+    },
+    "settings": {
+      "title": "Préférences",
+      "subtitle": "Gérer vos paramètres",
+      "notifications": "Notifications",
+      "notif": {
+        "new_appointment": "Nouveau rendez-vous",
+        "cancelled_appointment": "RDV annulé",
+        "new_review": "Nouvel avis",
+        "new_message": "Nouveau message"
+      },
+      "availability_section": "Disponibilité",
+      "auto_accept": "Accepter automatiquement les RDV",
+      "show_availability": "Afficher les disponibilités",
+      "privacy": "Confidentialité",
+      "show_phone": "Afficher le téléphone",
+      "show_email": "Afficher l'email",
+      "profile_visible": "Profil visible publiquement"
+    }
+  },
   "footer": {
     "description": "La plateforme de rendez-vous médicaux en ligne la plus fiable.",
     "links": "Liens utiles",

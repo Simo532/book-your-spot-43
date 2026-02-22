@@ -130,6 +130,122 @@
     "edit": "Edit",
     "delete": "Delete"
   },
+  "doctor": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "appointments": "Appointments",
+      "messages": "Messages",
+      "reviews": "Reviews",
+      "analytics": "Analytics",
+      "badges": "Badges",
+      "profile": "Profile",
+      "settings": "Settings",
+      "cardiologist": "Cardiology"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "subtitle": "Welcome, Dr. Benali",
+      "stats": {
+        "today_appointments": "Today's appointments",
+        "unread_messages": "Unread messages",
+        "total_reviews": "Total reviews",
+        "monthly_patients": "Patients this month"
+      },
+      "upcoming": "Upcoming appointments",
+      "view_all": "View all",
+      "status": {
+        "confirmed": "Confirmed",
+        "pending": "Pending",
+        "cancelled": "Cancelled"
+      },
+      "badge_progress": "Badge progress",
+      "current_badge": "Current badge",
+      "next_badge": "Next badge",
+      "reviews_label": "reviews",
+      "see_badges": "See all badges",
+      "recent_reviews": "Recent reviews"
+    },
+    "appointments": {
+      "title": "Appointments",
+      "subtitle": "Manage your appointments",
+      "all": "All",
+      "today": "Today",
+      "upcoming_tab": "Upcoming",
+      "search": "Search a patient...",
+      "status": {
+        "confirmed": "Confirmed",
+        "pending": "Pending",
+        "cancelled": "Cancelled"
+      },
+      "accept": "Accept",
+      "decline": "Decline",
+      "today_placeholder": "Today's appointments will appear here",
+      "upcoming_placeholder": "Upcoming appointments will appear here"
+    },
+    "messages": {
+      "title": "Messages",
+      "subtitle": "Communicate with your patients",
+      "search": "Search a conversation...",
+      "online": "Online",
+      "type_message": "Write a message..."
+    },
+    "reviews": {
+      "title": "Patient reviews",
+      "subtitle": "View and respond to reviews",
+      "average": "Average rating",
+      "total": "Total reviews",
+      "replied": "Replies sent",
+      "your_reply": "Your reply",
+      "reply": "Reply",
+      "reply_placeholder": "Write a reply...",
+      "send": "Send"
+    },
+    "analytics": {
+      "title": "Analytics",
+      "subtitle": "Track your performance",
+      "stats": {
+        "profile_views": "Profile views",
+        "total_appointments": "Total appointments",
+        "total_patients": "Total patients",
+        "avg_rating": "Average rating"
+      },
+      "appointments_chart": "Appointments per month",
+      "patients_chart": "Patients per month"
+    },
+    "badges": {
+      "title": "My badges",
+      "subtitle": "Track your progression",
+      "current_level": "Current level",
+      "current_desc": "Keep going to reach Platinum level",
+      "reviews_progress": "Reviews",
+      "appointments_progress": "Appointments",
+      "unlocked": "Unlocked",
+      "locked": "Locked"
+    },
+    "profile": {
+      "title": "My profile",
+      "subtitle": "Edit your information",
+      "edit": "Edit profile"
+    },
+    "settings": {
+      "title": "Settings",
+      "subtitle": "Manage your preferences",
+      "notifications": "Notifications",
+      "notif": {
+        "new_appointment": "New appointment",
+        "cancelled_appointment": "Cancelled appointment",
+        "new_review": "New review",
+        "new_message": "New message"
+      },
+      "availability_section": "Availability",
+      "auto_accept": "Auto-accept appointments",
+      "show_availability": "Show availability",
+      "privacy": "Privacy",
+      "show_phone": "Show phone number",
+      "show_email": "Show email",
+      "profile_visible": "Profile publicly visible"
+    }
+  },
   "footer": {
     "description": "The most trusted online medical appointment platform.",
     "links": "Useful links",

@@ -13,6 +13,14 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminAnalytics from "./pages/admin/AdminAnalytics";
 import AdminSpecialties from "./pages/admin/AdminSpecialties";
 import AdminBadges from "./pages/admin/AdminBadges";
+import DoctorDashboard from "./pages/doctor/DoctorDashboard";
+import DoctorAppointments from "./pages/doctor/DoctorAppointments";
+import DoctorMessages from "./pages/doctor/DoctorMessages";
+import DoctorReviews from "./pages/doctor/DoctorReviews";
+import DoctorAnalytics from "./pages/doctor/DoctorAnalytics";
+import DoctorBadges from "./pages/doctor/DoctorBadges";
+import DoctorProfile from "./pages/doctor/DoctorProfile";
+import DoctorSettings from "./pages/doctor/DoctorSettings";
 import NotFound from "./pages/NotFound";
 import "./i18n";
 
@@ -35,6 +43,14 @@ const App = () => (
           <Route path="/admin/analytics" element={<AdminAnalytics />} />
           <Route path="/admin/specialties" element={<AdminSpecialties />} />
           <Route path="/admin/badges" element={<AdminBadges />} />
+          <Route path="/doctor" element={<DoctorDashboard />} />
+          <Route path="/doctor/appointments" element={<DoctorAppointments />} />
+          <Route path="/doctor/messages" element={<DoctorMessages />} />
+          <Route path="/doctor/reviews" element={<DoctorReviews />} />
+          <Route path="/doctor/analytics" element={<DoctorAnalytics />} />
+          <Route path="/doctor/badges" element={<DoctorBadges />} />
+          <Route path="/doctor/profile" element={<DoctorProfile />} />
+          <Route path="/doctor/settings" element={<DoctorSettings />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
