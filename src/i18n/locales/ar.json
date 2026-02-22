@@ -130,6 +130,122 @@
     "edit": "تعديل",
     "delete": "حذف"
   },
+  "doctor": {
+    "nav": {
+      "dashboard": "لوحة التحكم",
+      "appointments": "المواعيد",
+      "messages": "الرسائل",
+      "reviews": "التقييمات",
+      "analytics": "الإحصائيات",
+      "badges": "الشارات",
+      "profile": "الملف الشخصي",
+      "settings": "الإعدادات",
+      "cardiologist": "أمراض القلب"
+    },
+    "dashboard": {
+      "title": "لوحة التحكم",
+      "subtitle": "مرحبًا، د. بن علي",
+      "stats": {
+        "today_appointments": "مواعيد اليوم",
+        "unread_messages": "رسائل غير مقروءة",
+        "total_reviews": "إجمالي التقييمات",
+        "monthly_patients": "مرضى هذا الشهر"
+      },
+      "upcoming": "المواعيد القادمة",
+      "view_all": "عرض الكل",
+      "status": {
+        "confirmed": "مؤكد",
+        "pending": "قيد الانتظار",
+        "cancelled": "ملغى"
+      },
+      "badge_progress": "تقدم الشارة",
+      "current_badge": "الشارة الحالية",
+      "next_badge": "الشارة التالية",
+      "reviews_label": "تقييمات",
+      "see_badges": "عرض جميع الشارات",
+      "recent_reviews": "التقييمات الأخيرة"
+    },
+    "appointments": {
+      "title": "المواعيد",
+      "subtitle": "إدارة مواعيدك",
+      "all": "الكل",
+      "today": "اليوم",
+      "upcoming_tab": "القادمة",
+      "search": "البحث عن مريض...",
+      "status": {
+        "confirmed": "مؤكد",
+        "pending": "قيد الانتظار",
+        "cancelled": "ملغى"
+      },
+      "accept": "قبول",
+      "decline": "رفض",
+      "today_placeholder": "ستظهر مواعيد اليوم هنا",
+      "upcoming_placeholder": "ستظهر المواعيد القادمة هنا"
+    },
+    "messages": {
+      "title": "الرسائل",
+      "subtitle": "التواصل مع مرضاك",
+      "search": "البحث عن محادثة...",
+      "online": "متصل",
+      "type_message": "اكتب رسالة..."
+    },
+    "reviews": {
+      "title": "تقييمات المرضى",
+      "subtitle": "اطلع على التقييمات ورد عليها",
+      "average": "التقييم المتوسط",
+      "total": "إجمالي التقييمات",
+      "replied": "الردود المرسلة",
+      "your_reply": "ردك",
+      "reply": "رد",
+      "reply_placeholder": "اكتب ردًا...",
+      "send": "إرسال"
+    },
+    "analytics": {
+      "title": "الإحصائيات",
+      "subtitle": "تتبع أداءك",
+      "stats": {
+        "profile_views": "مشاهدات الملف",
+        "total_appointments": "إجمالي المواعيد",
+        "total_patients": "إجمالي المرضى",
+        "avg_rating": "التقييم المتوسط"
+      },
+      "appointments_chart": "المواعيد حسب الشهر",
+      "patients_chart": "المرضى حسب الشهر"
+    },
+    "badges": {
+      "title": "شاراتي",
+      "subtitle": "تتبع تقدمك",
+      "current_level": "المستوى الحالي",
+      "current_desc": "واصل للوصول إلى مستوى بلاتينيوم",
+      "reviews_progress": "التقييمات",
+      "appointments_progress": "المواعيد",
+      "unlocked": "مفتوح",
+      "locked": "مقفل"
+    },
+    "profile": {
+      "title": "ملفي الشخصي",
+      "subtitle": "تعديل معلوماتك",
+      "edit": "تعديل الملف"
+    },
+    "settings": {
+      "title": "الإعدادات",
+      "subtitle": "إدارة تفضيلاتك",
+      "notifications": "الإشعارات",
+      "notif": {
+        "new_appointment": "موعد جديد",
+        "cancelled_appointment": "موعد ملغى",
+        "new_review": "تقييم جديد",
+        "new_message": "رسالة جديدة"
+      },
+      "availability_section": "التوفر",
+      "auto_accept": "قبول المواعيد تلقائيًا",
+      "show_availability": "إظهار التوفر",
+      "privacy": "الخصوصية",
+      "show_phone": "إظهار رقم الهاتف",
+      "show_email": "إظهار البريد الإلكتروني",
+      "profile_visible": "الملف مرئي للعموم"
+    }
+  },
   "footer": {
     "description": "المنصة الأكثر موثوقية لحجز المواعيد الطبية عبر الإنترنت.",
     "links": "روابط مفيدة",
