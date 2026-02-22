@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Plus, Pencil, Trash2, Stethoscope } from 'lucide-react';
+import { Plus, Pencil, Trash2, Stethoscope, X, Tag } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -17,18 +17,20 @@ import {
 import AdminLayout from '@/components/AdminLayout';
 
 const mockSpecialties = [
-  { id: '1', name_fr: 'Généraliste', name_en: 'General Practitioner', name_ar: 'طبيب عام', doctors_count: 1240 },
-  { id: '2', name_fr: 'Dentiste', name_en: 'Dentist', name_ar: 'طبيب أسنان', doctors_count: 890 },
-  { id: '3', name_fr: 'Cardiologue', name_en: 'Cardiologist', name_ar: 'طبيب قلب', doctors_count: 340 },
-  { id: '4', name_fr: 'Dermatologue', name_en: 'Dermatologist', name_ar: 'طبيب جلد', doctors_count: 520 },
-  { id: '5', name_fr: 'Ophtalmologue', name_en: 'Ophthalmologist', name_ar: 'طبيب عيون', doctors_count: 280 },
-  { id: '6', name_fr: 'Pédiatre', name_en: 'Pediatrician', name_ar: 'طبيب أطفال', doctors_count: 610 },
+  { id: '1', name_fr: 'Généraliste', name_en: 'General Practitioner', name_ar: 'طبيب عام', doctors_count: 1240, tags: ['Médecine familiale', 'Check-up', 'Vaccinations'] },
+  { id: '2', name_fr: 'Dentiste', name_en: 'Dentist', name_ar: 'طبيب أسنان', doctors_count: 890, tags: ['Orthodontie', 'Implants', 'Blanchiment'] },
+  { id: '3', name_fr: 'Cardiologue', name_en: 'Cardiologist', name_ar: 'طبيب قلب', doctors_count: 340, tags: ['Échocardiographie', 'Hypertension', 'Arythmie'] },
+  { id: '4', name_fr: 'Dermatologue', name_en: 'Dermatologist', name_ar: 'طبيب جلد', doctors_count: 520, tags: ['Acné', 'Eczéma', 'Dermatologie esthétique'] },
+  { id: '5', name_fr: 'Ophtalmologue', name_en: 'Ophthalmologist', name_ar: 'طبيب عيون', doctors_count: 280, tags: ['Chirurgie laser', 'Glaucome', 'Cataracte'] },
+  { id: '6', name_fr: 'Pédiatre', name_en: 'Pediatrician', name_ar: 'طبيب أطفال', doctors_count: 610, tags: ['Néonatologie', 'Croissance', 'Allergies'] },
 ];
 
 const AdminSpecialties = () => {
   const { t } = useTranslation();
   const [specialties] = useState(mockSpecialties);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [tagInput, setTagInput] = useState('');
+  const [newTags, setNewTags] = useState<string[]>([]);
 
   return (
     <AdminLayout>
@@ -62,6 +64,43 @@ const AdminSpecialties = () => {
                   <Label>الاسم (العربية)</Label>
                   <Input placeholder="مثال: جراح" dir="rtl" />
                 </div>
+                <div className="space-y-2">
+                  <Label className="flex items-center gap-1.5"><Tag className="h-3.5 w-3.5" /> {t('admin.specialties.tags')}</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      placeholder={t('admin.specialties.tag_placeholder')}
+                      value={tagInput}
+                      onChange={(e) => setTagInput(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && tagInput.trim()) {
+                          e.preventDefault();
+                          setNewTags([...newTags, tagInput.trim()]);
+                          setTagInput('');
+                        }
+                      }}
+                    />
+                    <Button type="button" variant="outline" size="sm" onClick={() => {
+                      if (tagInput.trim()) {
+                        setNewTags([...newTags, tagInput.trim()]);
+                        setTagInput('');
+                      }
+                    }}>
+                      <Plus className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  {newTags.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 mt-2">
+                      {newTags.map((tag, i) => (
+                        <Badge key={i} variant="secondary" className="gap-1 pr-1">
+                          {tag}
+                          <button onClick={() => setNewTags(newTags.filter((_, idx) => idx !== i))} className="rounded-full hover:bg-muted p-0.5">
+                            <X className="h-3 w-3" />
+                          </button>
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
               <DialogFooter>
                 <Button variant="outline" onClick={() => setDialogOpen(false)}>
@@ -90,6 +129,16 @@ const AdminSpecialties = () => {
                     </div>
                   </div>
                   <Badge variant="secondary">{spec.doctors_count}</Badge>
+                </div>
+                {spec.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 mt-3">
+                    {spec.tags.map((tag, i) => (
+                      <Badge key={i} variant="outline" className="text-[10px] font-medium px-2 py-0.5">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                )}
                 </div>
                 <div className="flex gap-2 mt-4 opacity-0 group-hover:opacity-100 transition-opacity">
                   <Button variant="ghost" size="sm" className="gap-1.5 text-xs">
