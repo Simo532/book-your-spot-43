@@ -65,6 +65,69 @@
     "back_to_login": "العودة لتسجيل الدخول",
     "reset_sent": "تم إرسال بريد إعادة التعيين"
   },
+  "admin": {
+    "nav": {
+      "dashboard": "لوحة التحكم",
+      "users": "المستخدمون",
+      "analytics": "التحليلات",
+      "specialties": "التخصصات",
+      "badges": "الشارات",
+      "settings": "الإعدادات"
+    },
+    "dashboard_title": "لوحة التحكم",
+    "dashboard_subtitle": "نظرة عامة على منصة سوبردوك",
+    "recent_activity": "النشاط الأخير",
+    "stats": {
+      "total_users": "إجمالي المستخدمين",
+      "total_doctors": "إجمالي الأطباء",
+      "appointments": "المواعيد",
+      "revenue": "الإيرادات",
+      "from_last_month": "منذ الشهر الماضي"
+    },
+    "users": {
+      "title": "إدارة المستخدمين",
+      "subtitle": "إدارة جميع حسابات المنصة",
+      "search_placeholder": "ابحث عن مستخدم...",
+      "all_roles": "جميع الأدوار",
+      "name": "الاسم",
+      "email": "البريد الإلكتروني",
+      "role": "الدور",
+      "status": "الحالة",
+      "joined": "انضم في",
+      "active": "نشط",
+      "suspended": "معلق",
+      "make_admin": "ترقية إلى مشرف",
+      "suspend": "تعليق",
+      "activate": "تفعيل"
+    },
+    "analytics": {
+      "title": "التحليلات",
+      "subtitle": "إحصائيات واتجاهات المنصة",
+      "user_growth": "نمو المستخدمين",
+      "appointments_trend": "اتجاه المواعيد",
+      "top_specialties": "أفضل التخصصات",
+      "top_cities": "أفضل المدن",
+      "chart_placeholder": "سيتم ربط الرسوم البيانية بالخادم"
+    },
+    "specialties": {
+      "title": "إدارة التخصصات",
+      "subtitle": "تكوين التخصصات الطبية المتاحة",
+      "add": "إضافة تخصص"
+    },
+    "badges": {
+      "title": "إدارة الشارات",
+      "subtitle": "تكوين الشارات الممنوحة للأطباء",
+      "add": "إضافة شارة",
+      "min_reviews": "الحد الأدنى للتقييمات",
+      "min_appointments": "الحد الأدنى للمواعيد",
+      "reviews": "تقييمات",
+      "appointments_label": "مواعيد"
+    },
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "edit": "تعديل",
+    "delete": "حذف"
+  },
   "footer": {
     "description": "المنصة الأكثر موثوقية لحجز المواعيد الطبية عبر الإنترنت.",
     "links": "روابط مفيدة",

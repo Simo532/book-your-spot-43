@@ -65,6 +65,69 @@
     "back_to_login": "Retour à la connexion",
     "reset_sent": "Un email de réinitialisation a été envoyé"
   },
+  "admin": {
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "users": "Utilisateurs",
+      "analytics": "Analyses",
+      "specialties": "Spécialités",
+      "badges": "Badges",
+      "settings": "Paramètres"
+    },
+    "dashboard_title": "Tableau de bord",
+    "dashboard_subtitle": "Vue d'ensemble de la plateforme Superdoc",
+    "recent_activity": "Activité récente",
+    "stats": {
+      "total_users": "Total utilisateurs",
+      "total_doctors": "Total médecins",
+      "appointments": "Rendez-vous",
+      "revenue": "Revenus",
+      "from_last_month": "depuis le mois dernier"
+    },
+    "users": {
+      "title": "Gestion des utilisateurs",
+      "subtitle": "Gérer tous les comptes de la plateforme",
+      "search_placeholder": "Rechercher un utilisateur...",
+      "all_roles": "Tous les rôles",
+      "name": "Nom",
+      "email": "Email",
+      "role": "Rôle",
+      "status": "Statut",
+      "joined": "Inscrit le",
+      "active": "Actif",
+      "suspended": "Suspendu",
+      "make_admin": "Promouvoir admin",
+      "suspend": "Suspendre",
+      "activate": "Activer"
+    },
+    "analytics": {
+      "title": "Analyses",
+      "subtitle": "Statistiques et tendances de la plateforme",
+      "user_growth": "Croissance des utilisateurs",
+      "appointments_trend": "Tendance des rendez-vous",
+      "top_specialties": "Top spécialités",
+      "top_cities": "Top villes",
+      "chart_placeholder": "Les graphiques seront connectés au backend"
+    },
+    "specialties": {
+      "title": "Gestion des spécialités",
+      "subtitle": "Configurer les spécialités médicales disponibles",
+      "add": "Ajouter une spécialité"
+    },
+    "badges": {
+      "title": "Gestion des badges",
+      "subtitle": "Configurer les badges attribués aux médecins",
+      "add": "Ajouter un badge",
+      "min_reviews": "Avis minimum",
+      "min_appointments": "RDV minimum",
+      "reviews": "avis",
+      "appointments_label": "RDV"
+    },
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "edit": "Modifier",
+    "delete": "Supprimer"
+  },
   "footer": {
     "description": "La plateforme de rendez-vous médicaux en ligne la plus fiable.",
     "links": "Liens utiles",
