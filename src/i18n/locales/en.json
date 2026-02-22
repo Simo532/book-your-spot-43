@@ -112,7 +112,9 @@
     "specialties": {
       "title": "Specialties management",
       "subtitle": "Configure available medical specialties",
-      "add": "Add specialty"
+      "add": "Add specialty",
+      "tags": "Tags (expertise areas)",
+      "tag_placeholder": "E.g.: Laser surgery"
     },
     "badges": {
       "title": "Badges management",

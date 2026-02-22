@@ -112,7 +112,9 @@
     "specialties": {
       "title": "Gestion des spécialités",
       "subtitle": "Configurer les spécialités médicales disponibles",
-      "add": "Ajouter une spécialité"
+      "add": "Ajouter une spécialité",
+      "tags": "Tags (domaines d'expertise)",
+      "tag_placeholder": "Ex: Chirurgie laser"
     },
     "badges": {
       "title": "Gestion des badges",
