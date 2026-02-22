@@ -139,7 +139,6 @@ const AdminSpecialties = () => {
                     ))}
                   </div>
                 )}
-                </div>
                 <div className="flex gap-2 mt-4 opacity-0 group-hover:opacity-100 transition-opacity">
                   <Button variant="ghost" size="sm" className="gap-1.5 text-xs">
                     <Pencil className="h-3 w-3" /> {t('admin.edit')}
