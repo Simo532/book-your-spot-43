@@ -138,5 +138,72 @@
     "privacy": "Confidentialité",
     "terms": "Conditions",
     "rights": "Tous droits réservés"
+  },
+  "onboarding": {
+    "doctor": {
+      "title": "Compléter votre profil médecin",
+      "last_name": "Nom",
+      "first_name": "Prénom",
+      "last_name_placeholder": "Ex: Benali",
+      "first_name_placeholder": "Ex: Mohamed",
+      "phone": "Téléphone",
+      "specialty": "Spécialité",
+      "specialty_placeholder": "Choisir une spécialité",
+      "select_tags": "Domaines d'expertise",
+      "address": "Adresse du cabinet",
+      "address_placeholder": "Rue, quartier...",
+      "city": "Ville",
+      "city_placeholder": "Ex: Alger",
+      "wilaya": "Wilaya",
+      "wilaya_placeholder": "Ex: Alger",
+      "map_placeholder": "La carte sera intégrée ici",
+      "consult_price": "Prix de la consultation",
+      "price_hint": "Ce prix sera affiché sur votre profil public",
+      "profile_photo": "Photo de profil",
+      "business_card": "Carte de visite",
+      "upload": "Choisir un fichier",
+      "upload_card": "Cliquez pour télécharger votre carte de visite",
+      "availability": "Disponibilités",
+      "closed": "Fermé",
+      "previous": "Précédent",
+      "next": "Suivant",
+      "finish": "Terminer",
+      "steps": {
+        "personal": "Personnel",
+        "specialty": "Spécialité",
+        "address": "Adresse",
+        "pricing": "Tarif",
+        "photos": "Photos",
+        "availability": "Horaires",
+        "summary": "Résumé"
+      },
+      "step_titles": {
+        "personal": "Informations personnelles",
+        "specialty": "Spécialité et expertise",
+        "address": "Adresse du cabinet",
+        "pricing": "Tarif de consultation",
+        "photos": "Photo et carte de visite",
+        "availability": "Disponibilités hebdomadaires",
+        "summary": "Récapitulatif"
+      },
+      "step_descs": {
+        "personal": "Entrez vos informations de base",
+        "specialty": "Sélectionnez votre spécialité et vos domaines d'expertise",
+        "address": "Indiquez l'adresse de votre cabinet médical",
+        "pricing": "Définissez le prix de votre consultation",
+        "photos": "Ajoutez votre photo de profil et votre carte de visite",
+        "availability": "Configurez vos horaires de disponibilité",
+        "summary": "Vérifiez vos informations avant de valider"
+      },
+      "days": {
+        "monday": "Lundi",
+        "tuesday": "Mardi",
+        "wednesday": "Mercredi",
+        "thursday": "Jeudi",
+        "friday": "Vendredi",
+        "saturday": "Samedi",
+        "sunday": "Dimanche"
+      }
+    }
   }
 }
