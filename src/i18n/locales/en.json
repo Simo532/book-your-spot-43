@@ -65,6 +65,69 @@
     "back_to_login": "Back to login",
     "reset_sent": "A reset email has been sent"
   },
+  "admin": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "users": "Users",
+      "analytics": "Analytics",
+      "specialties": "Specialties",
+      "badges": "Badges",
+      "settings": "Settings"
+    },
+    "dashboard_title": "Dashboard",
+    "dashboard_subtitle": "Overview of the Superdoc platform",
+    "recent_activity": "Recent activity",
+    "stats": {
+      "total_users": "Total users",
+      "total_doctors": "Total doctors",
+      "appointments": "Appointments",
+      "revenue": "Revenue",
+      "from_last_month": "from last month"
+    },
+    "users": {
+      "title": "User management",
+      "subtitle": "Manage all platform accounts",
+      "search_placeholder": "Search a user...",
+      "all_roles": "All roles",
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "status": "Status",
+      "joined": "Joined",
+      "active": "Active",
+      "suspended": "Suspended",
+      "make_admin": "Promote to admin",
+      "suspend": "Suspend",
+      "activate": "Activate"
+    },
+    "analytics": {
+      "title": "Analytics",
+      "subtitle": "Platform statistics and trends",
+      "user_growth": "User growth",
+      "appointments_trend": "Appointments trend",
+      "top_specialties": "Top specialties",
+      "top_cities": "Top cities",
+      "chart_placeholder": "Charts will be connected to the backend"
+    },
+    "specialties": {
+      "title": "Specialties management",
+      "subtitle": "Configure available medical specialties",
+      "add": "Add specialty"
+    },
+    "badges": {
+      "title": "Badges management",
+      "subtitle": "Configure badges awarded to doctors",
+      "add": "Add badge",
+      "min_reviews": "Min reviews",
+      "min_appointments": "Min appointments",
+      "reviews": "reviews",
+      "appointments_label": "appt."
+    },
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
   "footer": {
     "description": "The most trusted online medical appointment platform.",
     "links": "Useful links",
