@@ -227,6 +227,27 @@
       "subtitle": "Modifier vos informations",
       "edit": "Modifier le profil"
     },
+    "availability": {
+      "days_short": {
+        "monday": "Lun",
+        "tuesday": "Mar",
+        "wednesday": "Mer",
+        "thursday": "Jeu",
+        "friday": "Ven",
+        "saturday": "Sam"
+      },
+      "slots_label": "créneaux",
+      "off": "Fermé",
+      "set_all": "Tout mettre en",
+      "cabinet": "Cabinet",
+      "online": "En ligne",
+      "both_label": "Les deux",
+      "day_disabled": "Ce jour est désactivé. Activez-le pour gérer les créneaux.",
+      "mode_cabinet": "En cabinet uniquement",
+      "mode_online": "En ligne uniquement",
+      "mode_both": "Cabinet et en ligne",
+      "mode_off": "Créneau désactivé"
+    },
     "settings": {
       "title": "Préférences",
       "subtitle": "Gérer vos paramètres",
