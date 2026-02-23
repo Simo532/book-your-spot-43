@@ -1,50 +1,52 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Clock, Monitor, Building2, ToggleLeft } from 'lucide-react';
+import { Clock, ToggleLeft } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 
-type SlotMode = 'cabinet' | 'online' | 'both' | 'off';
+type SlotType = 'cabinet' | 'online' | 'both';
+
+interface SlotData {
+  enabled: boolean;
+  type: SlotType;
+}
 
 const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'] as const;
 
-// Generate 30-min slots from 08:00 to 23:30
 const generateSlots = (): string[] => {
   const slots: string[] = [];
   for (let h = 8; h <= 23; h++) {
     slots.push(`${h.toString().padStart(2, '0')}:00`);
     if (h < 23 || true) slots.push(`${h.toString().padStart(2, '0')}:30`);
   }
-  // Remove 24:00 if it exists, keep up to 23:30
   return slots.filter(s => s <= '23:30');
 };
 
 const TIME_SLOTS = generateSlots();
 
-type DayAvailability = Record<string, SlotMode>;
-type WeekAvailability = Record<string, { enabled: boolean; slots: DayAvailability }>;
+const getSlotLabel = (slot: string): string => {
+  const [h, m] = slot.split(':').map(Number);
+  const endM = m + 30;
+  const endH = endM >= 60 ? h + 1 : h;
+  const endMin = endM >= 60 ? endM - 60 : endM;
+  return `${slot} - ${endH.toString().padStart(2, '0')}:${endMin.toString().padStart(2, '0')}`;
+};
+
+type DaySlots = Record<string, SlotData>;
+type WeekAvailability = Record<string, { enabled: boolean; slots: DaySlots }>;
 
 const initWeek = (): WeekAvailability => {
   const week: WeekAvailability = {};
   DAYS.forEach(day => {
-    const slots: DayAvailability = {};
-    TIME_SLOTS.forEach(slot => { slots[slot] = 'cabinet'; });
+    const slots: DaySlots = {};
+    TIME_SLOTS.forEach(slot => { slots[slot] = { enabled: true, type: 'cabinet' }; });
     week[day] = { enabled: true, slots };
   });
   return week;
 };
-
-const MODE_COLORS: Record<SlotMode, string> = {
-  cabinet: 'bg-primary/15 text-primary border-primary/30 hover:bg-primary/25',
-  online: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/25',
-  both: 'bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/30 hover:bg-amber-500/25',
-  off: 'bg-muted text-muted-foreground border-border hover:bg-muted/80 opacity-50',
-};
-
-const MODE_CYCLE: SlotMode[] = ['cabinet', 'online', 'both', 'off'];
 
 const AvailabilityManager = () => {
   const { t } = useTranslation();
@@ -58,31 +60,34 @@ const AvailabilityManager = () => {
     }));
   };
 
-  const cycleSlotMode = (day: string, slot: string) => {
-    setWeek(prev => {
-      const current = prev[day].slots[slot];
-      const idx = MODE_CYCLE.indexOf(current);
-      const next = MODE_CYCLE[(idx + 1) % MODE_CYCLE.length];
-      return {
-        ...prev,
-        [day]: {
-          ...prev[day],
-          slots: { ...prev[day].slots, [slot]: next }
+  const toggleSlot = (day: string, slot: string) => {
+    setWeek(prev => ({
+      ...prev,
+      [day]: {
+        ...prev[day],
+        slots: {
+          ...prev[day].slots,
+          [slot]: { ...prev[day].slots[slot], enabled: !prev[day].slots[slot].enabled }
         }
-      };
-    });
+      }
+    }));
   };
 
-  const setAllSlotsForDay = (day: string, mode: SlotMode) => {
-    setWeek(prev => {
-      const slots: DayAvailability = {};
-      TIME_SLOTS.forEach(s => { slots[s] = mode; });
-      return { ...prev, [day]: { ...prev[day], slots } };
-    });
+  const setSlotType = (day: string, slot: string, type: SlotType) => {
+    setWeek(prev => ({
+      ...prev,
+      [day]: {
+        ...prev[day],
+        slots: {
+          ...prev[day].slots,
+          [slot]: { ...prev[day].slots[slot], type }
+        }
+      }
+    }));
   };
 
   const activeDay = week[selectedDay];
-  const activeSlotCount = activeDay ? Object.values(activeDay.slots).filter(m => m !== 'off').length : 0;
+  const activeSlotCount = activeDay ? Object.values(activeDay.slots).filter(s => s.enabled).length : 0;
 
   return (
     <div className="space-y-4">
@@ -90,7 +95,7 @@ const AvailabilityManager = () => {
       <div className="flex gap-2 overflow-x-auto pb-1">
         {DAYS.map(day => {
           const dayData = week[day];
-          const activeCount = Object.values(dayData.slots).filter(m => m !== 'off').length;
+          const count = Object.values(dayData.slots).filter(s => s.enabled).length;
           return (
             <button
               key={day}
@@ -98,9 +103,9 @@ const AvailabilityManager = () => {
               className={cn(
                 'flex flex-col items-center gap-1 px-3 py-2 rounded-lg border transition-all min-w-[80px] text-xs font-medium',
                 selectedDay === day
-                  ? 'border-primary bg-primary/10 text-primary'
+                  ? 'border-[#536DFE] bg-[#536DFE]/10 text-[#536DFE]'
                   : dayData.enabled
-                    ? 'border-border bg-card text-foreground hover:border-primary/40'
+                    ? 'border-border bg-card text-foreground hover:border-[#536DFE]/40'
                     : 'border-border bg-muted text-muted-foreground'
               )}
             >
@@ -108,45 +113,34 @@ const AvailabilityManager = () => {
                 {t(`doctor.availability.days_short.${day}`)}
               </span>
               <span className={cn('text-[10px]', !dayData.enabled && 'text-destructive')}>
-                {dayData.enabled ? `${activeCount} ${t('doctor.availability.slots_label')}` : t('doctor.availability.off')}
+                {dayData.enabled ? `${count} ${t('doctor.availability.slots_label')}` : t('doctor.availability.off')}
               </span>
             </button>
           );
         })}
       </div>
 
-      {/* Day controls */}
+      {/* Day content */}
       <Card>
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <CardTitle className="text-base flex items-center gap-2">
-              <Clock className="h-4 w-4" />
+              <Clock className="h-4 w-4 text-[#536DFE]" />
               {t(`onboarding.doctor.days.${selectedDay}`)}
+              <span className="text-xs font-normal text-muted-foreground ml-1">
+                ({activeSlotCount} {t('doctor.availability.slots_label')})
+              </span>
             </CardTitle>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-muted-foreground">
+                {activeDay.enabled ? t('doctor.availability.day_active') : t('doctor.availability.off')}
+              </span>
               <Switch
                 checked={activeDay.enabled}
                 onCheckedChange={() => toggleDayEnabled(selectedDay)}
               />
             </div>
           </div>
-          {activeDay.enabled && (
-            <div className="flex items-center gap-2 mt-2">
-              <span className="text-xs text-muted-foreground">{t('doctor.availability.set_all')}:</span>
-              <Button size="sm" variant="outline" className="h-6 text-[10px] gap-1 px-2" onClick={() => setAllSlotsForDay(selectedDay, 'cabinet')}>
-                <Building2 className="h-3 w-3" /> {t('doctor.availability.cabinet')}
-              </Button>
-              <Button size="sm" variant="outline" className="h-6 text-[10px] gap-1 px-2" onClick={() => setAllSlotsForDay(selectedDay, 'online')}>
-                <Monitor className="h-3 w-3" /> {t('doctor.availability.online')}
-              </Button>
-              <Button size="sm" variant="outline" className="h-6 text-[10px] gap-1 px-2" onClick={() => setAllSlotsForDay(selectedDay, 'both')}>
-                {t('doctor.availability.both_label')}
-              </Button>
-              <Button size="sm" variant="outline" className="h-6 text-[10px] gap-1 px-2" onClick={() => setAllSlotsForDay(selectedDay, 'off')}>
-                {t('doctor.availability.off')}
-              </Button>
-            </div>
-          )}
         </CardHeader>
         <CardContent>
           {!activeDay.enabled ? (
@@ -155,47 +149,54 @@ const AvailabilityManager = () => {
               <p className="text-sm">{t('doctor.availability.day_disabled')}</p>
             </div>
           ) : (
-            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-1.5">
+            <div className="space-y-1.5 max-h-[400px] overflow-y-auto pr-1">
               {TIME_SLOTS.map(slot => {
-                const mode = activeDay.slots[slot];
+                const slotData = activeDay.slots[slot];
                 return (
-                  <button
+                  <div
                     key={slot}
-                    onClick={() => cycleSlotMode(selectedDay, slot)}
                     className={cn(
-                      'rounded-md border px-1 py-1.5 text-[11px] font-medium transition-all',
-                      MODE_COLORS[mode]
+                      'flex items-center justify-between gap-3 px-3 py-2 rounded-lg border transition-all',
+                      slotData.enabled
+                        ? 'border-[#536DFE]/20 bg-[#536DFE]/5'
+                        : 'border-border bg-muted/50 opacity-60'
                     )}
-                    title={t(`doctor.availability.mode_${mode}`)}
                   >
-                    {slot}
-                  </button>
+                    <span className={cn(
+                      'text-sm font-mono font-medium min-w-[120px]',
+                      slotData.enabled ? 'text-foreground' : 'text-muted-foreground'
+                    )}>
+                      {getSlotLabel(slot)}
+                    </span>
+
+                    <div className="flex items-center gap-3">
+                      <Select
+                        value={slotData.type}
+                        onValueChange={(val) => setSlotType(selectedDay, slot, val as SlotType)}
+                        disabled={!slotData.enabled}
+                      >
+                        <SelectTrigger className="h-8 w-[140px] text-xs border-[#536DFE]/20">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="cabinet">{t('doctor.availability.cabinet')}</SelectItem>
+                          <SelectItem value="online">{t('doctor.availability.online')}</SelectItem>
+                          <SelectItem value="both">{t('doctor.availability.both_label')}</SelectItem>
+                        </SelectContent>
+                      </Select>
+
+                      <Switch
+                        checked={slotData.enabled}
+                        onCheckedChange={() => toggleSlot(selectedDay, slot)}
+                      />
+                    </div>
+                  </div>
                 );
               })}
             </div>
           )}
         </CardContent>
       </Card>
-
-      {/* Legend */}
-      <div className="flex flex-wrap gap-3 text-xs">
-        <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded-sm bg-primary/20 border border-primary/30" />
-          <span className="flex items-center gap-1"><Building2 className="h-3 w-3" /> {t('doctor.availability.cabinet')}</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded-sm bg-emerald-500/20 border border-emerald-500/30" />
-          <span className="flex items-center gap-1"><Monitor className="h-3 w-3" /> {t('doctor.availability.online')}</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded-sm bg-amber-500/20 border border-amber-500/30" />
-          <span>{t('doctor.availability.both_label')}</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded-sm bg-muted border border-border opacity-50" />
-          <span>{t('doctor.availability.off')}</span>
-        </div>
-      </div>
     </div>
   );
 };
