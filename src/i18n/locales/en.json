@@ -227,6 +227,27 @@
       "subtitle": "Edit your information",
       "edit": "Edit profile"
     },
+    "availability": {
+      "days_short": {
+        "monday": "Mon",
+        "tuesday": "Tue",
+        "wednesday": "Wed",
+        "thursday": "Thu",
+        "friday": "Fri",
+        "saturday": "Sat"
+      },
+      "slots_label": "slots",
+      "off": "Off",
+      "set_all": "Set all to",
+      "cabinet": "In-office",
+      "online": "Online",
+      "both_label": "Both",
+      "day_disabled": "This day is disabled. Enable it to manage slots.",
+      "mode_cabinet": "In-office only",
+      "mode_online": "Online only",
+      "mode_both": "In-office and online",
+      "mode_off": "Slot disabled"
+    },
     "settings": {
       "title": "Settings",
       "subtitle": "Manage your preferences",

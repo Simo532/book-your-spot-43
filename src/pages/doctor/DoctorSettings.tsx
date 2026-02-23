@@ -1,10 +1,11 @@
 import { useTranslation } from 'react-i18next';
-import { Bell, Shield, Clock, Globe } from 'lucide-react';
+import { Bell, Shield, Clock } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import DoctorLayout from '@/components/DoctorLayout';
+import AvailabilityManager from '@/components/doctor/AvailabilityManager';
 
 const DoctorSettings = () => {
   const { t } = useTranslation();
@@ -44,7 +45,8 @@ const DoctorSettings = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex items-center justify-between">
+            <AvailabilityManager />
+            <div className="flex items-center justify-between pt-2 border-t border-border">
               <Label>{t('doctor.settings.auto_accept')}</Label>
               <Switch />
             </div>

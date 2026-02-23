@@ -227,6 +227,27 @@
       "subtitle": "تعديل معلوماتك",
       "edit": "تعديل الملف"
     },
+    "availability": {
+      "days_short": {
+        "monday": "إثن",
+        "tuesday": "ثلا",
+        "wednesday": "أرب",
+        "thursday": "خمي",
+        "friday": "جمع",
+        "saturday": "سبت"
+      },
+      "slots_label": "فترات",
+      "off": "مغلق",
+      "set_all": "تعيين الكل إلى",
+      "cabinet": "في العيادة",
+      "online": "عبر الإنترنت",
+      "both_label": "كلاهما",
+      "day_disabled": "هذا اليوم معطل. قم بتفعيله لإدارة الفترات.",
+      "mode_cabinet": "في العيادة فقط",
+      "mode_online": "عبر الإنترنت فقط",
+      "mode_both": "في العيادة وعبر الإنترنت",
+      "mode_off": "فترة معطلة"
+    },
     "settings": {
       "title": "الإعدادات",
       "subtitle": "إدارة تفضيلاتك",
