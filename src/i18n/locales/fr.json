@@ -343,5 +343,27 @@
         "sunday": "Dimanche"
       }
     }
+  },
+  "doctor_details": {
+    "avg_rating": "Note moyenne",
+    "total_reviews": "Nombre d'avis",
+    "completed_appointments": "Rendez-vous terminés",
+    "experience": "Expérience",
+    "years": "ans",
+    "consult_price": "Prix de consultation",
+    "reviews": "avis",
+    "about": "À propos de moi",
+    "patient_reviews": "Avis des patients",
+    "show_all_reviews": "Voir tous les avis",
+    "show_less": "Voir moins",
+    "book_appointment": "Prendre rendez-vous",
+    "per_consultation": "par consultation",
+    "add_favorite": "Ajouter aux favoris",
+    "remove_favorite": "Retirer des favoris",
+    "contact_info": "Coordonnées",
+    "years_experience": "ans d'expérience",
+    "address": "Adresse",
+    "view_on_map": "Voir sur la carte",
+    "badges": "Badges"
   }
 }
