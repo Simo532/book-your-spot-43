@@ -343,5 +343,27 @@
         "sunday": "الأحد"
       }
     }
+  },
+  "doctor_details": {
+    "avg_rating": "متوسط التقييم",
+    "total_reviews": "عدد التقييمات",
+    "completed_appointments": "المواعيد المكتملة",
+    "experience": "الخبرة",
+    "years": "سنوات",
+    "consult_price": "سعر الاستشارة",
+    "reviews": "تقييمات",
+    "about": "نبذة عني",
+    "patient_reviews": "تقييمات المرضى",
+    "show_all_reviews": "عرض جميع التقييمات",
+    "show_less": "عرض أقل",
+    "book_appointment": "حجز موعد",
+    "per_consultation": "لكل استشارة",
+    "add_favorite": "إضافة إلى المفضلة",
+    "remove_favorite": "إزالة من المفضلة",
+    "contact_info": "معلومات الاتصال",
+    "years_experience": "سنوات خبرة",
+    "address": "العنوان",
+    "view_on_map": "عرض على الخريطة",
+    "badges": "الشارات"
   }
 }
