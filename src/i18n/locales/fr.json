@@ -243,6 +243,7 @@
       "online": "En ligne",
       "both_label": "Les deux",
       "day_disabled": "Ce jour est désactivé. Activez-le pour gérer les créneaux.",
+      "day_active": "Activé",
       "mode_cabinet": "En cabinet uniquement",
       "mode_online": "En ligne uniquement",
       "mode_both": "Cabinet et en ligne",

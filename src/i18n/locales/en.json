@@ -243,6 +243,7 @@
       "online": "Online",
       "both_label": "Both",
       "day_disabled": "This day is disabled. Enable it to manage slots.",
+      "day_active": "Active",
       "mode_cabinet": "In-office only",
       "mode_online": "Online only",
       "mode_both": "In-office and online",
