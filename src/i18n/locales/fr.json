@@ -114,7 +114,10 @@
       "subtitle": "Configurer les spécialités médicales disponibles",
       "add": "Ajouter une spécialité",
       "tags": "Tags (domaines d'expertise)",
-      "tag_placeholder": "Ex: Chirurgie laser"
+      "tag_placeholder": "Ex: Chirurgie laser",
+      "add_tag": "Ajouter un tag...",
+      "confirm_delete": "Supprimer cette spécialité ?",
+      "confirm_delete_desc": "Cette action est irréversible. Tous les tags associés seront supprimés."
     },
     "badges": {
       "title": "Gestion des badges",
@@ -365,5 +368,31 @@
     "address": "Adresse",
     "view_on_map": "Voir sur la carte",
     "badges": "Badges"
+  },
+  "search": {
+    "placeholder": "Rechercher un médecin, une spécialité...",
+    "filters": "Filtres",
+    "city": "Ville",
+    "all_cities": "Toutes les villes",
+    "price_range": "Fourchette de prix",
+    "experience": "Années d'expérience",
+    "years": "ans",
+    "gender": "Genre",
+    "all": "Tous",
+    "male": "Homme",
+    "female": "Femme",
+    "best_rated": "Mieux notés",
+    "closest": "Le plus proche de moi",
+    "reset_filters": "Réinitialiser les filtres",
+    "results_found": "résultats trouvés",
+    "view_profile": "Voir le profil",
+    "no_results": "Aucun médecin trouvé avec ces critères"
+  },
+  "favorites": {
+    "title": "Mes favoris",
+    "subtitle": "{{count}} médecin(s) dans vos favoris",
+    "empty": "Vous n'avez pas encore de médecins favoris",
+    "browse_doctors": "Parcourir les médecins",
+    "remove": "Retirer"
   }
 }
