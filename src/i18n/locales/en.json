@@ -114,7 +114,10 @@
       "subtitle": "Configure available medical specialties",
       "add": "Add specialty",
       "tags": "Tags (expertise areas)",
-      "tag_placeholder": "E.g.: Laser surgery"
+      "tag_placeholder": "E.g.: Laser surgery",
+      "add_tag": "Add a tag...",
+      "confirm_delete": "Delete this specialty?",
+      "confirm_delete_desc": "This action is irreversible. All associated tags will be removed."
     },
     "badges": {
       "title": "Badges management",
@@ -365,5 +368,31 @@
     "address": "Address",
     "view_on_map": "View on map",
     "badges": "Badges"
+  },
+  "search": {
+    "placeholder": "Search a doctor, a specialty...",
+    "filters": "Filters",
+    "city": "City",
+    "all_cities": "All cities",
+    "price_range": "Price range",
+    "experience": "Years of experience",
+    "years": "years",
+    "gender": "Gender",
+    "all": "All",
+    "male": "Male",
+    "female": "Female",
+    "best_rated": "Best rated",
+    "closest": "Closest to me",
+    "reset_filters": "Reset filters",
+    "results_found": "results found",
+    "view_profile": "View profile",
+    "no_results": "No doctors found matching your criteria"
+  },
+  "favorites": {
+    "title": "My favorites",
+    "subtitle": "{{count}} doctor(s) in your favorites",
+    "empty": "You have no favorite doctors yet",
+    "browse_doctors": "Browse doctors",
+    "remove": "Remove"
   }
 }

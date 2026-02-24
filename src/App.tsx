@@ -14,6 +14,8 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminAnalytics from "./pages/admin/AdminAnalytics";
 import AdminSpecialties from "./pages/admin/AdminSpecialties";
 import AdminBadges from "./pages/admin/AdminBadges";
+import SearchResults from "./pages/SearchResults";
+import Favorites from "./pages/Favorites";
 import DoctorDashboard from "./pages/doctor/DoctorDashboard";
 import DoctorAppointments from "./pages/doctor/DoctorAppointments";
 import DoctorMessages from "./pages/doctor/DoctorMessages";
@@ -40,6 +42,8 @@ const App = () => (
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/doctor/onboarding" element={<DoctorOnboarding />} />
           <Route path="/doctor/details/:id" element={<DoctorDetails />} />
+          <Route path="/search" element={<SearchResults />} />
+          <Route path="/favorites" element={<Favorites />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/users" element={<AdminUsers />} />
           <Route path="/admin/analytics" element={<AdminAnalytics />} />
