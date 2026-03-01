@@ -1,0 +1,255 @@
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  User, Phone, MapPin, Camera,
+  CheckCircle2, ChevronRight, ChevronLeft, Upload
+} from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Progress } from '@/components/ui/progress';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+const STEPS = [
+  { icon: User, key: 'personal' },
+  { icon: Phone, key: 'coordinates' },
+  { icon: MapPin, key: 'address' },
+  { icon: Camera, key: 'photo' },
+];
+
+interface PatientOnboardingFormProps {
+  showPassword?: boolean;
+  onComplete?: (data: any) => void;
+  compact?: boolean;
+}
+
+const PatientOnboardingForm = ({ showPassword = false, onComplete, compact = false }: PatientOnboardingFormProps) => {
+  const { t } = useTranslation();
+  const [step, setStep] = useState(0);
+
+  // Step 1 - Personal
+  const [lastName, setLastName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [gender, setGender] = useState('');
+  const [birthDate, setBirthDate] = useState('');
+
+  // Step 2 - Coordinates
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+
+  // Step 3 - Address
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [wilaya, setWilaya] = useState('');
+
+  // Step 4 - Photo
+  const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
+
+  const progress = ((step + 1) / STEPS.length) * 100;
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => setProfilePhoto(reader.result as string);
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleFinish = () => {
+    const data = { lastName, firstName, gender, birthDate, email, phone, password, address, city, wilaya, profilePhoto };
+    onComplete?.(data);
+  };
+
+  const renderStep = () => {
+    switch (step) {
+      case 0:
+        return (
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>{t('onboarding.doctor.last_name')}</Label>
+                <Input value={lastName} onChange={e => setLastName(e.target.value)} placeholder={t('onboarding.doctor.last_name_placeholder')} />
+              </div>
+              <div className="space-y-2">
+                <Label>{t('onboarding.doctor.first_name')}</Label>
+                <Input value={firstName} onChange={e => setFirstName(e.target.value)} placeholder={t('onboarding.doctor.first_name_placeholder')} />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>{t('onboarding.common.gender')}</Label>
+                <Select value={gender} onValueChange={setGender}>
+                  <SelectTrigger><SelectValue placeholder={t('onboarding.common.select_gender')} /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="male">{t('onboarding.common.male')}</SelectItem>
+                    <SelectItem value="female">{t('onboarding.common.female')}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label>{t('onboarding.common.birth_date')}</Label>
+                <Input type="date" value={birthDate} onChange={e => setBirthDate(e.target.value)} />
+              </div>
+            </div>
+          </div>
+        );
+
+      case 1:
+        return (
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label>{t('auth.email')}</Label>
+              <Input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="patient@example.com" />
+            </div>
+            <div className="space-y-2">
+              <Label>{t('onboarding.doctor.phone')}</Label>
+              <Input type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="+213 5XX XXX XXX" />
+            </div>
+            {showPassword && (
+              <div className="space-y-2">
+                <Label>{t('auth.password')}</Label>
+                <Input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" />
+              </div>
+            )}
+          </div>
+        );
+
+      case 2:
+        return (
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label>{t('onboarding.patient.address')}</Label>
+              <Input value={address} onChange={e => setAddress(e.target.value)} placeholder={t('onboarding.doctor.address_placeholder')} />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>{t('onboarding.doctor.city')}</Label>
+                <Input value={city} onChange={e => setCity(e.target.value)} placeholder={t('onboarding.doctor.city_placeholder')} />
+              </div>
+              <div className="space-y-2">
+                <Label>{t('onboarding.doctor.wilaya')}</Label>
+                <Input value={wilaya} onChange={e => setWilaya(e.target.value)} placeholder={t('onboarding.doctor.wilaya_placeholder')} />
+              </div>
+            </div>
+            <div className="w-full h-48 rounded-lg overflow-hidden border border-border">
+              <iframe
+                title="Location"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                src={`https://www.openstreetmap.org/export/embed.html?bbox=2.8,36.6,3.2,36.85&layer=mapnik`}
+              />
+            </div>
+          </div>
+        );
+
+      case 3:
+        return (
+          <div className="space-y-4">
+            <div className="flex flex-col items-center gap-4">
+              <div className="w-32 h-32 rounded-full bg-muted border-2 border-dashed border-border flex items-center justify-center overflow-hidden">
+                {profilePhoto ? (
+                  <img src={profilePhoto} alt="Profile" className="w-full h-full object-cover" />
+                ) : (
+                  <Camera className="h-10 w-10 text-muted-foreground" />
+                )}
+              </div>
+              <label className="cursor-pointer">
+                <Button variant="outline" className="gap-1.5" asChild>
+                  <span>
+                    <Upload className="h-4 w-4" />
+                    {t('onboarding.doctor.upload')}
+                  </span>
+                </Button>
+                <input type="file" accept="image/*" className="hidden" onChange={handleFileUpload} />
+              </label>
+              <p className="text-xs text-muted-foreground">{t('onboarding.patient.photo_optional')}</p>
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className={compact ? '' : 'max-w-2xl mx-auto'}>
+      {/* Progress */}
+      <div className="mb-6">
+        <div className="flex items-center justify-between mb-3">
+          {!compact && <h2 className="text-lg font-bold">{t('onboarding.patient.title')}</h2>}
+          <span className="text-sm text-muted-foreground">{step + 1}/{STEPS.length}</span>
+        </div>
+        <Progress value={progress} className="h-2" />
+        <div className="flex justify-between mt-3">
+          {STEPS.map((s, i) => {
+            const Icon = s.icon;
+            return (
+              <button
+                key={s.key}
+                onClick={() => i < step && setStep(i)}
+                className={`flex flex-col items-center gap-1 transition-colors ${
+                  i === step ? 'text-primary' : i < step ? 'text-primary/60 cursor-pointer' : 'text-muted-foreground/40'
+                }`}
+              >
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 transition-colors ${
+                  i === step ? 'border-primary bg-primary/10' : i < step ? 'border-primary/40 bg-primary/5' : 'border-muted bg-muted/50'
+                }`}>
+                  {i < step ? <CheckCircle2 className="h-3.5 w-3.5" /> : <Icon className="h-3.5 w-3.5" />}
+                </div>
+                <span className="text-[9px] font-medium hidden sm:block">
+                  {t(`onboarding.patient.steps.${s.key}`)}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Step content */}
+      <Card>
+        <CardContent className="p-6">
+          <h3 className="text-base font-semibold mb-1">{t(`onboarding.patient.step_titles.${STEPS[step].key}`)}</h3>
+          <p className="text-sm text-muted-foreground mb-5">{t(`onboarding.patient.step_descs.${STEPS[step].key}`)}</p>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={step}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.2 }}
+            >
+              {renderStep()}
+            </motion.div>
+          </AnimatePresence>
+        </CardContent>
+      </Card>
+
+      {/* Navigation */}
+      <div className="flex justify-between mt-5">
+        <Button variant="outline" onClick={() => setStep(s => s - 1)} disabled={step === 0} className="gap-1.5">
+          <ChevronLeft className="h-4 w-4" />
+          {t('onboarding.doctor.previous')}
+        </Button>
+        {step < STEPS.length - 1 ? (
+          <Button onClick={() => setStep(s => s + 1)} className="gap-1.5">
+            {t('onboarding.doctor.next')}
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        ) : (
+          <Button onClick={handleFinish} className="gap-1.5">
+            <CheckCircle2 className="h-4 w-4" />
+            {t('onboarding.doctor.finish')}
+          </Button>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default PatientOnboardingForm;

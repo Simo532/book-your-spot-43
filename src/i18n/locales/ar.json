@@ -80,6 +80,12 @@
     },
     "dashboard_title": "لوحة التحكم",
     "dashboard_subtitle": "نظرة عامة على منصة سوبردوك",
+    "dashboard_charts": {
+      "user_growth": "نمو المستخدمين والمواعيد",
+      "revenue": "اتجاه الإيرادات",
+      "specialty_dist": "توزيع التخصصات",
+      "top_doctors": "أفضل الأطباء"
+    },
     "recent_activity": "النشاط الأخير",
     "stats": {
       "total_users": "إجمالي المستخدمين",
@@ -106,6 +112,7 @@
       "activate": "تفعيل",
       "add_user": "إضافة مستخدم",
       "edit_user": "تعديل المستخدم",
+      "select_role_first": "اختر نوع الحساب المراد إنشاؤه",
       "confirm_delete": "حذف هذا المستخدم؟",
       "confirm_delete_desc": "سيتم حذف المستخدم {{name}} نهائياً."
     },
@@ -226,8 +233,12 @@
         "today_appointments": "مواعيد اليوم",
         "unread_messages": "رسائل غير مقروءة",
         "total_reviews": "إجمالي التقييمات",
-        "monthly_patients": "مرضى هذا الشهر"
+        "monthly_patients": "مرضى هذا الشهر",
+        "profile_views": "مشاهدات الملف",
+        "monthly_revenue": "إيرادات الشهر"
       },
+      "weekly_appointments": "مواعيد الأسبوع",
+      "revenue_trend": "اتجاه الإيرادات",
       "upcoming": "المواعيد القادمة",
       "view_all": "عرض الكل",
       "status": {
@@ -355,6 +366,13 @@
     "rights": "جميع الحقوق محفوظة"
   },
   "onboarding": {
+    "common": {
+      "gender": "الجنس",
+      "select_gender": "اختر الجنس",
+      "male": "ذكر",
+      "female": "أنثى",
+      "birth_date": "تاريخ الميلاد"
+    },
     "doctor": {
       "title": "أكمل ملفك كطبيب",
       "last_name": "اللقب",
@@ -364,7 +382,11 @@
       "phone": "الهاتف",
       "specialty": "التخصص",
       "specialty_placeholder": "اختر تخصصًا",
+      "search_specialty": "ابحث عن تخصص...",
       "select_tags": "مجالات الخبرة",
+      "bio": "السيرة المهنية",
+      "bio_placeholder": "صف خبرتك ومسارك المهني...",
+      "years_exp": "سنوات الخبرة",
       "address": "عنوان العيادة",
       "address_placeholder": "الشارع، الحي...",
       "city": "المدينة",
@@ -374,7 +396,9 @@
       "map_placeholder": "سيتم دمج الخريطة هنا",
       "consult_price": "سعر الاستشارة",
       "price_hint": "سيظهر هذا السعر في ملفك العام",
+      "your_gain": "أرباحك",
       "profile_photo": "صورة الملف الشخصي",
+      "photo_required": "* صورة الملف الشخصي مطلوبة",
       "business_card": "بطاقة العمل",
       "upload": "اختر ملفًا",
       "upload_card": "انقر لتحميل بطاقة العمل",
@@ -385,30 +409,30 @@
       "finish": "إنهاء",
       "steps": {
         "personal": "شخصي",
+        "coordinates": "الاتصال",
+        "about": "حول",
         "specialty": "التخصص",
-        "address": "العنوان",
+        "cabinet": "العيادة",
         "pricing": "التسعير",
-        "photos": "الصور",
-        "availability": "الجدول",
-        "summary": "الملخص"
+        "photo": "الصورة"
       },
       "step_titles": {
         "personal": "المعلومات الشخصية",
+        "coordinates": "بيانات الاتصال",
+        "about": "نبذة عنك",
         "specialty": "التخصص والخبرة",
-        "address": "عنوان العيادة",
+        "cabinet": "العيادة وبطاقة العمل",
         "pricing": "رسوم الاستشارة",
-        "photos": "الصورة وبطاقة العمل",
-        "availability": "التوفر الأسبوعي",
-        "summary": "الملخص"
+        "photo": "صورة الملف الشخصي"
       },
       "step_descs": {
-        "personal": "أدخل معلوماتك الأساسية",
+        "personal": "الاسم والجنس وتاريخ الميلاد",
+        "coordinates": "بريدك الإلكتروني ورقم هاتفك",
+        "about": "السيرة المهنية وسنوات الخبرة",
         "specialty": "حدد تخصصك ومجالات خبرتك",
-        "address": "أدخل عنوان عيادتك الطبية",
+        "cabinet": "عنوان العيادة على الخريطة وبطاقة العمل",
         "pricing": "حدد رسوم الاستشارة",
-        "photos": "أضف صورتك الشخصية وبطاقة العمل",
-        "availability": "قم بتكوين جدول التوفر الخاص بك",
-        "summary": "راجع معلوماتك قبل الإرسال"
+        "photo": "أضف صورتك الشخصية (مطلوبة)"
       },
       "days": {
         "monday": "الإثنين",
@@ -418,6 +442,29 @@
         "friday": "الجمعة",
         "saturday": "السبت",
         "sunday": "الأحد"
+      }
+    },
+    "patient": {
+      "title": "أكمل ملفك كمريض",
+      "address": "العنوان",
+      "photo_optional": "صورة الملف الشخصي اختيارية",
+      "steps": {
+        "personal": "شخصي",
+        "coordinates": "الاتصال",
+        "address": "العنوان",
+        "photo": "الصورة"
+      },
+      "step_titles": {
+        "personal": "المعلومات الشخصية",
+        "coordinates": "بيانات الاتصال",
+        "address": "عنوانك",
+        "photo": "صورة الملف الشخصي"
+      },
+      "step_descs": {
+        "personal": "الاسم والجنس وتاريخ الميلاد",
+        "coordinates": "بريدك الإلكتروني ورقم هاتفك",
+        "address": "اختر عنوانك على الخريطة",
+        "photo": "أضف صورة ملف شخصي (اختياري)"
       }
     }
   },
@@ -435,7 +482,7 @@
     "show_less": "عرض أقل",
     "book_appointment": "حجز موعد",
     "per_consultation": "لكل استشارة",
-    "add_favorite": "إضافة إلى المفضلة",
+    "add_favorite": "إضافة للمفضلة",
     "remove_favorite": "إزالة من المفضلة",
     "contact_info": "معلومات الاتصال",
     "years_experience": "سنوات خبرة",
@@ -455,7 +502,7 @@
     "all": "الكل",
     "male": "ذكر",
     "female": "أنثى",
-    "best_rated": "الأفضل تقييمًا",
+    "best_rated": "الأعلى تقييمًا",
     "closest": "الأقرب إلي",
     "reset_filters": "إعادة تعيين الفلاتر",
     "results_found": "نتائج",
@@ -464,8 +511,8 @@
   },
   "favorites": {
     "title": "المفضلة",
-    "subtitle": "{{count}} طبيب في المفضلة",
-    "empty": "لا يوجد أطباء في المفضلة بعد",
+    "subtitle": "{{count}} طبيب(أطباء) في مفضلتك",
+    "empty": "ليس لديك أطباء مفضلين بعد",
     "browse_doctors": "تصفح الأطباء",
     "remove": "إزالة"
   }

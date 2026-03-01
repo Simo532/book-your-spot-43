@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { CalendarCheck, MessageSquare, Star, TrendingUp, Clock, Users } from 'lucide-react';
+import { CalendarCheck, MessageSquare, Star, TrendingUp, Clock, Users, DollarSign, Eye } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -7,12 +7,33 @@ import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
 import DoctorLayout from '@/components/DoctorLayout';
 import { Link } from 'react-router-dom';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 
 const statCards = [
-  { key: 'today_appointments', icon: CalendarCheck, value: '8', color: 'text-primary' },
+  { key: 'today_appointments', icon: CalendarCheck, value: '8', change: '+2', color: 'text-primary' },
   { key: 'unread_messages', icon: MessageSquare, value: '3', color: 'text-amber-500' },
-  { key: 'total_reviews', icon: Star, value: '124', color: 'text-yellow-500' },
-  { key: 'monthly_patients', icon: Users, value: '86', color: 'text-emerald-500' },
+  { key: 'total_reviews', icon: Star, value: '124', change: '+5', color: 'text-yellow-500' },
+  { key: 'monthly_patients', icon: Users, value: '86', change: '+12', color: 'text-emerald-500' },
+  { key: 'profile_views', icon: Eye, value: '1,248', change: '+18%', color: 'text-violet-500' },
+  { key: 'monthly_revenue', icon: DollarSign, value: '186,000 DZD', change: '+15%', color: 'text-primary' },
+];
+
+const weeklyAppointments = [
+  { day: 'Lun', count: 6 },
+  { day: 'Mar', count: 8 },
+  { day: 'Mer', count: 5 },
+  { day: 'Jeu', count: 9 },
+  { day: 'Ven', count: 7 },
+  { day: 'Sam', count: 4 },
+];
+
+const monthlyRevenue = [
+  { month: 'Sep', revenue: 120000 },
+  { month: 'Oct', revenue: 145000 },
+  { month: 'Nov', revenue: 138000 },
+  { month: 'Déc', revenue: 162000 },
+  { month: 'Jan', revenue: 175000 },
+  { month: 'Fév', revenue: 186000 },
 ];
 
 const upcomingAppointments = [
@@ -39,7 +60,7 @@ const DoctorDashboard = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {statCards.map((stat) => (
             <Card key={stat.key}>
               <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -50,9 +71,53 @@ const DoctorDashboard = () => {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{stat.value}</div>
+                {stat.change && <p className="text-xs text-emerald-600 mt-1">{stat.change}</p>}
               </CardContent>
             </Card>
           ))}
+        </div>
+
+        {/* Charts */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <CalendarCheck className="h-4 w-4 text-primary" />
+                {t('doctor.dashboard.weekly_appointments')}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={200}>
+                <BarChart data={weeklyAppointments}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <XAxis dataKey="day" tick={{ fontSize: 12 }} stroke="hsl(var(--muted-foreground))" />
+                  <YAxis tick={{ fontSize: 12 }} stroke="hsl(var(--muted-foreground))" />
+                  <Tooltip contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: '8px' }} />
+                  <Bar dataKey="count" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} name="RDV" />
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <TrendingUp className="h-4 w-4 text-emerald-500" />
+                {t('doctor.dashboard.revenue_trend')}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={200}>
+                <AreaChart data={monthlyRevenue}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <XAxis dataKey="month" tick={{ fontSize: 12 }} stroke="hsl(var(--muted-foreground))" />
+                  <YAxis tick={{ fontSize: 12 }} stroke="hsl(var(--muted-foreground))" tickFormatter={(v) => `${v / 1000}k`} />
+                  <Tooltip contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: '8px' }} formatter={(v: number) => `${v.toLocaleString()} DZD`} />
+                  <Area type="monotone" dataKey="revenue" stroke="hsl(142 71% 45%)" fill="hsl(142 71% 45% / 0.1)" strokeWidth={2} name="Revenus" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -146,6 +211,5 @@ const DoctorDashboard = () => {
     </DoctorLayout>
   );
 };
-
 
 export default DoctorDashboard;

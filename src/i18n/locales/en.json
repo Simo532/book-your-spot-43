@@ -80,6 +80,12 @@
     },
     "dashboard_title": "Dashboard",
     "dashboard_subtitle": "Overview of the Superdoc platform",
+    "dashboard_charts": {
+      "user_growth": "Users & Appointments Growth",
+      "revenue": "Revenue Trend",
+      "specialty_dist": "Specialty Distribution",
+      "top_doctors": "Top Doctors"
+    },
     "recent_activity": "Recent activity",
     "stats": {
       "total_users": "Total users",
@@ -106,6 +112,7 @@
       "activate": "Activate",
       "add_user": "Add user",
       "edit_user": "Edit user",
+      "select_role_first": "Choose the type of account to create",
       "confirm_delete": "Delete this user?",
       "confirm_delete_desc": "User {{name}} will be permanently deleted."
     },
@@ -226,8 +233,12 @@
         "today_appointments": "Today's appointments",
         "unread_messages": "Unread messages",
         "total_reviews": "Total reviews",
-        "monthly_patients": "Patients this month"
+        "monthly_patients": "Patients this month",
+        "profile_views": "Profile views",
+        "monthly_revenue": "Monthly revenue"
       },
+      "weekly_appointments": "Weekly appointments",
+      "revenue_trend": "Revenue trend",
       "upcoming": "Upcoming appointments",
       "view_all": "View all",
       "status": {
@@ -355,6 +366,13 @@
     "rights": "All rights reserved"
   },
   "onboarding": {
+    "common": {
+      "gender": "Gender",
+      "select_gender": "Select gender",
+      "male": "Male",
+      "female": "Female",
+      "birth_date": "Date of birth"
+    },
     "doctor": {
       "title": "Complete your doctor profile",
       "last_name": "Last name",
@@ -364,7 +382,11 @@
       "phone": "Phone",
       "specialty": "Specialty",
       "specialty_placeholder": "Choose a specialty",
+      "search_specialty": "Search a specialty...",
       "select_tags": "Areas of expertise",
+      "bio": "Professional biography",
+      "bio_placeholder": "Describe your background and experience...",
+      "years_exp": "Years of experience",
       "address": "Office address",
       "address_placeholder": "Street, neighborhood...",
       "city": "City",
@@ -374,7 +396,9 @@
       "map_placeholder": "Map will be integrated here",
       "consult_price": "Consultation price",
       "price_hint": "This price will be shown on your public profile",
+      "your_gain": "Your earnings",
       "profile_photo": "Profile photo",
+      "photo_required": "* Profile photo is required",
       "business_card": "Business card",
       "upload": "Choose a file",
       "upload_card": "Click to upload your business card",
@@ -385,30 +409,30 @@
       "finish": "Finish",
       "steps": {
         "personal": "Personal",
+        "coordinates": "Contact",
+        "about": "About",
         "specialty": "Specialty",
-        "address": "Address",
+        "cabinet": "Office",
         "pricing": "Pricing",
-        "photos": "Photos",
-        "availability": "Schedule",
-        "summary": "Summary"
+        "photo": "Photo"
       },
       "step_titles": {
         "personal": "Personal information",
+        "coordinates": "Contact details",
+        "about": "About you",
         "specialty": "Specialty and expertise",
-        "address": "Office address",
+        "cabinet": "Office and business card",
         "pricing": "Consultation fee",
-        "photos": "Photo and business card",
-        "availability": "Weekly availability",
-        "summary": "Summary"
+        "photo": "Profile photo"
       },
       "step_descs": {
-        "personal": "Enter your basic information",
+        "personal": "Name, gender and date of birth",
+        "coordinates": "Your email and phone number",
+        "about": "Professional biography and years of experience",
         "specialty": "Select your specialty and areas of expertise",
-        "address": "Provide your medical office address",
+        "cabinet": "Office address on the map and business card",
         "pricing": "Set your consultation fee",
-        "photos": "Add your profile photo and business card",
-        "availability": "Configure your availability schedule",
-        "summary": "Review your information before submitting"
+        "photo": "Add your profile photo (required)"
       },
       "days": {
         "monday": "Monday",
@@ -418,6 +442,29 @@
         "friday": "Friday",
         "saturday": "Saturday",
         "sunday": "Sunday"
+      }
+    },
+    "patient": {
+      "title": "Complete your patient profile",
+      "address": "Address",
+      "photo_optional": "Profile photo is optional",
+      "steps": {
+        "personal": "Personal",
+        "coordinates": "Contact",
+        "address": "Address",
+        "photo": "Photo"
+      },
+      "step_titles": {
+        "personal": "Personal information",
+        "coordinates": "Contact details",
+        "address": "Your address",
+        "photo": "Profile photo"
+      },
+      "step_descs": {
+        "personal": "Name, gender and date of birth",
+        "coordinates": "Your email and phone number",
+        "address": "Choose your address on the map",
+        "photo": "Add a profile photo (optional)"
       }
     }
   },
