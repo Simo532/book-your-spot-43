@@ -488,7 +488,27 @@
     "years_experience": "سنوات خبرة",
     "address": "العنوان",
     "view_on_map": "عرض على الخريطة",
-    "badges": "الشارات"
+    "badges": "الشارات",
+    "similar_doctors": "أطباء مشابهون"
+  },
+  "booking": {
+    "select_slot": "اختر موعدًا",
+    "details": "تفاصيل الطلب",
+    "when_consult": "متى تريد الاستشارة؟",
+    "select_day": "اختر يومًا",
+    "morning": "صباحًا",
+    "afternoon": "بعد الظهر",
+    "evening": "مساءً",
+    "slots_available": "مواعيد متاحة",
+    "confirm_request": "تأكيد طلبي",
+    "slot_selected": "الموعد المحدد",
+    "your_message": "رسالتك",
+    "message_placeholder": "صف سبب استشارتك (الأعراض، الأسئلة الطبية، إلخ)...",
+    "consultation_type": "نوع الاستشارة",
+    "in_person": "حضوري",
+    "in_person_desc": "استشارة في العيادة",
+    "video": "استشارة بالفيديو",
+    "video_desc": "استشارة عبر الإنترنت بالفيديو"
   },
   "search": {
     "placeholder": "ابحث عن طبيب، تخصص...",

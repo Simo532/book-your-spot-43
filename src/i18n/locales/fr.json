@@ -488,7 +488,27 @@
     "years_experience": "ans d'expérience",
     "address": "Adresse",
     "view_on_map": "Voir sur la carte",
-    "badges": "Badges"
+    "badges": "Badges",
+    "similar_doctors": "Médecins similaires"
+  },
+  "booking": {
+    "select_slot": "Choisir un créneau",
+    "details": "Détails de la demande",
+    "when_consult": "Quand souhaitez-vous consulter ?",
+    "select_day": "Sélectionnez un jour",
+    "morning": "Matin",
+    "afternoon": "Après-midi",
+    "evening": "Soir",
+    "slots_available": "créneaux disponibles",
+    "confirm_request": "Confirmer ma demande",
+    "slot_selected": "Créneau sélectionné",
+    "your_message": "Votre message",
+    "message_placeholder": "Décrivez la raison de votre consultation (symptômes, questions médicales, etc.)...",
+    "consultation_type": "Type de consultation",
+    "in_person": "Présentiel",
+    "in_person_desc": "Consultation au cabinet",
+    "video": "Visioconsultation",
+    "video_desc": "Consultation en ligne par vidéo"
   },
   "search": {
     "placeholder": "Rechercher un médecin, une spécialité...",
