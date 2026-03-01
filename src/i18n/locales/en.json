@@ -488,7 +488,27 @@
     "years_experience": "years of experience",
     "address": "Address",
     "view_on_map": "View on map",
-    "badges": "Badges"
+    "badges": "Badges",
+    "similar_doctors": "Similar Doctors"
+  },
+  "booking": {
+    "select_slot": "Choose a slot",
+    "details": "Request details",
+    "when_consult": "When would you like to consult?",
+    "select_day": "Select a day",
+    "morning": "Morning",
+    "afternoon": "Afternoon",
+    "evening": "Evening",
+    "slots_available": "slots available",
+    "confirm_request": "Confirm my request",
+    "slot_selected": "Slot selected",
+    "your_message": "Your message",
+    "message_placeholder": "Describe the reason for your consultation (symptoms, medical questions, etc.)...",
+    "consultation_type": "Consultation type",
+    "in_person": "In-person",
+    "in_person_desc": "Consultation at the office",
+    "video": "Video consultation",
+    "video_desc": "Online video consultation"
   },
   "search": {
     "placeholder": "Search a doctor, a specialty...",

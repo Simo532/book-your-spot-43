@@ -19,6 +19,8 @@ import {
   ChevronDown,
   ChevronUp,
 } from 'lucide-react';
+import BookingModal from '@/components/doctor/BookingModal';
+import SimilarDoctors from '@/components/doctor/SimilarDoctors';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -142,6 +144,7 @@ const DoctorDetails = () => {
   const { id } = useParams();
   const [isFavorite, setIsFavorite] = useState(false);
   const [showAllReviews, setShowAllReviews] = useState(false);
+  const [bookingOpen, setBookingOpen] = useState(false);
 
   const doctor = mockDoctor;
   const displayedReviews = showAllReviews ? mockReviews : mockReviews.slice(0, 3);
@@ -261,7 +264,7 @@ const DoctorDetails = () => {
                             }
                           />
                         </Button>
-                        <Button className="shadow-[var(--shadow-primary)] gap-2">
+                        <Button className="shadow-[var(--shadow-primary)] gap-2" onClick={() => setBookingOpen(true)}>
                           <CalendarCheck className="h-4 w-4" />
                           {t('doctor_details.book_appointment')}
                         </Button>
@@ -446,7 +449,7 @@ const DoctorDetails = () => {
                         {t('doctor_details.per_consultation')}
                       </p>
                     </div>
-                    <Button className="w-full shadow-[var(--shadow-primary)] gap-2">
+                    <Button className="w-full shadow-[var(--shadow-primary)] gap-2" onClick={() => setBookingOpen(true)}>
                       <CalendarCheck className="h-4 w-4" />
                       {t('doctor_details.book_appointment')}
                     </Button>
@@ -586,9 +589,15 @@ const DoctorDetails = () => {
               )}
             </div>
           </div>
+
+          {/* Similar Doctors */}
+          <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={6} className="mt-8">
+            <SimilarDoctors currentDoctorId={id || '1'} />
+          </motion.div>
         </div>
       </div>
 
+      <BookingModal open={bookingOpen} onOpenChange={setBookingOpen} doctor={doctor} />
       <Footer />
     </div>
   );
