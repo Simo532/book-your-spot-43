@@ -80,6 +80,12 @@
     },
     "dashboard_title": "Tableau de bord",
     "dashboard_subtitle": "Vue d'ensemble de la plateforme Superdoc",
+    "dashboard_charts": {
+      "user_growth": "Croissance utilisateurs & RDV",
+      "revenue": "Évolution des revenus",
+      "specialty_dist": "Répartition par spécialité",
+      "top_doctors": "Meilleurs médecins"
+    },
     "recent_activity": "Activité récente",
     "stats": {
       "total_users": "Total utilisateurs",
@@ -106,6 +112,7 @@
       "activate": "Activer",
       "add_user": "Ajouter un utilisateur",
       "edit_user": "Modifier l'utilisateur",
+      "select_role_first": "Choisissez le type de compte à créer",
       "confirm_delete": "Supprimer cet utilisateur ?",
       "confirm_delete_desc": "L'utilisateur {{name}} sera définitivement supprimé."
     },
@@ -226,8 +233,12 @@
         "today_appointments": "RDV aujourd'hui",
         "unread_messages": "Messages non lus",
         "total_reviews": "Total avis",
-        "monthly_patients": "Patients ce mois"
+        "monthly_patients": "Patients ce mois",
+        "profile_views": "Vues du profil",
+        "monthly_revenue": "Revenus du mois"
       },
+      "weekly_appointments": "RDV cette semaine",
+      "revenue_trend": "Évolution des revenus",
       "upcoming": "Prochains rendez-vous",
       "view_all": "Voir tout",
       "status": {
@@ -355,6 +366,13 @@
     "rights": "Tous droits réservés"
   },
   "onboarding": {
+    "common": {
+      "gender": "Genre",
+      "select_gender": "Choisir le genre",
+      "male": "Homme",
+      "female": "Femme",
+      "birth_date": "Date de naissance"
+    },
     "doctor": {
       "title": "Compléter votre profil médecin",
       "last_name": "Nom",
@@ -364,7 +382,11 @@
       "phone": "Téléphone",
       "specialty": "Spécialité",
       "specialty_placeholder": "Choisir une spécialité",
+      "search_specialty": "Rechercher une spécialité...",
       "select_tags": "Domaines d'expertise",
+      "bio": "Biographie professionnelle",
+      "bio_placeholder": "Décrivez votre parcours et votre expérience...",
+      "years_exp": "Années d'expérience",
       "address": "Adresse du cabinet",
       "address_placeholder": "Rue, quartier...",
       "city": "Ville",
@@ -374,7 +396,9 @@
       "map_placeholder": "La carte sera intégrée ici",
       "consult_price": "Prix de la consultation",
       "price_hint": "Ce prix sera affiché sur votre profil public",
+      "your_gain": "Votre gain",
       "profile_photo": "Photo de profil",
+      "photo_required": "* La photo de profil est obligatoire",
       "business_card": "Carte de visite",
       "upload": "Choisir un fichier",
       "upload_card": "Cliquez pour télécharger votre carte de visite",
@@ -385,30 +409,30 @@
       "finish": "Terminer",
       "steps": {
         "personal": "Personnel",
+        "coordinates": "Contact",
+        "about": "À propos",
         "specialty": "Spécialité",
-        "address": "Adresse",
+        "cabinet": "Cabinet",
         "pricing": "Tarif",
-        "photos": "Photos",
-        "availability": "Horaires",
-        "summary": "Résumé"
+        "photo": "Photo"
       },
       "step_titles": {
         "personal": "Informations personnelles",
+        "coordinates": "Coordonnées",
+        "about": "À propos de vous",
         "specialty": "Spécialité et expertise",
-        "address": "Adresse du cabinet",
-        "pricing": "Tarif de consultation",
-        "photos": "Photo et carte de visite",
-        "availability": "Disponibilités hebdomadaires",
-        "summary": "Récapitulatif"
+        "cabinet": "Cabinet et carte de visite",
+        "pricing": "Prix de consultation",
+        "photo": "Photo de profil"
       },
       "step_descs": {
-        "personal": "Entrez vos informations de base",
+        "personal": "Nom, prénom, genre et date de naissance",
+        "coordinates": "Votre email et numéro de téléphone",
+        "about": "Biographie professionnelle et années d'expérience",
         "specialty": "Sélectionnez votre spécialité et vos domaines d'expertise",
-        "address": "Indiquez l'adresse de votre cabinet médical",
+        "cabinet": "Adresse du cabinet sur la carte et carte de visite",
         "pricing": "Définissez le prix de votre consultation",
-        "photos": "Ajoutez votre photo de profil et votre carte de visite",
-        "availability": "Configurez vos horaires de disponibilité",
-        "summary": "Vérifiez vos informations avant de valider"
+        "photo": "Ajoutez votre photo de profil (obligatoire)"
       },
       "days": {
         "monday": "Lundi",
@@ -418,6 +442,29 @@
         "friday": "Vendredi",
         "saturday": "Samedi",
         "sunday": "Dimanche"
+      }
+    },
+    "patient": {
+      "title": "Compléter votre profil patient",
+      "address": "Adresse",
+      "photo_optional": "La photo de profil est optionnelle",
+      "steps": {
+        "personal": "Personnel",
+        "coordinates": "Contact",
+        "address": "Adresse",
+        "photo": "Photo"
+      },
+      "step_titles": {
+        "personal": "Informations personnelles",
+        "coordinates": "Coordonnées",
+        "address": "Votre adresse",
+        "photo": "Photo de profil"
+      },
+      "step_descs": {
+        "personal": "Nom, prénom, genre et date de naissance",
+        "coordinates": "Votre email et numéro de téléphone",
+        "address": "Choisissez votre adresse sur la carte",
+        "photo": "Ajoutez une photo de profil (optionnel)"
       }
     }
   },

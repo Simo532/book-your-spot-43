@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
 import DoctorOnboarding from "./pages/DoctorOnboarding";
+import PatientOnboarding from "./pages/PatientOnboarding";
 import DoctorDetails from "./pages/DoctorDetails";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminUsers from "./pages/admin/AdminUsers";
@@ -46,6 +47,7 @@ const App = () => (
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/doctor/onboarding" element={<DoctorOnboarding />} />
           <Route path="/doctor/details/:id" element={<DoctorDetails />} />
+          <Route path="/patient/onboarding" element={<PatientOnboarding />} />
           <Route path="/search" element={<SearchResults />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/admin" element={<AdminDashboard />} />
