@@ -11,6 +11,10 @@ import {
   LogOut,
   ChevronLeft,
   Globe,
+  MessageSquare,
+  LifeBuoy,
+  Wallet,
+  Star,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -34,6 +38,10 @@ interface AdminLayoutProps {
 const navItems = [
   { key: 'dashboard', icon: LayoutDashboard, path: '/admin' },
   { key: 'users', icon: Users, path: '/admin/users' },
+  { key: 'chat', icon: MessageSquare, path: '/admin/chat' },
+  { key: 'support', icon: LifeBuoy, path: '/admin/support' },
+  { key: 'balances', icon: Wallet, path: '/admin/balances' },
+  { key: 'reviews', icon: Star, path: '/admin/reviews' },
   { key: 'analytics', icon: BarChart3, path: '/admin/analytics' },
   { key: 'specialties', icon: Stethoscope, path: '/admin/specialties' },
   { key: 'badges', icon: Award, path: '/admin/badges' },

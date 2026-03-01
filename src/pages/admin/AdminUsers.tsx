@@ -1,58 +1,147 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Search, MoreHorizontal, Shield, UserCheck, UserX } from 'lucide-react';
+import { Search, MoreHorizontal, Shield, UserCheck, UserX, Plus, Pencil, Trash2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Label } from '@/components/ui/label';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from '@/components/ui/table';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@/components/ui/select';
+import {
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger,
+} from '@/components/ui/dialog';
+import {
+  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import AdminLayout from '@/components/AdminLayout';
 
-const mockUsers = [
-  { id: '1', name: 'Ahmed Benali', email: 'ahmed@email.com', role: 'doctor', status: 'active', joined: '2025-12-01' },
-  { id: '2', name: 'Sara Alaoui', email: 'sara@email.com', role: 'patient', status: 'active', joined: '2025-11-15' },
-  { id: '3', name: 'Youssef Kabir', email: 'youssef@email.com', role: 'doctor', status: 'suspended', joined: '2025-10-20' },
-  { id: '4', name: 'Fatima Zahra', email: 'fatima@email.com', role: 'patient', status: 'active', joined: '2026-01-05' },
-  { id: '5', name: 'Omar Idrissi', email: 'omar@email.com', role: 'doctor', status: 'active', joined: '2026-02-10' },
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: 'patient' | 'doctor' | 'admin';
+  status: 'active' | 'suspended';
+  joined: string;
+  phone?: string;
+}
+
+const initialUsers: User[] = [
+  { id: '1', name: 'Ahmed Benali', email: 'ahmed@email.com', role: 'doctor', status: 'active', joined: '2025-12-01', phone: '+213 555 0001' },
+  { id: '2', name: 'Sara Alaoui', email: 'sara@email.com', role: 'patient', status: 'active', joined: '2025-11-15', phone: '+213 555 0002' },
+  { id: '3', name: 'Youssef Kabir', email: 'youssef@email.com', role: 'doctor', status: 'suspended', joined: '2025-10-20', phone: '+213 555 0003' },
+  { id: '4', name: 'Fatima Zahra', email: 'fatima@email.com', role: 'patient', status: 'active', joined: '2026-01-05', phone: '+213 555 0004' },
+  { id: '5', name: 'Omar Idrissi', email: 'omar@email.com', role: 'doctor', status: 'active', joined: '2026-02-10', phone: '+213 555 0005' },
+  { id: '6', name: 'Admin Principal', email: 'admin@superdoc.com', role: 'admin', status: 'active', joined: '2025-01-01', phone: '+213 555 0000' },
 ];
+
+// Simulate current admin being a superadmin
+const isSuperAdmin = true;
 
 const AdminUsers = () => {
   const { t } = useTranslation();
+  const [users, setUsers] = useState(initialUsers);
   const [search, setSearch] = useState('');
   const [roleFilter, setRoleFilter] = useState('all');
+  const [formOpen, setFormOpen] = useState(false);
+  const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [deleteUser, setDeleteUser] = useState<User | null>(null);
 
-  const filtered = mockUsers.filter((u) => {
+  // Form state
+  const [formName, setFormName] = useState('');
+  const [formEmail, setFormEmail] = useState('');
+  const [formPhone, setFormPhone] = useState('');
+  const [formRole, setFormRole] = useState<User['role']>('patient');
+  const [formStatus, setFormStatus] = useState<User['status']>('active');
+
+  const filtered = users.filter((u) => {
     const matchesSearch = u.name.toLowerCase().includes(search.toLowerCase()) || u.email.toLowerCase().includes(search.toLowerCase());
     const matchesRole = roleFilter === 'all' || u.role === roleFilter;
     return matchesSearch && matchesRole;
   });
 
+  const openCreate = () => {
+    setEditingUser(null);
+    setFormName('');
+    setFormEmail('');
+    setFormPhone('');
+    setFormRole('patient');
+    setFormStatus('active');
+    setFormOpen(true);
+  };
+
+  const openEdit = (user: User) => {
+    setEditingUser(user);
+    setFormName(user.name);
+    setFormEmail(user.email);
+    setFormPhone(user.phone || '');
+    setFormRole(user.role);
+    setFormStatus(user.status);
+    setFormOpen(true);
+  };
+
+  const handleSave = () => {
+    if (!formName.trim() || !formEmail.trim()) return;
+    if (editingUser) {
+      setUsers((prev) => prev.map((u) => u.id === editingUser.id ? { ...u, name: formName.trim(), email: formEmail.trim(), phone: formPhone.trim(), role: formRole, status: formStatus } : u));
+    } else {
+      setUsers((prev) => [...prev, {
+        id: `u${Date.now()}`,
+        name: formName.trim(),
+        email: formEmail.trim(),
+        phone: formPhone.trim(),
+        role: formRole,
+        status: formStatus,
+        joined: new Date().toISOString().split('T')[0],
+      }]);
+    }
+    setFormOpen(false);
+  };
+
+  const handleDelete = () => {
+    if (!deleteUser) return;
+    setUsers((prev) => prev.filter((u) => u.id !== deleteUser.id));
+    setDeleteUser(null);
+  };
+
+  const toggleStatus = (id: string) => {
+    setUsers((prev) => prev.map((u) => u.id === id ? { ...u, status: u.status === 'active' ? 'suspended' : 'active' } : u));
+  };
+
+  const promoteAdmin = (id: string) => {
+    setUsers((prev) => prev.map((u) => u.id === id ? { ...u, role: 'admin' } : u));
+  };
+
+  const roleLabel = (role: string) => {
+    if (role === 'doctor') return t('auth.role_doctor');
+    if (role === 'patient') return t('auth.role_patient');
+    return 'Admin';
+  };
+
+  const roleVariant = (role: string): 'default' | 'secondary' | 'destructive' => {
+    if (role === 'doctor') return 'default';
+    if (role === 'admin') return 'destructive';
+    return 'secondary';
+  };
+
   return (
     <AdminLayout>
       <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold">{t('admin.users.title')}</h1>
-          <p className="text-muted-foreground text-sm mt-1">{t('admin.users.subtitle')}</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold">{t('admin.users.title')}</h1>
+            <p className="text-muted-foreground text-sm mt-1">{t('admin.users.subtitle')}</p>
+          </div>
+          <Button className="gap-2" onClick={openCreate}>
+            <Plus className="h-4 w-4" /> {t('admin.users.add_user')}
+          </Button>
         </div>
 
         <Card>
@@ -60,17 +149,10 @@ const AdminUsers = () => {
             <div className="flex flex-col sm:flex-row gap-3 justify-between">
               <div className="relative flex-1 max-w-sm">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder={t('admin.users.search_placeholder')}
-                  className="pl-10"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                />
+                <Input placeholder={t('admin.users.search_placeholder')} className="pl-10" value={search} onChange={(e) => setSearch(e.target.value)} />
               </div>
               <Select value={roleFilter} onValueChange={setRoleFilter}>
-                <SelectTrigger className="w-[160px]">
-                  <SelectValue />
-                </SelectTrigger>
+                <SelectTrigger className="w-[160px]"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">{t('admin.users.all_roles')}</SelectItem>
                   <SelectItem value="patient">{t('auth.role_patient')}</SelectItem>
@@ -98,9 +180,7 @@ const AdminUsers = () => {
                     <TableCell className="font-medium">{user.name}</TableCell>
                     <TableCell className="text-muted-foreground">{user.email}</TableCell>
                     <TableCell>
-                      <Badge variant={user.role === 'doctor' ? 'default' : 'secondary'} className="capitalize">
-                        {user.role === 'doctor' ? t('auth.role_doctor') : t('auth.role_patient')}
-                      </Badge>
+                      <Badge variant={roleVariant(user.role)} className="capitalize">{roleLabel(user.role)}</Badge>
                     </TableCell>
                     <TableCell>
                       <span className={`inline-flex items-center gap-1.5 text-xs font-medium ${user.status === 'active' ? 'text-green-600' : 'text-destructive'}`}>
@@ -112,21 +192,29 @@ const AdminUsers = () => {
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon" className="h-8 w-8">
-                            <MoreHorizontal className="h-4 w-4" />
-                          </Button>
+                          <Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="h-4 w-4" /></Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem className="gap-2">
-                            <Shield className="h-4 w-4" /> {t('admin.users.make_admin')}
+                          <DropdownMenuItem className="gap-2" onClick={() => openEdit(user)}>
+                            <Pencil className="h-4 w-4" /> {t('admin.edit')}
                           </DropdownMenuItem>
-                          <DropdownMenuItem className="gap-2">
+                          {user.role !== 'admin' && (
+                            <DropdownMenuItem className="gap-2" onClick={() => promoteAdmin(user.id)}>
+                              <Shield className="h-4 w-4" /> {t('admin.users.make_admin')}
+                            </DropdownMenuItem>
+                          )}
+                          <DropdownMenuItem className="gap-2" onClick={() => toggleStatus(user.id)}>
                             {user.status === 'active' ? (
                               <><UserX className="h-4 w-4" /> {t('admin.users.suspend')}</>
                             ) : (
                               <><UserCheck className="h-4 w-4" /> {t('admin.users.activate')}</>
                             )}
                           </DropdownMenuItem>
+                          {(isSuperAdmin || user.role !== 'admin') && (
+                            <DropdownMenuItem className="gap-2 text-destructive focus:text-destructive" onClick={() => setDeleteUser(user)}>
+                              <Trash2 className="h-4 w-4" /> {t('admin.delete')}
+                            </DropdownMenuItem>
+                          )}
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -136,6 +224,67 @@ const AdminUsers = () => {
             </Table>
           </CardContent>
         </Card>
+
+        {/* Create/Edit dialog */}
+        <Dialog open={formOpen} onOpenChange={setFormOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{editingUser ? t('admin.users.edit_user') : t('admin.users.add_user')}</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4 pt-2">
+              <div className="space-y-2">
+                <Label>{t('admin.users.name')}</Label>
+                <Input value={formName} onChange={(e) => setFormName(e.target.value)} placeholder="Ex: Ahmed Benali" />
+              </div>
+              <div className="space-y-2">
+                <Label>{t('admin.users.email')}</Label>
+                <Input type="email" value={formEmail} onChange={(e) => setFormEmail(e.target.value)} placeholder="email@example.com" />
+              </div>
+              <div className="space-y-2">
+                <Label>{t('admin.users.phone')}</Label>
+                <Input value={formPhone} onChange={(e) => setFormPhone(e.target.value)} placeholder="+213 555 0000" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>{t('admin.users.role')}</Label>
+                  <Select value={formRole} onValueChange={(v) => setFormRole(v as User['role'])}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="patient">{t('auth.role_patient')}</SelectItem>
+                      <SelectItem value="doctor">{t('auth.role_doctor')}</SelectItem>
+                      {isSuperAdmin && <SelectItem value="admin">Admin</SelectItem>}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label>{t('admin.users.status')}</Label>
+                  <Select value={formStatus} onValueChange={(v) => setFormStatus(v as User['status'])}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="active">{t('admin.users.active')}</SelectItem>
+                      <SelectItem value="suspended">{t('admin.users.suspended')}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <Button onClick={handleSave} className="w-full">{t('admin.save')}</Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Delete confirmation */}
+        <AlertDialog open={!!deleteUser} onOpenChange={(open) => !open && setDeleteUser(null)}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>{t('admin.users.confirm_delete')}</AlertDialogTitle>
+              <AlertDialogDescription>{t('admin.users.confirm_delete_desc', { name: deleteUser?.name })}</AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>{t('admin.cancel')}</AlertDialogCancel>
+              <AlertDialogAction onClick={handleDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">{t('admin.delete')}</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </AdminLayout>
   );
