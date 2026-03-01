@@ -14,6 +14,10 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminAnalytics from "./pages/admin/AdminAnalytics";
 import AdminSpecialties from "./pages/admin/AdminSpecialties";
 import AdminBadges from "./pages/admin/AdminBadges";
+import AdminChat from "./pages/admin/AdminChat";
+import AdminSupport from "./pages/admin/AdminSupport";
+import AdminBalances from "./pages/admin/AdminBalances";
+import AdminReviews from "./pages/admin/AdminReviews";
 import SearchResults from "./pages/SearchResults";
 import Favorites from "./pages/Favorites";
 import DoctorDashboard from "./pages/doctor/DoctorDashboard";
@@ -49,6 +53,10 @@ const App = () => (
           <Route path="/admin/analytics" element={<AdminAnalytics />} />
           <Route path="/admin/specialties" element={<AdminSpecialties />} />
           <Route path="/admin/badges" element={<AdminBadges />} />
+          <Route path="/admin/chat" element={<AdminChat />} />
+          <Route path="/admin/support" element={<AdminSupport />} />
+          <Route path="/admin/balances" element={<AdminBalances />} />
+          <Route path="/admin/reviews" element={<AdminReviews />} />
           <Route path="/doctor" element={<DoctorDashboard />} />
           <Route path="/doctor/appointments" element={<DoctorAppointments />} />
           <Route path="/doctor/messages" element={<DoctorMessages />} />
