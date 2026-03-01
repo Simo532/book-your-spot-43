@@ -73,6 +73,7 @@
       "support": "Support",
       "balances": "Balances",
       "reviews": "Reviews",
+      "notifications": "Notifications",
       "analytics": "Analytics",
       "specialties": "Specialties",
       "badges": "Badges",
@@ -84,7 +85,14 @@
       "user_growth": "Users & Appointments Growth",
       "revenue": "Revenue Trend",
       "specialty_dist": "Specialty Distribution",
-      "top_doctors": "Top Doctors"
+      "top_doctors": "Top Doctors",
+      "monthly_comparison": "Monthly Comparison"
+    },
+    "monthly": {
+      "new_users": "New users",
+      "new_doctors": "New doctors",
+      "appointments": "Appointments",
+      "revenue": "Revenue"
     },
     "recent_activity": "Recent activity",
     "stats": {
@@ -209,10 +217,139 @@
       "reviews": "reviews",
       "appointments_label": "appt."
     },
+    "notifications": {
+      "title": "Notifications",
+      "subtitle": "Send notifications to users",
+      "new": "New notification",
+      "notif_title": "Title",
+      "title_placeholder": "E.g.: Scheduled maintenance",
+      "message": "Message",
+      "message_placeholder": "Notification content...",
+      "target": "Recipients",
+      "target_all": "All users",
+      "target_doctors": "Doctors only",
+      "target_patients": "Patients only",
+      "target_specific": "Specific users",
+      "search_user": "Search a user...",
+      "selected": "selected",
+      "timing": "Delivery",
+      "immediate": "Immediate",
+      "scheduled": "Scheduled",
+      "date": "Date",
+      "time": "Time",
+      "send_now": "Send now",
+      "schedule": "Schedule",
+      "total_sent": "Sent",
+      "total_scheduled": "Scheduled",
+      "total_recipients": "Total recipients",
+      "history": "Notification history",
+      "sent_at": "Sent on",
+      "scheduled_for": "Scheduled for",
+      "status_sent": "Sent",
+      "status_scheduled": "Scheduled"
+    },
     "save": "Save",
     "cancel": "Cancel",
     "edit": "Edit",
     "delete": "Delete"
+  },
+  "patient": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "appointments": "Appointments",
+      "messages": "Messages",
+      "favorites": "Favorites",
+      "support": "Support",
+      "profile": "Profile",
+      "password": "Password",
+      "patient": "Patient"
+    },
+    "dashboard": {
+      "title": "My Dashboard",
+      "subtitle": "Welcome, Sara",
+      "stats": {
+        "total_appointments": "Total appointments",
+        "upcoming": "Upcoming",
+        "unread_messages": "Unread messages",
+        "favorites": "Favorites"
+      },
+      "upcoming_appointments": "Upcoming appointments",
+      "view_all": "View all",
+      "monthly_chart": "Appointments per month",
+      "recent_doctors": "Recently visited doctors",
+      "in_person": "In-person",
+      "video": "Video",
+      "status": {
+        "confirmed": "Confirmed",
+        "pending": "Pending"
+      }
+    },
+    "appointments": {
+      "title": "My appointments",
+      "subtitle": "Manage your medical appointments",
+      "search": "Search a doctor...",
+      "upcoming_tab": "Upcoming",
+      "past_tab": "Past",
+      "no_upcoming": "No upcoming appointments",
+      "no_past": "No past appointments",
+      "reschedule": "Reschedule",
+      "cancel": "Cancel",
+      "new_date": "New date",
+      "new_time": "New time",
+      "confirm_reschedule": "Confirm",
+      "cancel_title": "Cancel this appointment?",
+      "cancel_desc": "This will cancel your appointment request.",
+      "confirm_cancel": "Yes, cancel",
+      "status": {
+        "confirmed": "Confirmed",
+        "pending": "Pending",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      }
+    },
+    "messages": {
+      "title": "Messages",
+      "search": "Search a conversation...",
+      "type_message": "Write a message..."
+    },
+    "favorites": {
+      "title": "My favorites",
+      "count": "favorite doctor(s)",
+      "search": "Search a doctor...",
+      "remove": "Remove",
+      "empty": "No favorite doctors"
+    },
+    "support": {
+      "title": "Support",
+      "subtitle": "Need help? Contact our support",
+      "new_ticket": "New ticket",
+      "subject": "Subject",
+      "subject_placeholder": "E.g.: Payment issue",
+      "message": "Message",
+      "message_placeholder": "Describe your issue...",
+      "send": "Send",
+      "status_open": "Open",
+      "status_resolved": "Resolved"
+    },
+    "profile": {
+      "title": "My profile",
+      "subtitle": "Edit your personal information",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address"
+    },
+    "password": {
+      "title": "Password",
+      "subtitle": "Change your password",
+      "current": "Current password",
+      "new": "New password",
+      "confirm": "Confirm password",
+      "min_length": "8 characters minimum",
+      "mismatch": "Passwords do not match",
+      "update": "Update"
+    }
   },
   "doctor": {
     "nav": {
@@ -251,7 +388,15 @@
       "next_badge": "Next badge",
       "reviews_label": "reviews",
       "see_badges": "See all badges",
-      "recent_reviews": "Recent reviews"
+      "recent_reviews": "Recent reviews",
+      "monthly_comparison": "Monthly Statistics",
+      "monthly_stats": {
+        "patients": "Patients",
+        "appointments": "Appointments",
+        "revenue": "Revenue",
+        "reviews": "Reviews",
+        "vs_last": "vs last month"
+      }
     },
     "appointments": {
       "title": "Appointments",

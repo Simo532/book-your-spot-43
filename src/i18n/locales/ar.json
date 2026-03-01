@@ -73,6 +73,7 @@
       "support": "الدعم",
       "balances": "الأرصدة",
       "reviews": "التقييمات",
+      "notifications": "الإشعارات",
       "analytics": "التحليلات",
       "specialties": "التخصصات",
       "badges": "الشارات",
@@ -84,7 +85,14 @@
       "user_growth": "نمو المستخدمين والمواعيد",
       "revenue": "اتجاه الإيرادات",
       "specialty_dist": "توزيع التخصصات",
-      "top_doctors": "أفضل الأطباء"
+      "top_doctors": "أفضل الأطباء",
+      "monthly_comparison": "المقارنة الشهرية"
+    },
+    "monthly": {
+      "new_users": "مستخدمون جدد",
+      "new_doctors": "أطباء جدد",
+      "appointments": "المواعيد",
+      "revenue": "الإيرادات"
     },
     "recent_activity": "النشاط الأخير",
     "stats": {
@@ -209,10 +217,139 @@
       "reviews": "تقييمات",
       "appointments_label": "مواعيد"
     },
+    "notifications": {
+      "title": "الإشعارات",
+      "subtitle": "إرسال إشعارات للمستخدمين",
+      "new": "إشعار جديد",
+      "notif_title": "العنوان",
+      "title_placeholder": "مثال: صيانة مجدولة",
+      "message": "الرسالة",
+      "message_placeholder": "محتوى الإشعار...",
+      "target": "المستلمون",
+      "target_all": "جميع المستخدمين",
+      "target_doctors": "الأطباء فقط",
+      "target_patients": "المرضى فقط",
+      "target_specific": "مستخدمون محددون",
+      "search_user": "ابحث عن مستخدم...",
+      "selected": "محدد",
+      "timing": "التسليم",
+      "immediate": "فوري",
+      "scheduled": "مجدول",
+      "date": "التاريخ",
+      "time": "الوقت",
+      "send_now": "إرسال الآن",
+      "schedule": "جدولة",
+      "total_sent": "مرسلة",
+      "total_scheduled": "مجدولة",
+      "total_recipients": "إجمالي المستلمين",
+      "history": "سجل الإشعارات",
+      "sent_at": "أرسلت في",
+      "scheduled_for": "مجدولة لـ",
+      "status_sent": "مرسلة",
+      "status_scheduled": "مجدولة"
+    },
     "save": "حفظ",
     "cancel": "إلغاء",
     "edit": "تعديل",
     "delete": "حذف"
+  },
+  "patient": {
+    "nav": {
+      "dashboard": "لوحة التحكم",
+      "appointments": "المواعيد",
+      "messages": "الرسائل",
+      "favorites": "المفضلة",
+      "support": "الدعم",
+      "profile": "الملف الشخصي",
+      "password": "كلمة المرور",
+      "patient": "مريض"
+    },
+    "dashboard": {
+      "title": "لوحة التحكم",
+      "subtitle": "مرحبًا، سارة",
+      "stats": {
+        "total_appointments": "إجمالي المواعيد",
+        "upcoming": "القادمة",
+        "unread_messages": "رسائل غير مقروءة",
+        "favorites": "المفضلة"
+      },
+      "upcoming_appointments": "المواعيد القادمة",
+      "view_all": "عرض الكل",
+      "monthly_chart": "المواعيد حسب الشهر",
+      "recent_doctors": "الأطباء الذين تمت زيارتهم مؤخرًا",
+      "in_person": "حضوري",
+      "video": "فيديو",
+      "status": {
+        "confirmed": "مؤكد",
+        "pending": "قيد الانتظار"
+      }
+    },
+    "appointments": {
+      "title": "مواعيدي",
+      "subtitle": "إدارة مواعيدك الطبية",
+      "search": "ابحث عن طبيب...",
+      "upcoming_tab": "القادمة",
+      "past_tab": "السابقة",
+      "no_upcoming": "لا توجد مواعيد قادمة",
+      "no_past": "لا توجد مواعيد سابقة",
+      "reschedule": "إعادة جدولة",
+      "cancel": "إلغاء",
+      "new_date": "تاريخ جديد",
+      "new_time": "وقت جديد",
+      "confirm_reschedule": "تأكيد",
+      "cancel_title": "إلغاء هذا الموعد؟",
+      "cancel_desc": "سيتم إلغاء طلب الموعد.",
+      "confirm_cancel": "نعم، إلغاء",
+      "status": {
+        "confirmed": "مؤكد",
+        "pending": "قيد الانتظار",
+        "completed": "مكتمل",
+        "cancelled": "ملغى"
+      }
+    },
+    "messages": {
+      "title": "الرسائل",
+      "search": "ابحث عن محادثة...",
+      "type_message": "اكتب رسالة..."
+    },
+    "favorites": {
+      "title": "المفضلة",
+      "count": "طبيب(أطباء) مفضل",
+      "search": "ابحث عن طبيب...",
+      "remove": "إزالة",
+      "empty": "لا يوجد أطباء مفضلون"
+    },
+    "support": {
+      "title": "الدعم",
+      "subtitle": "تحتاج مساعدة؟ تواصل مع الدعم",
+      "new_ticket": "تذكرة جديدة",
+      "subject": "الموضوع",
+      "subject_placeholder": "مثال: مشكلة في الدفع",
+      "message": "الرسالة",
+      "message_placeholder": "صف مشكلتك...",
+      "send": "إرسال",
+      "status_open": "مفتوح",
+      "status_resolved": "تم الحل"
+    },
+    "profile": {
+      "title": "ملفي الشخصي",
+      "subtitle": "تعديل معلوماتك الشخصية",
+      "first_name": "الاسم",
+      "last_name": "اللقب",
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "address": "العنوان"
+    },
+    "password": {
+      "title": "كلمة المرور",
+      "subtitle": "تغيير كلمة المرور",
+      "current": "كلمة المرور الحالية",
+      "new": "كلمة المرور الجديدة",
+      "confirm": "تأكيد كلمة المرور",
+      "min_length": "8 أحرف كحد أدنى",
+      "mismatch": "كلمتا المرور غير متطابقتين",
+      "update": "تحديث"
+    }
   },
   "doctor": {
     "nav": {
@@ -251,7 +388,15 @@
       "next_badge": "الشارة التالية",
       "reviews_label": "تقييمات",
       "see_badges": "عرض جميع الشارات",
-      "recent_reviews": "التقييمات الأخيرة"
+      "recent_reviews": "التقييمات الأخيرة",
+      "monthly_comparison": "الإحصائيات الشهرية",
+      "monthly_stats": {
+        "patients": "المرضى",
+        "appointments": "المواعيد",
+        "revenue": "الإيرادات",
+        "reviews": "التقييمات",
+        "vs_last": "مقابل الشهر الماضي"
+      }
     },
     "appointments": {
       "title": "المواعيد",

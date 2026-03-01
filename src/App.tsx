@@ -19,6 +19,7 @@ import AdminChat from "./pages/admin/AdminChat";
 import AdminSupport from "./pages/admin/AdminSupport";
 import AdminBalances from "./pages/admin/AdminBalances";
 import AdminReviews from "./pages/admin/AdminReviews";
+import AdminNotifications from "./pages/admin/AdminNotifications";
 import SearchResults from "./pages/SearchResults";
 import Favorites from "./pages/Favorites";
 import DoctorDashboard from "./pages/doctor/DoctorDashboard";
@@ -29,6 +30,13 @@ import DoctorAnalytics from "./pages/doctor/DoctorAnalytics";
 import DoctorBadges from "./pages/doctor/DoctorBadges";
 import DoctorProfile from "./pages/doctor/DoctorProfile";
 import DoctorSettings from "./pages/doctor/DoctorSettings";
+import PatientDashboard from "./pages/patient/PatientDashboard";
+import PatientAppointments from "./pages/patient/PatientAppointments";
+import PatientMessages from "./pages/patient/PatientMessages";
+import PatientFavorites from "./pages/patient/PatientFavorites";
+import PatientSupport from "./pages/patient/PatientSupport";
+import PatientProfile from "./pages/patient/PatientProfile";
+import PatientPassword from "./pages/patient/PatientPassword";
 import NotFound from "./pages/NotFound";
 import "./i18n";
 
@@ -59,6 +67,7 @@ const App = () => (
           <Route path="/admin/support" element={<AdminSupport />} />
           <Route path="/admin/balances" element={<AdminBalances />} />
           <Route path="/admin/reviews" element={<AdminReviews />} />
+          <Route path="/admin/notifications" element={<AdminNotifications />} />
           <Route path="/doctor" element={<DoctorDashboard />} />
           <Route path="/doctor/appointments" element={<DoctorAppointments />} />
           <Route path="/doctor/messages" element={<DoctorMessages />} />
@@ -67,6 +76,13 @@ const App = () => (
           <Route path="/doctor/badges" element={<DoctorBadges />} />
           <Route path="/doctor/profile" element={<DoctorProfile />} />
           <Route path="/doctor/settings" element={<DoctorSettings />} />
+          <Route path="/patient" element={<PatientDashboard />} />
+          <Route path="/patient/appointments" element={<PatientAppointments />} />
+          <Route path="/patient/messages" element={<PatientMessages />} />
+          <Route path="/patient/favorites" element={<PatientFavorites />} />
+          <Route path="/patient/support" element={<PatientSupport />} />
+          <Route path="/patient/profile" element={<PatientProfile />} />
+          <Route path="/patient/password" element={<PatientPassword />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
