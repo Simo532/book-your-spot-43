@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { CalendarCheck, MessageSquare, Star, TrendingUp, Clock, Users, DollarSign, Eye } from 'lucide-react';
+import { CalendarCheck, MessageSquare, Star, TrendingUp, Clock, Users, DollarSign, Eye, ArrowUpRight, ArrowDownRight } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -119,6 +119,39 @@ const DoctorDashboard = () => {
             </CardContent>
           </Card>
         </div>
+
+        {/* Monthly comparison */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <TrendingUp className="h-4 w-4 text-primary" />
+              {t('doctor.dashboard.monthly_comparison')}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {[
+                { label: t('doctor.dashboard.monthly_stats.patients'), current: 86, previous: 74 },
+                { label: t('doctor.dashboard.monthly_stats.appointments'), current: 142, previous: 128 },
+                { label: t('doctor.dashboard.monthly_stats.revenue'), current: 186000, previous: 162000, suffix: ' DZD' },
+                { label: t('doctor.dashboard.monthly_stats.reviews'), current: 18, previous: 13 },
+              ].map((item, i) => {
+                const change = ((item.current - item.previous) / item.previous * 100).toFixed(1);
+                const isPositive = item.current >= item.previous;
+                return (
+                  <div key={i} className="p-3 rounded-xl bg-accent/30">
+                    <p className="text-xs text-muted-foreground mb-1">{item.label}</p>
+                    <p className="text-lg font-bold">{item.current.toLocaleString()}{item.suffix || ''}</p>
+                    <div className={`flex items-center gap-1 text-xs mt-1 ${isPositive ? 'text-emerald-600' : 'text-destructive'}`}>
+                      {isPositive ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
+                      {change}% {t('doctor.dashboard.monthly_stats.vs_last')}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </CardContent>
+        </Card>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Upcoming appointments */}

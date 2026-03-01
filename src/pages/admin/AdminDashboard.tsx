@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next';
-import { Users, CalendarCheck, Stethoscope, TrendingUp, UserPlus, Star, DollarSign, Activity } from 'lucide-react';
+import { Users, CalendarCheck, Stethoscope, TrendingUp, UserPlus, Star, DollarSign, Activity, ArrowUpRight, ArrowDownRight } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import AdminLayout from '@/components/AdminLayout';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell, AreaChart, Area } from 'recharts';
 
 const statCards = [
   { key: 'total_users', icon: Users, value: '12,458', change: '+12%', color: 'text-primary' },
@@ -117,6 +117,52 @@ const AdminDashboard = () => {
             </CardContent>
           </Card>
         </div>
+
+        {/* Monthly comparison */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <Activity className="h-4 w-4 text-primary" />
+              {t('admin.dashboard_charts.monthly_comparison')}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+              {[
+                { label: t('admin.monthly.new_users'), current: 1580, previous: 1400, icon: UserPlus },
+                { label: t('admin.monthly.new_doctors'), current: 320, previous: 280, icon: Stethoscope },
+                { label: t('admin.monthly.appointments'), current: 5800, previous: 5200, icon: CalendarCheck },
+                { label: t('admin.monthly.revenue'), current: 16200, previous: 14500, icon: DollarSign },
+              ].map((item, i) => {
+                const change = ((item.current - item.previous) / item.previous * 100).toFixed(1);
+                const isPositive = item.current >= item.previous;
+                return (
+                  <div key={i} className="p-3 rounded-xl bg-accent/30">
+                    <div className="flex items-center gap-2 mb-2">
+                      <item.icon className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-xs text-muted-foreground">{item.label}</span>
+                    </div>
+                    <p className="text-lg font-bold">{item.current.toLocaleString()}</p>
+                    <div className={`flex items-center gap-1 text-xs mt-1 ${isPositive ? 'text-emerald-600' : 'text-destructive'}`}>
+                      {isPositive ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
+                      {change}%
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <ResponsiveContainer width="100%" height={200}>
+              <AreaChart data={monthlyData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis dataKey="month" tick={{ fontSize: 12 }} stroke="hsl(var(--muted-foreground))" />
+                <YAxis tick={{ fontSize: 12 }} stroke="hsl(var(--muted-foreground))" />
+                <Tooltip contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: '8px' }} />
+                <Area type="monotone" dataKey="users" stroke="hsl(var(--primary))" fill="hsl(var(--primary) / 0.1)" strokeWidth={2} name="Utilisateurs" />
+                <Area type="monotone" dataKey="appointments" stroke="hsl(142 71% 45%)" fill="hsl(142 71% 45% / 0.1)" strokeWidth={2} name="RDV" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
 
         {/* Bottom row */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

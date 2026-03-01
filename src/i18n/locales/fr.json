@@ -73,6 +73,7 @@
       "support": "Support",
       "balances": "Soldes",
       "reviews": "Avis",
+      "notifications": "Notifications",
       "analytics": "Analyses",
       "specialties": "Spécialités",
       "badges": "Badges",
@@ -84,7 +85,14 @@
       "user_growth": "Croissance utilisateurs & RDV",
       "revenue": "Évolution des revenus",
       "specialty_dist": "Répartition par spécialité",
-      "top_doctors": "Meilleurs médecins"
+      "top_doctors": "Meilleurs médecins",
+      "monthly_comparison": "Comparaison mensuelle"
+    },
+    "monthly": {
+      "new_users": "Nouveaux utilisateurs",
+      "new_doctors": "Nouveaux médecins",
+      "appointments": "Rendez-vous",
+      "revenue": "Revenus"
     },
     "recent_activity": "Activité récente",
     "stats": {
@@ -209,10 +217,139 @@
       "reviews": "avis",
       "appointments_label": "RDV"
     },
+    "notifications": {
+      "title": "Notifications",
+      "subtitle": "Envoyer des notifications aux utilisateurs",
+      "new": "Nouvelle notification",
+      "notif_title": "Titre",
+      "title_placeholder": "Ex: Maintenance prévue",
+      "message": "Message",
+      "message_placeholder": "Contenu de la notification...",
+      "target": "Destinataires",
+      "target_all": "Tous les utilisateurs",
+      "target_doctors": "Médecins uniquement",
+      "target_patients": "Patients uniquement",
+      "target_specific": "Utilisateurs spécifiques",
+      "search_user": "Rechercher un utilisateur...",
+      "selected": "sélectionné(s)",
+      "timing": "Envoi",
+      "immediate": "Immédiat",
+      "scheduled": "Programmé",
+      "date": "Date",
+      "time": "Heure",
+      "send_now": "Envoyer maintenant",
+      "schedule": "Programmer",
+      "total_sent": "Envoyées",
+      "total_scheduled": "Programmées",
+      "total_recipients": "Destinataires totaux",
+      "history": "Historique des notifications",
+      "sent_at": "Envoyée le",
+      "scheduled_for": "Programmée pour le",
+      "status_sent": "Envoyée",
+      "status_scheduled": "Programmée"
+    },
     "save": "Enregistrer",
     "cancel": "Annuler",
     "edit": "Modifier",
     "delete": "Supprimer"
+  },
+  "patient": {
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "appointments": "Rendez-vous",
+      "messages": "Messages",
+      "favorites": "Favoris",
+      "support": "Support",
+      "profile": "Profil",
+      "password": "Mot de passe",
+      "patient": "Patient"
+    },
+    "dashboard": {
+      "title": "Mon tableau de bord",
+      "subtitle": "Bienvenue, Sara",
+      "stats": {
+        "total_appointments": "Total RDV",
+        "upcoming": "À venir",
+        "unread_messages": "Messages non lus",
+        "favorites": "Favoris"
+      },
+      "upcoming_appointments": "Prochains rendez-vous",
+      "view_all": "Voir tout",
+      "monthly_chart": "RDV par mois",
+      "recent_doctors": "Médecins consultés récemment",
+      "in_person": "Cabinet",
+      "video": "Vidéo",
+      "status": {
+        "confirmed": "Confirmé",
+        "pending": "En attente"
+      }
+    },
+    "appointments": {
+      "title": "Mes rendez-vous",
+      "subtitle": "Gérer vos rendez-vous médicaux",
+      "search": "Rechercher un médecin...",
+      "upcoming_tab": "À venir",
+      "past_tab": "Passés",
+      "no_upcoming": "Aucun rendez-vous à venir",
+      "no_past": "Aucun rendez-vous passé",
+      "reschedule": "Reprogrammer",
+      "cancel": "Annuler",
+      "new_date": "Nouvelle date",
+      "new_time": "Nouvelle heure",
+      "confirm_reschedule": "Confirmer",
+      "cancel_title": "Annuler ce rendez-vous ?",
+      "cancel_desc": "Cette action annulera votre demande de rendez-vous.",
+      "confirm_cancel": "Oui, annuler",
+      "status": {
+        "confirmed": "Confirmé",
+        "pending": "En attente",
+        "completed": "Terminé",
+        "cancelled": "Annulé"
+      }
+    },
+    "messages": {
+      "title": "Messages",
+      "search": "Rechercher une conversation...",
+      "type_message": "Écrire un message..."
+    },
+    "favorites": {
+      "title": "Mes favoris",
+      "count": "médecin(s) favoris",
+      "search": "Rechercher un médecin...",
+      "remove": "Retirer",
+      "empty": "Aucun médecin favori"
+    },
+    "support": {
+      "title": "Support",
+      "subtitle": "Besoin d'aide ? Contactez notre support",
+      "new_ticket": "Nouveau ticket",
+      "subject": "Sujet",
+      "subject_placeholder": "Ex: Problème de paiement",
+      "message": "Message",
+      "message_placeholder": "Décrivez votre problème...",
+      "send": "Envoyer",
+      "status_open": "Ouvert",
+      "status_resolved": "Résolu"
+    },
+    "profile": {
+      "title": "Mon profil",
+      "subtitle": "Modifier vos informations personnelles",
+      "first_name": "Prénom",
+      "last_name": "Nom",
+      "email": "Email",
+      "phone": "Téléphone",
+      "address": "Adresse"
+    },
+    "password": {
+      "title": "Mot de passe",
+      "subtitle": "Modifier votre mot de passe",
+      "current": "Mot de passe actuel",
+      "new": "Nouveau mot de passe",
+      "confirm": "Confirmer le mot de passe",
+      "min_length": "8 caractères minimum",
+      "mismatch": "Les mots de passe ne correspondent pas",
+      "update": "Mettre à jour"
+    }
   },
   "doctor": {
     "nav": {
@@ -251,7 +388,15 @@
       "next_badge": "Prochain badge",
       "reviews_label": "avis",
       "see_badges": "Voir tous les badges",
-      "recent_reviews": "Avis récents"
+      "recent_reviews": "Avis récents",
+      "monthly_comparison": "Statistiques mensuelles",
+      "monthly_stats": {
+        "patients": "Patients",
+        "appointments": "Rendez-vous",
+        "revenue": "Revenus",
+        "reviews": "Avis",
+        "vs_last": "vs mois dernier"
+      }
     },
     "appointments": {
       "title": "Rendez-vous",
