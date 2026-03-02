@@ -16,6 +16,8 @@ import {
   Wallet,
   Star,
   Bell,
+  Zap,
+  Target,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -47,6 +49,8 @@ const navItems = [
   { key: 'analytics', icon: BarChart3, path: '/admin/analytics' },
   { key: 'specialties', icon: Stethoscope, path: '/admin/specialties' },
   { key: 'badges', icon: Award, path: '/admin/badges' },
+  { key: 'boosts', icon: Zap, path: '/admin/boosts' },
+  { key: 'xp_rules', icon: Target, path: '/admin/xp-rules' },
   { key: 'settings', icon: Settings, path: '/admin/settings' },
 ];
 
