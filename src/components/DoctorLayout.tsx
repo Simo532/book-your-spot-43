@@ -14,6 +14,8 @@ import {
   ChevronLeft,
   Globe,
   Bell,
+  Zap,
+  Clock,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -42,6 +44,8 @@ const navItems = [
   { key: 'reviews', icon: Star, path: '/doctor/reviews' },
   { key: 'analytics', icon: BarChart3, path: '/doctor/analytics' },
   { key: 'badges', icon: Award, path: '/doctor/badges' },
+  { key: 'boosts', icon: Zap, path: '/doctor/boosts' },
+  { key: 'availability', icon: Clock, path: '/doctor/availability' },
   { key: 'profile', icon: User, path: '/doctor/profile' },
   { key: 'settings', icon: Settings, path: '/doctor/settings' },
 ];

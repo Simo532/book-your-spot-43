@@ -30,6 +30,8 @@ import DoctorMessages from "./pages/doctor/DoctorMessages";
 import DoctorReviews from "./pages/doctor/DoctorReviews";
 import DoctorAnalytics from "./pages/doctor/DoctorAnalytics";
 import DoctorBadges from "./pages/doctor/DoctorBadges";
+import DoctorBoosts from "./pages/doctor/DoctorBoosts";
+import DoctorAvailability from "./pages/doctor/DoctorAvailability";
 import DoctorProfile from "./pages/doctor/DoctorProfile";
 import DoctorSettings from "./pages/doctor/DoctorSettings";
 import PatientDashboard from "./pages/patient/PatientDashboard";
@@ -78,6 +80,8 @@ const App = () => (
           <Route path="/doctor/reviews" element={<DoctorReviews />} />
           <Route path="/doctor/analytics" element={<DoctorAnalytics />} />
           <Route path="/doctor/badges" element={<DoctorBadges />} />
+          <Route path="/doctor/boosts" element={<DoctorBoosts />} />
+          <Route path="/doctor/availability" element={<DoctorAvailability />} />
           <Route path="/doctor/profile" element={<DoctorProfile />} />
           <Route path="/doctor/settings" element={<DoctorSettings />} />
           <Route path="/patient" element={<PatientDashboard />} />
