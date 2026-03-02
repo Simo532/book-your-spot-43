@@ -416,6 +416,8 @@
       "reviews": "Avis",
       "analytics": "Statistiques",
       "badges": "Badges",
+      "boosts": "Boosts",
+      "availability": "Disponibilités",
       "profile": "Profil",
       "settings": "Préférences",
       "cardiologist": "Cardiologie"
@@ -512,12 +514,31 @@
       "unlocked": "Débloqué",
       "locked": "Verrouillé"
     },
+    "boosts": {
+      "title": "Mes boosts",
+      "subtitle": "Améliorez votre visibilité dans les résultats de recherche",
+      "active_xp": "XP actifs",
+      "purchased_count": "Boosts achetés",
+      "ranking_boost": "Boost classement",
+      "purchased": "Boost ajouté avec succès",
+      "add_boost": "Ajouter",
+      "how_it_works": "Comment ça marche ?",
+      "how_desc": "Les boosts augmentent vos points XP, ce qui améliore votre position dans les résultats de recherche. Plus vous avez de XP actifs, plus vous apparaissez en haut.",
+      "desc": {
+        "profile_completion": "Gagnez des XP en complétant votre profil à 100%",
+        "top_search": "Apparaissez en tête des résultats de recherche",
+        "featured": "Soyez mis en avant sur la page d'accueil",
+        "priority": "Priorité dans l'affichage des créneaux disponibles"
+      }
+    },
     "profile": {
       "title": "Mon profil",
       "subtitle": "Modifier vos informations",
       "edit": "Modifier le profil"
     },
     "availability": {
+      "title": "Disponibilités",
+      "subtitle": "Gérez vos créneaux de consultation",
       "days_short": {
         "monday": "Lun",
         "tuesday": "Mar",

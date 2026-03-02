@@ -416,6 +416,8 @@
       "reviews": "Reviews",
       "analytics": "Analytics",
       "badges": "Badges",
+      "boosts": "Boosts",
+      "availability": "Availability",
       "profile": "Profile",
       "settings": "Settings",
       "cardiologist": "Cardiology"
@@ -512,12 +514,31 @@
       "unlocked": "Unlocked",
       "locked": "Locked"
     },
+    "boosts": {
+      "title": "My boosts",
+      "subtitle": "Improve your visibility in search results",
+      "active_xp": "Active XP",
+      "purchased_count": "Purchased boosts",
+      "ranking_boost": "Ranking boost",
+      "purchased": "Boost added successfully",
+      "add_boost": "Add",
+      "how_it_works": "How does it work?",
+      "how_desc": "Boosts increase your XP points, which improves your position in search results. The more active XP you have, the higher you appear.",
+      "desc": {
+        "profile_completion": "Earn XP by completing your profile 100%",
+        "top_search": "Appear at the top of search results",
+        "featured": "Be featured on the homepage",
+        "priority": "Priority in available slots display"
+      }
+    },
     "profile": {
       "title": "My profile",
       "subtitle": "Edit your information",
       "edit": "Edit profile"
     },
     "availability": {
+      "title": "Availability",
+      "subtitle": "Manage your consultation slots",
       "days_short": {
         "monday": "Mon",
         "tuesday": "Tue",
