@@ -20,6 +20,8 @@ import AdminSupport from "./pages/admin/AdminSupport";
 import AdminBalances from "./pages/admin/AdminBalances";
 import AdminReviews from "./pages/admin/AdminReviews";
 import AdminNotifications from "./pages/admin/AdminNotifications";
+import AdminBoosts from "./pages/admin/AdminBoosts";
+import AdminXPRules from "./pages/admin/AdminXPRules";
 import SearchResults from "./pages/SearchResults";
 import Favorites from "./pages/Favorites";
 import DoctorDashboard from "./pages/doctor/DoctorDashboard";
@@ -68,6 +70,8 @@ const App = () => (
           <Route path="/admin/balances" element={<AdminBalances />} />
           <Route path="/admin/reviews" element={<AdminReviews />} />
           <Route path="/admin/notifications" element={<AdminNotifications />} />
+          <Route path="/admin/boosts" element={<AdminBoosts />} />
+          <Route path="/admin/xp-rules" element={<AdminXPRules />} />
           <Route path="/doctor" element={<DoctorDashboard />} />
           <Route path="/doctor/appointments" element={<DoctorAppointments />} />
           <Route path="/doctor/messages" element={<DoctorMessages />} />
