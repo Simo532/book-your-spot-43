@@ -362,6 +362,24 @@
         "pending": "Pending",
         "completed": "Completed",
         "cancelled": "Cancelled"
+      },
+      "filters": {
+        "date": "Date",
+        "select_date": "Select a date",
+        "time": "Time",
+        "all_times": "All times",
+        "morning": "Morning",
+        "afternoon": "Afternoon",
+        "evening": "Evening",
+        "gender": "Doctor gender",
+        "all_genders": "All",
+        "male": "Male",
+        "female": "Female",
+        "mode": "Mode",
+        "all_modes": "All modes",
+        "cabinet": "In-office",
+        "online": "Online",
+        "clear": "Clear filters"
       }
     },
     "messages": {
@@ -472,7 +490,26 @@
       "accept": "Accept",
       "decline": "Decline",
       "today_placeholder": "Today's appointments will appear here",
-      "upcoming_placeholder": "Upcoming appointments will appear here"
+      "upcoming_placeholder": "Upcoming appointments will appear here",
+      "filters": {
+        "date": "Date",
+        "select_date": "Select a date",
+        "time": "Time",
+        "all_times": "All times",
+        "morning": "Morning",
+        "afternoon": "Afternoon",
+        "evening": "Evening",
+        "gender": "Gender",
+        "all_genders": "All",
+        "male": "Male",
+        "female": "Female",
+        "mode": "Mode",
+        "all_modes": "All modes",
+        "cabinet": "In-office",
+        "online": "Online",
+        "clear": "Clear filters",
+        "no_results": "No results found"
+      }
     },
     "messages": {
       "title": "Messages",
