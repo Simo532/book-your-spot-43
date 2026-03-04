@@ -362,6 +362,24 @@
         "pending": "قيد الانتظار",
         "completed": "مكتمل",
         "cancelled": "ملغى"
+      },
+      "filters": {
+        "date": "التاريخ",
+        "select_date": "اختر تاريخ",
+        "time": "الوقت",
+        "all_times": "كل الأوقات",
+        "morning": "صباحاً",
+        "afternoon": "بعد الظهر",
+        "evening": "مساءً",
+        "gender": "جنس الطبيب",
+        "all_genders": "الكل",
+        "male": "ذكر",
+        "female": "أنثى",
+        "mode": "الوضع",
+        "all_modes": "كل الأوضاع",
+        "cabinet": "في العيادة",
+        "online": "عبر الإنترنت",
+        "clear": "مسح الفلاتر"
       }
     },
     "messages": {
@@ -472,7 +490,26 @@
       "accept": "قبول",
       "decline": "رفض",
       "today_placeholder": "ستظهر مواعيد اليوم هنا",
-      "upcoming_placeholder": "ستظهر المواعيد القادمة هنا"
+      "upcoming_placeholder": "ستظهر المواعيد القادمة هنا",
+      "filters": {
+        "date": "التاريخ",
+        "select_date": "اختر تاريخ",
+        "time": "الوقت",
+        "all_times": "كل الأوقات",
+        "morning": "صباحاً",
+        "afternoon": "بعد الظهر",
+        "evening": "مساءً",
+        "gender": "الجنس",
+        "all_genders": "الكل",
+        "male": "ذكر",
+        "female": "أنثى",
+        "mode": "الوضع",
+        "all_modes": "كل الأوضاع",
+        "cabinet": "في العيادة",
+        "online": "عبر الإنترنت",
+        "clear": "مسح الفلاتر",
+        "no_results": "لا توجد نتائج"
+      }
     },
     "messages": {
       "title": "الرسائل",

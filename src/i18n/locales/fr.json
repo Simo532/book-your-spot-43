@@ -362,6 +362,24 @@
         "pending": "En attente",
         "completed": "Terminé",
         "cancelled": "Annulé"
+      },
+      "filters": {
+        "date": "Date",
+        "select_date": "Choisir une date",
+        "time": "Heure",
+        "all_times": "Toutes les heures",
+        "morning": "Matin",
+        "afternoon": "Après-midi",
+        "evening": "Soir",
+        "gender": "Genre du médecin",
+        "all_genders": "Tous",
+        "male": "Homme",
+        "female": "Femme",
+        "mode": "Mode",
+        "all_modes": "Tous les modes",
+        "cabinet": "En cabinet",
+        "online": "En ligne",
+        "clear": "Effacer les filtres"
       }
     },
     "messages": {
@@ -472,7 +490,26 @@
       "accept": "Accepter",
       "decline": "Refuser",
       "today_placeholder": "Les RDV d'aujourd'hui s'afficheront ici",
-      "upcoming_placeholder": "Les prochains RDV s'afficheront ici"
+      "upcoming_placeholder": "Les prochains RDV s'afficheront ici",
+      "filters": {
+        "date": "Date",
+        "select_date": "Choisir une date",
+        "time": "Heure",
+        "all_times": "Toutes les heures",
+        "morning": "Matin",
+        "afternoon": "Après-midi",
+        "evening": "Soir",
+        "gender": "Genre",
+        "all_genders": "Tous",
+        "male": "Homme",
+        "female": "Femme",
+        "mode": "Mode",
+        "all_modes": "Tous les modes",
+        "cabinet": "En cabinet",
+        "online": "En ligne",
+        "clear": "Effacer les filtres",
+        "no_results": "Aucun résultat trouvé"
+      }
     },
     "messages": {
       "title": "Messages",
