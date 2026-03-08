@@ -45,6 +45,7 @@ const navItems = [
   { key: 'analytics', icon: BarChart3, path: '/doctor/analytics' },
   { key: 'badges', icon: Award, path: '/doctor/badges' },
   { key: 'boosts', icon: Zap, path: '/doctor/boosts' },
+  { key: 'xp_points', icon: Star, path: '/doctor/xp-points' },
   { key: 'availability', icon: Clock, path: '/doctor/availability' },
   { key: 'profile', icon: User, path: '/doctor/profile' },
   { key: 'settings', icon: Settings, path: '/doctor/settings' },

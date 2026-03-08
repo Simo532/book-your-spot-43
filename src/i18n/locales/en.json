@@ -433,6 +433,7 @@
       "analytics": "Analytics",
       "badges": "Badges",
       "boosts": "Boosts",
+      "xp_points": "XP Points",
       "availability": "Availability",
       "profile": "Profile",
       "settings": "Settings",
@@ -609,6 +610,32 @@
       "mode_online": "Online only",
       "mode_both": "In-office and online",
       "mode_off": "Slot disabled"
+    },
+    "xp_points": {
+      "title": "XP Points",
+      "subtitle": "Track your experience points and progression",
+      "how_to_earn": "How to earn XP",
+      "how_to_earn_title": "How to earn XP?",
+      "total_xp": "Total XP",
+      "this_month": "XP this month",
+      "actions_count": "Actions completed",
+      "history": "XP History",
+      "actions": {
+        "REVIEW_RECEIVED": "Review received",
+        "APPOINTMENT_COMPLETED": "Appointment completed",
+        "PROFILE_COMPLETED": "Profile completed",
+        "FIRST_APPOINTMENT": "First appointment",
+        "MONTHLY_STREAK": "Monthly streak",
+        "REFERRAL": "Referral"
+      },
+      "rules": {
+        "REVIEW_RECEIVED": "Earn 30 XP each time a patient leaves you a positive review.",
+        "APPOINTMENT_COMPLETED": "Earn 50 XP for each successfully completed appointment.",
+        "PROFILE_COMPLETED": "Complete your profile 100% and earn 150 bonus XP.",
+        "FIRST_APPOINTMENT": "Receive 100 XP for your very first appointment on the platform.",
+        "MONTHLY_STREAK": "Stay active all month and earn 200 XP monthly bonus.",
+        "REFERRAL": "Refer a colleague and earn 100 XP when they sign up."
+      }
     },
     "settings": {
       "title": "Settings",

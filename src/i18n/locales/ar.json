@@ -433,6 +433,7 @@
       "analytics": "الإحصائيات",
       "badges": "الشارات",
       "boosts": "التعزيزات",
+      "xp_points": "نقاط XP",
       "availability": "التوفر",
       "profile": "الملف الشخصي",
       "settings": "الإعدادات",
@@ -609,6 +610,32 @@
       "mode_online": "عبر الإنترنت فقط",
       "mode_both": "في العيادة وعبر الإنترنت",
       "mode_off": "فترة معطلة"
+    },
+    "xp_points": {
+      "title": "نقاط XP",
+      "subtitle": "تتبع نقاط خبرتك وتقدمك",
+      "how_to_earn": "كيف تكسب XP",
+      "how_to_earn_title": "كيف تكسب نقاط XP؟",
+      "total_xp": "إجمالي XP",
+      "this_month": "XP هذا الشهر",
+      "actions_count": "الإجراءات المنجزة",
+      "history": "سجل XP",
+      "actions": {
+        "REVIEW_RECEIVED": "تقييم مستلم",
+        "APPOINTMENT_COMPLETED": "موعد مكتمل",
+        "PROFILE_COMPLETED": "الملف الشخصي مكتمل",
+        "FIRST_APPOINTMENT": "أول موعد",
+        "MONTHLY_STREAK": "سلسلة شهرية",
+        "REFERRAL": "إحالة"
+      },
+      "rules": {
+        "REVIEW_RECEIVED": "اكسب 30 XP في كل مرة يترك لك مريض تقييمًا إيجابيًا.",
+        "APPOINTMENT_COMPLETED": "اكسب 50 XP لكل موعد مكتمل بنجاح.",
+        "PROFILE_COMPLETED": "أكمل ملفك الشخصي 100% واكسب 150 XP إضافية.",
+        "FIRST_APPOINTMENT": "احصل على 100 XP لأول موعد لك على المنصة.",
+        "MONTHLY_STREAK": "ابقَ نشطًا طوال الشهر واكسب 200 XP كمكافأة شهرية.",
+        "REFERRAL": "قم بإحالة زميل واكسب 100 XP عند تسجيله."
+      }
     },
     "settings": {
       "title": "الإعدادات",
