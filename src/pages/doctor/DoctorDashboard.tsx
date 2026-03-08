@@ -112,48 +112,7 @@ const DoctorDashboard = () => {
           </Card>
         </div>
 
-        {/* XP History */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-lg flex items-center gap-2">
-              <Zap className="h-4 w-4 text-amber-500" />
-              {t('doctor.dashboard.xp_history')}
-            </CardTitle>
-            <div className="flex items-center gap-4">
-              <div className="text-right">
-                <p className="text-xs text-muted-foreground">{t('doctor.dashboard.xp_total')}</p>
-                <p className="text-lg font-bold text-primary">{totalXp} XP</p>
-              </div>
-              <div className="text-right">
-                <p className="text-xs text-muted-foreground">{t('doctor.dashboard.xp_this_month')}</p>
-                <p className="text-lg font-bold text-emerald-600">{thisMonthXp} XP</p>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {mockXpHistory.slice(0, 6).map((entry) => {
-                const Icon = actionIcons[entry.actionCode] || Zap;
-                return (
-                  <div key={entry.id} className="flex items-center gap-4 p-3 rounded-xl bg-accent/30 hover:bg-accent/50 transition-colors">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
-                      <Icon className="h-4 w-4 text-primary" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold">{t(`doctor.dashboard.xp_actions.${entry.actionCode}`)}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {new Date(entry.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
-                      </p>
-                    </div>
-                    <Badge variant="secondary" className="font-bold text-emerald-600 bg-emerald-500/10">
-                      +{entry.xpAmount} XP
-                    </Badge>
-                  </div>
-                );
-              })}
-            </div>
-          </CardContent>
-        </Card>
+
 
         {/* Monthly comparison */}
         <Card>
