@@ -471,6 +471,21 @@
         "revenue": "الإيرادات",
         "reviews": "التقييمات",
         "vs_last": "مقابل الشهر الماضي"
+      },
+      "xp_history": "سجل XP",
+      "xp_earned": "XP مكتسبة",
+      "xp_total": "إجمالي XP",
+      "xp_this_month": "XP هذا الشهر",
+      "how_to_earn": "كيف تكسب XP؟",
+      "how_to_earn_title": "كيفية كسب نقاط XP",
+      "no_xp_history": "لا يوجد سجل XP",
+      "xp_actions": {
+        "REVIEW_RECEIVED": "تقييم مستلم",
+        "APPOINTMENT_COMPLETED": "موعد مكتمل",
+        "PROFILE_COMPLETED": "ملف مكتمل",
+        "FIRST_APPOINTMENT": "أول موعد",
+        "MONTHLY_STREAK": "نشاط شهري",
+        "REFERRAL": "إحالة"
       }
     },
     "appointments": {
