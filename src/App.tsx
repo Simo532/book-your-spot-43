@@ -31,6 +31,7 @@ import DoctorReviews from "./pages/doctor/DoctorReviews";
 import DoctorAnalytics from "./pages/doctor/DoctorAnalytics";
 import DoctorBadges from "./pages/doctor/DoctorBadges";
 import DoctorBoosts from "./pages/doctor/DoctorBoosts";
+import DoctorXpPoints from "./pages/doctor/DoctorXpPoints";
 import DoctorAvailability from "./pages/doctor/DoctorAvailability";
 import DoctorProfile from "./pages/doctor/DoctorProfile";
 import DoctorSettings from "./pages/doctor/DoctorSettings";
