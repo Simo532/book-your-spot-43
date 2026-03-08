@@ -471,6 +471,21 @@
         "revenue": "Revenus",
         "reviews": "Avis",
         "vs_last": "vs mois dernier"
+      },
+      "xp_history": "Historique XP",
+      "xp_earned": "XP gagnés",
+      "xp_total": "XP total",
+      "xp_this_month": "XP ce mois",
+      "how_to_earn": "Comment gagner des XP ?",
+      "how_to_earn_title": "Comment gagner des points XP",
+      "no_xp_history": "Aucun historique XP",
+      "xp_actions": {
+        "REVIEW_RECEIVED": "Avis reçu",
+        "APPOINTMENT_COMPLETED": "RDV terminé",
+        "PROFILE_COMPLETED": "Profil complété",
+        "FIRST_APPOINTMENT": "Premier RDV",
+        "MONTHLY_STREAK": "Activité mensuelle",
+        "REFERRAL": "Parrainage"
       }
     },
     "appointments": {

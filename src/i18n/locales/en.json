@@ -471,6 +471,21 @@
         "revenue": "Revenue",
         "reviews": "Reviews",
         "vs_last": "vs last month"
+      },
+      "xp_history": "XP History",
+      "xp_earned": "XP earned",
+      "xp_total": "Total XP",
+      "xp_this_month": "XP this month",
+      "how_to_earn": "How to earn XP?",
+      "how_to_earn_title": "How to earn XP points",
+      "no_xp_history": "No XP history",
+      "xp_actions": {
+        "REVIEW_RECEIVED": "Review received",
+        "APPOINTMENT_COMPLETED": "Appointment completed",
+        "PROFILE_COMPLETED": "Profile completed",
+        "FIRST_APPOINTMENT": "First appointment",
+        "MONTHLY_STREAK": "Monthly streak",
+        "REFERRAL": "Referral"
       }
     },
     "appointments": {
