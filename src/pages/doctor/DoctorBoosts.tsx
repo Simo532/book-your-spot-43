@@ -1,41 +1,36 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DoctorLayout from '@/components/DoctorLayout';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
-import { Zap, TrendingUp, Star, Eye, ShoppingCart, Check } from 'lucide-react';
+import { Zap, TrendingUp, Check, ShoppingCart, DollarSign, Clock } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 
 interface AvailableBoost {
   id: string;
-  type: string;
-  xpPoints: number;
+  name: string;
+  xpAmount: number;
+  durationDays: number;
+  price: number;
   description: string;
   purchased: boolean;
   active: boolean;
 }
 
-const boostIcons: Record<string, typeof Zap> = {
-  profile_completion: Star,
-  top_search: TrendingUp,
-  featured: Eye,
-  priority: Zap,
-};
-
 const initialBoosts: AvailableBoost[] = [
-  { id: '1', type: 'profile_completion', xpPoints: 50, description: '', purchased: true, active: true },
-  { id: '2', type: 'top_search', xpPoints: 100, description: '', purchased: false, active: false },
-  { id: '3', type: 'featured', xpPoints: 200, description: '', purchased: false, active: false },
-  { id: '4', type: 'priority', xpPoints: 150, description: '', purchased: true, active: false },
+  { id: '1', name: 'BOOST_3_DAYS', xpAmount: 50, durationDays: 3, price: 29.99, description: 'Short visibility boost', purchased: true, active: true },
+  { id: '2', name: 'BOOST_7_DAYS', xpAmount: 100, durationDays: 7, price: 49.99, description: 'Weekly ranking improvement', purchased: false, active: false },
+  { id: '3', name: 'BOOST_14_DAYS', xpAmount: 200, durationDays: 14, price: 79.99, description: 'Premium two-week boost', purchased: false, active: false },
+  { id: '4', name: 'BOOST_30_DAYS', xpAmount: 500, durationDays: 30, price: 129.99, description: 'Maximum monthly visibility', purchased: true, active: false },
 ];
 
 const DoctorBoosts = () => {
   const { t } = useTranslation();
   const [boosts, setBoosts] = useState<AvailableBoost[]>(initialBoosts);
 
-  const totalXP = boosts.filter(b => b.purchased && b.active).reduce((sum, b) => sum + b.xpPoints, 0);
+  const totalXP = boosts.filter(b => b.purchased && b.active).reduce((sum, b) => sum + b.xpAmount, 0);
   const purchasedCount = boosts.filter(b => b.purchased).length;
 
   const handlePurchase = (id: string) => {
@@ -71,7 +66,7 @@ const DoctorBoosts = () => {
           <Card>
             <CardContent className="pt-6">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-green-500/10"><Check className="h-5 w-5 text-green-500" /></div>
+                <div className="p-2 rounded-lg bg-primary/10"><Check className="h-5 w-5 text-primary" /></div>
                 <div>
                   <p className="text-sm text-muted-foreground">{t('doctor.boosts.purchased_count')}</p>
                   <p className="text-2xl font-bold">{purchasedCount}/{boosts.length}</p>
@@ -82,7 +77,7 @@ const DoctorBoosts = () => {
           <Card>
             <CardContent className="pt-6">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-amber-500/10"><TrendingUp className="h-5 w-5 text-amber-500" /></div>
+                <div className="p-2 rounded-lg bg-primary/10"><TrendingUp className="h-5 w-5 text-primary" /></div>
                 <div>
                   <p className="text-sm text-muted-foreground">{t('doctor.boosts.ranking_boost')}</p>
                   <p className="text-2xl font-bold">+{totalXP}</p>
@@ -94,39 +89,44 @@ const DoctorBoosts = () => {
 
         {/* Boost cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {boosts.map(boost => {
-            const Icon = boostIcons[boost.type] || Zap;
-            return (
-              <Card key={boost.id} className={!boost.purchased ? 'border-dashed' : ''}>
-                <CardContent className="pt-6">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-start gap-3">
-                      <div className="p-2.5 rounded-xl bg-primary/10">
-                        <Icon className="h-5 w-5 text-primary" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold">{t(`admin.boosts.types.${boost.type}`)}</h3>
-                        <p className="text-sm text-muted-foreground mt-0.5">
-                          {t(`doctor.boosts.desc.${boost.type}`)}
-                        </p>
-                        <Badge variant="secondary" className="mt-2">{boost.xpPoints} XP</Badge>
-                      </div>
+          {boosts.map(boost => (
+            <Card key={boost.id} className={!boost.purchased ? 'border-dashed' : ''}>
+              <CardContent className="pt-6">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2.5 rounded-xl bg-primary/10">
+                      <Zap className="h-5 w-5 text-primary" />
                     </div>
                     <div>
-                      {boost.purchased ? (
-                        <Switch checked={boost.active} onCheckedChange={() => toggleActive(boost.id)} />
-                      ) : (
-                        <Button size="sm" className="gap-1.5" onClick={() => handlePurchase(boost.id)}>
-                          <ShoppingCart className="h-3.5 w-3.5" />
-                          {t('doctor.boosts.add_boost')}
-                        </Button>
-                      )}
+                      <h3 className="font-semibold">{boost.name}</h3>
+                      <p className="text-sm text-muted-foreground mt-0.5">{boost.description}</p>
+                      <div className="flex items-center gap-2 mt-2 flex-wrap">
+                        <Badge variant="secondary">{boost.xpAmount} XP</Badge>
+                        <Badge variant="outline" className="gap-1">
+                          <Clock className="h-3 w-3" />
+                          {boost.durationDays} {t('admin.boosts.days')}
+                        </Badge>
+                        <Badge variant="outline" className="gap-1">
+                          <DollarSign className="h-3 w-3" />
+                          {boost.price.toFixed(2)}
+                        </Badge>
+                      </div>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
-            );
-          })}
+                  <div>
+                    {boost.purchased ? (
+                      <Switch checked={boost.active} onCheckedChange={() => toggleActive(boost.id)} />
+                    ) : (
+                      <Button size="sm" className="gap-1.5" onClick={() => handlePurchase(boost.id)}>
+                        <ShoppingCart className="h-3.5 w-3.5" />
+                        {t('doctor.boosts.add_boost')}
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
 
         {/* Info */}
