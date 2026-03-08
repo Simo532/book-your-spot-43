@@ -1,16 +1,13 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CalendarCheck, MessageSquare, Star, TrendingUp, Clock, Users, DollarSign, Eye, ArrowUpRight, ArrowDownRight, Zap, HelpCircle, ChevronLeft, ChevronRight } from 'lucide-react';
+import { CalendarCheck, MessageSquare, Star, TrendingUp, Clock, Users, DollarSign, Eye, ArrowUpRight, ArrowDownRight } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 import DoctorLayout from '@/components/DoctorLayout';
 import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
-import { motion, AnimatePresence } from 'framer-motion';
 
 const statCards = [
   { key: 'today_appointments', icon: CalendarCheck, value: '8', change: '+2', color: 'text-primary' },
