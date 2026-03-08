@@ -35,6 +35,7 @@ import DoctorXpPoints from "./pages/doctor/DoctorXpPoints";
 import DoctorAvailability from "./pages/doctor/DoctorAvailability";
 import DoctorProfile from "./pages/doctor/DoctorProfile";
 import DoctorSettings from "./pages/doctor/DoctorSettings";
+import DoctorNotifications from "./pages/doctor/DoctorNotifications";
 import PatientDashboard from "./pages/patient/PatientDashboard";
 import PatientAppointments from "./pages/patient/PatientAppointments";
 import PatientMessages from "./pages/patient/PatientMessages";
