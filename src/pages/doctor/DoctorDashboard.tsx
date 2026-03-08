@@ -40,61 +40,8 @@ const recentReviews = [
   { id: 2, patient: 'Ahmed B.', rating: 4, text: 'Bon diagnostic, temps d\'attente correct.', date: '2026-02-20' },
 ];
 
-interface XpHistoryEntry {
-  id: string;
-  actionCode: string;
-  xpAmount: number;
-  createdAt: string;
-}
-
-const mockXpHistory: XpHistoryEntry[] = [
-  { id: '1', actionCode: 'APPOINTMENT_COMPLETED', xpAmount: 50, createdAt: '2026-03-08T14:30:00' },
-  { id: '2', actionCode: 'REVIEW_RECEIVED', xpAmount: 30, createdAt: '2026-03-07T11:00:00' },
-  { id: '3', actionCode: 'APPOINTMENT_COMPLETED', xpAmount: 50, createdAt: '2026-03-06T16:45:00' },
-  { id: '4', actionCode: 'REFERRAL', xpAmount: 100, createdAt: '2026-03-05T09:20:00' },
-  { id: '5', actionCode: 'REVIEW_RECEIVED', xpAmount: 30, createdAt: '2026-03-04T13:10:00' },
-  { id: '6', actionCode: 'MONTHLY_STREAK', xpAmount: 200, createdAt: '2026-03-01T00:00:00' },
-  { id: '7', actionCode: 'APPOINTMENT_COMPLETED', xpAmount: 50, createdAt: '2026-02-28T10:30:00' },
-  { id: '8', actionCode: 'PROFILE_COMPLETED', xpAmount: 150, createdAt: '2026-02-15T08:00:00' },
-];
-
-const xpRulesForCarousel = [
-  { code: 'REVIEW_RECEIVED', xpAmount: 30, description_fr: 'Gagnez 30 XP chaque fois qu\'un patient vous laisse un avis positif.', icon: Star, color: 'text-yellow-500', bg: 'bg-yellow-500/10' },
-  { code: 'APPOINTMENT_COMPLETED', xpAmount: 50, description_fr: 'Gagnez 50 XP pour chaque rendez-vous terminé avec succès.', icon: CalendarCheck, color: 'text-primary', bg: 'bg-primary/10' },
-  { code: 'PROFILE_COMPLETED', xpAmount: 150, description_fr: 'Complétez votre profil à 100% et gagnez 150 XP bonus.', icon: Users, color: 'text-violet-500', bg: 'bg-violet-500/10' },
-  { code: 'FIRST_APPOINTMENT', xpAmount: 100, description_fr: 'Recevez 100 XP pour votre tout premier rendez-vous sur la plateforme.', icon: Zap, color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
-  { code: 'MONTHLY_STREAK', xpAmount: 200, description_fr: 'Restez actif tout le mois et gagnez 200 XP de bonus mensuel.', icon: TrendingUp, color: 'text-amber-500', bg: 'bg-amber-500/10' },
-  { code: 'REFERRAL', xpAmount: 100, description_fr: 'Parrainez un confrère et gagnez 100 XP quand il s\'inscrit.', icon: MessageSquare, color: 'text-blue-500', bg: 'bg-blue-500/10' },
-];
-
 const DoctorDashboard = () => {
   const { t } = useTranslation();
-  const [showXpModal, setShowXpModal] = useState(false);
-  const [carouselIndex, setCarouselIndex] = useState(0);
-  const [[direction, isAnimating], setDirection] = useState<[number, boolean]>([0, false]);
-
-  const totalXp = mockXpHistory.reduce((sum, h) => sum + h.xpAmount, 0);
-  const thisMonthXp = mockXpHistory.filter(h => h.createdAt.startsWith('2026-03')).reduce((sum, h) => sum + h.xpAmount, 0);
-
-  const goToSlide = (newIndex: number) => {
-    if (isAnimating) return;
-    const dir = newIndex > carouselIndex ? 1 : -1;
-    setDirection([dir, true]);
-    setCarouselIndex(newIndex);
-  };
-
-  const nextSlide = () => {
-    if (carouselIndex < xpRulesForCarousel.length - 1) goToSlide(carouselIndex + 1);
-  };
-  const prevSlide = () => {
-    if (carouselIndex > 0) goToSlide(carouselIndex - 1);
-  };
-
-  const slideVariants = {
-    enter: (dir: number) => ({ x: dir > 0 ? 300 : -300, opacity: 0, scale: 0.95 }),
-    center: { x: 0, opacity: 1, scale: 1 },
-    exit: (dir: number) => ({ x: dir > 0 ? -300 : 300, opacity: 0, scale: 0.95 }),
-  };
 
   const actionIcons: Record<string, typeof Star> = {
     REVIEW_RECEIVED: Star,
