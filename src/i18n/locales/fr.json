@@ -611,6 +611,32 @@
       "mode_both": "Cabinet et en ligne",
       "mode_off": "Créneau désactivé"
     },
+    "xp_points": {
+      "title": "Points XP",
+      "subtitle": "Suivez vos points d'expérience et votre progression",
+      "how_to_earn": "Comment gagner des XP",
+      "how_to_earn_title": "Comment gagner des XP ?",
+      "total_xp": "XP total",
+      "this_month": "XP ce mois",
+      "actions_count": "Actions réalisées",
+      "history": "Historique des XP",
+      "actions": {
+        "REVIEW_RECEIVED": "Avis reçu",
+        "APPOINTMENT_COMPLETED": "RDV terminé",
+        "PROFILE_COMPLETED": "Profil complété",
+        "FIRST_APPOINTMENT": "Premier RDV",
+        "MONTHLY_STREAK": "Série mensuelle",
+        "REFERRAL": "Parrainage"
+      },
+      "rules": {
+        "REVIEW_RECEIVED": "Gagnez 30 XP chaque fois qu'un patient vous laisse un avis positif.",
+        "APPOINTMENT_COMPLETED": "Gagnez 50 XP pour chaque rendez-vous terminé avec succès.",
+        "PROFILE_COMPLETED": "Complétez votre profil à 100% et gagnez 150 XP bonus.",
+        "FIRST_APPOINTMENT": "Recevez 100 XP pour votre tout premier rendez-vous sur la plateforme.",
+        "MONTHLY_STREAK": "Restez actif tout le mois et gagnez 200 XP de bonus mensuel.",
+        "REFERRAL": "Parrainez un confrère et gagnez 100 XP quand il s'inscrit."
+      }
+    },
     "settings": {
       "title": "Préférences",
       "subtitle": "Gérer vos paramètres",
