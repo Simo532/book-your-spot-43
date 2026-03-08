@@ -43,27 +43,12 @@ const recentReviews = [
 const DoctorDashboard = () => {
   const { t } = useTranslation();
 
-  const actionIcons: Record<string, typeof Star> = {
-    REVIEW_RECEIVED: Star,
-    APPOINTMENT_COMPLETED: CalendarCheck,
-    PROFILE_COMPLETED: Users,
-    FIRST_APPOINTMENT: Zap,
-    MONTHLY_STREAK: TrendingUp,
-    REFERRAL: MessageSquare,
-  };
-
   return (
     <DoctorLayout>
       <div className="space-y-8">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold">{t('doctor.dashboard.title')}</h1>
-            <p className="text-muted-foreground text-sm mt-1">{t('doctor.dashboard.subtitle')}</p>
-          </div>
-          <Button onClick={() => { setCarouselIndex(0); setShowXpModal(true); }} variant="outline" className="gap-2 border-primary/30 hover:bg-primary/5">
-            <HelpCircle className="h-4 w-4 text-primary" />
-            {t('doctor.dashboard.how_to_earn')}
-          </Button>
+        <div>
+          <h1 className="text-2xl font-bold">{t('doctor.dashboard.title')}</h1>
+          <p className="text-muted-foreground text-sm mt-1">{t('doctor.dashboard.subtitle')}</p>
         </div>
 
         {/* Stats */}
