@@ -82,6 +82,7 @@ const App = () => (
           <Route path="/doctor/analytics" element={<DoctorAnalytics />} />
           <Route path="/doctor/badges" element={<DoctorBadges />} />
           <Route path="/doctor/boosts" element={<DoctorBoosts />} />
+          <Route path="/doctor/xp-points" element={<DoctorXpPoints />} />
           <Route path="/doctor/availability" element={<DoctorAvailability />} />
           <Route path="/doctor/profile" element={<DoctorProfile />} />
           <Route path="/doctor/settings" element={<DoctorSettings />} />
