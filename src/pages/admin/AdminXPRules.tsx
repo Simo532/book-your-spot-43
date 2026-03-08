@@ -9,71 +9,59 @@ import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter,
 } from '@/components/ui/dialog';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from '@/components/ui/table';
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
+  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { Plus, Pencil, Trash2, Trophy, Target, CheckCircle } from 'lucide-react';
+import { Plus, Pencil, Trash2, Trophy, Target, CheckCircle, Repeat } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 
-interface XPRule {
+interface XpRule {
   id: string;
-  title: string;
+  code: string;
   description: string;
-  xpPoints: number;
+  xpAmount: number;
   active: boolean;
+  repeatable: boolean;
 }
 
-const initialRules: XPRule[] = [
-  { id: '1', title: 'Compléter le profil', description: 'Le médecin complète 100% de son profil', xpPoints: 50, active: true },
-  { id: '2', title: 'Premier rendez-vous', description: 'Le médecin reçoit son premier patient', xpPoints: 30, active: true },
-  { id: '3', title: '10 avis positifs', description: 'Obtenir 10 avis avec une note ≥ 4', xpPoints: 100, active: true },
-  { id: '4', title: '50 rendez-vous', description: 'Atteindre 50 rendez-vous confirmés', xpPoints: 200, active: false },
-  { id: '5', title: 'Réponse rapide', description: 'Répondre aux messages en moins de 2h', xpPoints: 20, active: true },
+const initialRules: XpRule[] = [
+  { id: '1', code: 'PROFILE_COMPLETED', description: 'Le médecin complète 100% de son profil', xpAmount: 50, active: true, repeatable: false },
+  { id: '2', code: 'REVIEW_RECEIVED', description: 'Le médecin reçoit un avis positif', xpAmount: 10, active: true, repeatable: true },
+  { id: '3', code: 'APPOINTMENT_COMPLETED', description: 'Un rendez-vous est complété avec succès', xpAmount: 5, active: true, repeatable: true },
+  { id: '4', code: 'FIRST_APPOINTMENT', description: 'Le médecin reçoit son premier patient', xpAmount: 30, active: true, repeatable: false },
+  { id: '5', code: 'FAST_RESPONSE', description: 'Répondre aux messages en moins de 2h', xpAmount: 20, active: false, repeatable: true },
 ];
+
+const emptyForm = { code: '', description: '', xpAmount: 0, active: true, repeatable: true };
 
 const AdminXPRules = () => {
   const { t } = useTranslation();
-  const [rules, setRules] = useState<XPRule[]>(initialRules);
+  const [rules, setRules] = useState<XpRule[]>(initialRules);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
-  const [editingRule, setEditingRule] = useState<XPRule | null>(null);
-  const [form, setForm] = useState({ title: '', description: '', xpPoints: 0, active: true });
+  const [editingRule, setEditingRule] = useState<XpRule | null>(null);
+  const [form, setForm] = useState(emptyForm);
 
   const openAdd = () => {
     setEditingRule(null);
-    setForm({ title: '', description: '', xpPoints: 0, active: true });
+    setForm(emptyForm);
     setDialogOpen(true);
   };
 
-  const openEdit = (rule: XPRule) => {
+  const openEdit = (rule: XpRule) => {
     setEditingRule(rule);
-    setForm({ title: rule.title, description: rule.description, xpPoints: rule.xpPoints, active: rule.active });
+    setForm({ code: rule.code, description: rule.description, xpAmount: rule.xpAmount, active: rule.active, repeatable: rule.repeatable });
     setDialogOpen(true);
   };
 
   const handleSave = () => {
-    if (!form.title || form.xpPoints <= 0) {
+    if (!form.code || form.xpAmount <= 0) {
       toast({ title: t('admin.xp_rules.error_fill'), variant: 'destructive' });
       return;
     }
@@ -100,7 +88,7 @@ const AdminXPRules = () => {
   };
 
   const totalActive = rules.filter(r => r.active).length;
-  const totalXP = rules.reduce((sum, r) => sum + r.xpPoints, 0);
+  const totalXP = rules.reduce((sum, r) => sum + r.xpAmount, 0);
 
   return (
     <AdminLayout>
@@ -132,7 +120,7 @@ const AdminXPRules = () => {
           <Card>
             <CardContent className="pt-6">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-green-500/10"><CheckCircle className="h-5 w-5 text-green-500" /></div>
+                <div className="p-2 rounded-lg bg-primary/10"><CheckCircle className="h-5 w-5 text-primary" /></div>
                 <div>
                   <p className="text-sm text-muted-foreground">{t('admin.xp_rules.active_count')}</p>
                   <p className="text-2xl font-bold">{totalActive}</p>
@@ -143,7 +131,7 @@ const AdminXPRules = () => {
           <Card>
             <CardContent className="pt-6">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-amber-500/10"><Trophy className="h-5 w-5 text-amber-500" /></div>
+                <div className="p-2 rounded-lg bg-primary/10"><Trophy className="h-5 w-5 text-primary" /></div>
                 <div>
                   <p className="text-sm text-muted-foreground">{t('admin.xp_rules.total_xp')}</p>
                   <p className="text-2xl font-bold">{totalXP} XP</p>
@@ -162,9 +150,10 @@ const AdminXPRules = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t('admin.xp_rules.rule_title')}</TableHead>
+                  <TableHead>{t('admin.xp_rules.code')}</TableHead>
                   <TableHead>{t('admin.xp_rules.description')}</TableHead>
-                  <TableHead>{t('admin.xp_rules.xp_points')}</TableHead>
+                  <TableHead>{t('admin.xp_rules.xp_amount')}</TableHead>
+                  <TableHead>{t('admin.xp_rules.repeatable')}</TableHead>
                   <TableHead>{t('admin.xp_rules.status')}</TableHead>
                   <TableHead className="text-right">{t('admin.xp_rules.actions')}</TableHead>
                 </TableRow>
@@ -172,10 +161,19 @@ const AdminXPRules = () => {
               <TableBody>
                 {rules.map(rule => (
                   <TableRow key={rule.id}>
-                    <TableCell className="font-medium">{rule.title}</TableCell>
+                    <TableCell>
+                      <code className="text-xs bg-muted px-1.5 py-0.5 rounded font-mono">{rule.code}</code>
+                    </TableCell>
                     <TableCell className="text-muted-foreground max-w-xs truncate">{rule.description}</TableCell>
                     <TableCell>
-                      <Badge variant="secondary">{rule.xpPoints} XP</Badge>
+                      <Badge variant="secondary">{rule.xpAmount} XP</Badge>
+                    </TableCell>
+                    <TableCell>
+                      {rule.repeatable ? (
+                        <Badge variant="outline" className="gap-1"><Repeat className="h-3 w-3" />{t('admin.xp_rules.yes')}</Badge>
+                      ) : (
+                        <Badge variant="outline" className="text-muted-foreground">{t('admin.xp_rules.no')}</Badge>
+                      )}
                     </TableCell>
                     <TableCell>
                       <Switch checked={rule.active} onCheckedChange={() => toggleActive(rule.id)} />
@@ -213,22 +211,26 @@ const AdminXPRules = () => {
 
       {/* Add/Edit Dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
             <DialogTitle>{editingRule ? t('admin.xp_rules.edit') : t('admin.xp_rules.add')}</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label>{t('admin.xp_rules.rule_title')}</Label>
-              <Input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} placeholder={t('admin.xp_rules.title_placeholder')} />
+              <Label>{t('admin.xp_rules.code')}</Label>
+              <Input value={form.code} onChange={e => setForm(f => ({ ...f, code: e.target.value }))} placeholder="REVIEW_RECEIVED" />
             </div>
             <div className="space-y-2">
               <Label>{t('admin.xp_rules.description')}</Label>
               <Textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} placeholder={t('admin.xp_rules.desc_placeholder')} />
             </div>
             <div className="space-y-2">
-              <Label>{t('admin.xp_rules.xp_points')}</Label>
-              <Input type="number" value={form.xpPoints} onChange={e => setForm(f => ({ ...f, xpPoints: Number(e.target.value) }))} />
+              <Label>{t('admin.xp_rules.xp_amount')}</Label>
+              <Input type="number" value={form.xpAmount} onChange={e => setForm(f => ({ ...f, xpAmount: Number(e.target.value) }))} />
+            </div>
+            <div className="flex items-center justify-between">
+              <Label>{t('admin.xp_rules.repeatable')}</Label>
+              <Switch checked={form.repeatable} onCheckedChange={v => setForm(f => ({ ...f, repeatable: v }))} />
             </div>
             <div className="flex items-center justify-between">
               <Label>{t('admin.xp_rules.active_label')}</Label>
