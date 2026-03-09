@@ -33,7 +33,7 @@ const DoctorReviews = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <Card><CardContent className="pt-6 text-center">
-            {isLoading ? <Skeleton className="h-10 w-16 mx-auto" /> : <div className="text-3xl font-bold">{avgRating}</div>}
+            {isLoading ? <Shimmer className="h-10 w-16 mx-auto" /> : <div className="text-3xl font-bold">{avgRating}</div>}
             <div className="flex justify-center mt-1">
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star key={i} className={`h-4 w-4 ${i < Math.round(Number(avgRating)) ? 'text-yellow-500 fill-yellow-500' : 'text-muted'}`} />
