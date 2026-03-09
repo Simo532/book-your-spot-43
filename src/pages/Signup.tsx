@@ -1,25 +1,56 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Mail, Lock, Eye, EyeOff, User, Stethoscope, Heart } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, User, Stethoscope, Heart, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
 import Navbar from '@/components/Navbar';
+import { authService } from '@/services/authService';
+import { UserRole } from '@/types/auth';
 
 const Signup = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState<'patient' | 'doctor'>('patient');
-  const [fullName, setFullName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      toast.error(t('auth.password_mismatch', 'Les mots de passe ne correspondent pas'));
+      return;
+    }
+    if (!firstName || !lastName || !email || !password) {
+      toast.error(t('auth.fill_all_fields', 'Veuillez remplir tous les champs'));
+      return;
+    }
+    setLoading(true);
+    try {
+      await authService.signup({
+        email,
+        password,
+        firstName,
+        lastName,
+        role: role === 'doctor' ? UserRole.DOCTOR : UserRole.PATIENT,
+      });
+      toast.success(t('auth.signup_success', 'Inscription réussie ! Vérifiez votre email.'));
+      navigate('/login');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Erreur lors de l\'inscription';
+      toast.error(message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -81,7 +112,7 @@ const Signup = () => {
             </div>
 
             {/* Google Button */}
-            <Button variant="outline" className="w-full gap-3 h-11 mb-6" type="button">
+            <Button variant="outline" className="w-full gap-3 h-11 mb-6" type="button" onClick={() => toast.info('Google Sign-In sera disponible prochainement')}>
               <svg className="h-5 w-5" viewBox="0 0 24 24">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
                 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
@@ -101,16 +132,29 @@ const Signup = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="fullName">{t('auth.full_name')}</Label>
-                <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-2">
+                  <Label htmlFor="firstName">{t('auth.first_name', 'Prénom')}</Label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="firstName"
+                      placeholder="Ahmed"
+                      className="pl-10"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      disabled={loading}
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="lastName">{t('auth.last_name', 'Nom')}</Label>
                   <Input
-                    id="fullName"
-                    placeholder="Dr. Ahmed Benali"
-                    className="pl-10"
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
+                    id="lastName"
+                    placeholder="Benali"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    disabled={loading}
                   />
                 </div>
               </div>
@@ -126,6 +170,7 @@ const Signup = () => {
                     className="pl-10"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    disabled={loading}
                   />
                 </div>
               </div>
@@ -141,6 +186,7 @@ const Signup = () => {
                     className="pl-10 pr-10"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    disabled={loading}
                   />
                   <button
                     type="button"
@@ -163,11 +209,13 @@ const Signup = () => {
                     className="pl-10"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
+                    disabled={loading}
                   />
                 </div>
               </div>
 
-              <Button type="submit" className="w-full h-11 shadow-[var(--shadow-primary)]">
+              <Button type="submit" className="w-full h-11 shadow-[var(--shadow-primary)]" disabled={loading}>
+                {loading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
                 {t('auth.signup_button')}
               </Button>
             </form>
