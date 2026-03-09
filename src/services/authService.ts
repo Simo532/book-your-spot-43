@@ -150,10 +150,10 @@ export const authService = {
   },
 
   // ─── Helper: Save login data ──────────────────────────────────────
-  saveLoginData(tokens: AuthTokens) {
-    tokenStorage.saveTokens(tokens['access-token'], tokens['refresh-token']);
+  async saveLoginData(tokens: AuthTokens) {
+    await tokenStorage.saveTokens(tokens['access-token'], tokens['refresh-token']);
     const decoded = tokenStorage.decodeToken(tokens['access-token']);
-    tokenStorage.saveUserInfo(decoded);
+    await tokenStorage.saveUserInfo(decoded);
   },
 
   logout() {
