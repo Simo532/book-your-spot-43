@@ -1,6 +1,8 @@
 import { memo } from 'react';
 import { motion } from 'framer-motion';
 import CountUp from './CountUp';
+
+export const fadeUp = {
   hidden: { opacity: 0, y: 24 },
   visible: (i: number) => ({
     opacity: 1,
@@ -9,28 +11,18 @@ import CountUp from './CountUp';
   }),
 };
 
-export const StatCard = memo(({ stat }: { stat: { value: number; suffix: string; label: string; icon: React.ElementType } }) => {
-  const CountUp = require('./CountUp').default;
-  return (
-    <div className="glass-card rounded-2xl p-5 text-center">
-      <stat.icon className="h-5 w-5 text-primary mx-auto mb-2" />
-      <CountUp target={stat.value} suffix={stat.suffix} className="text-2xl sm:text-3xl font-bold text-foreground" />
-      <div className="text-xs text-muted-foreground mt-1 font-medium uppercase tracking-wider">{stat.label}</div>
-    </div>
-  );
-});
+export const StatCard = memo(({ stat }: { stat: { value: number; suffix: string; label: string; icon: React.ElementType } }) => (
+  <div className="glass-card rounded-2xl p-5 text-center">
+    <stat.icon className="h-5 w-5 text-primary mx-auto mb-2" />
+    <CountUp target={stat.value} suffix={stat.suffix} className="text-2xl sm:text-3xl font-bold text-foreground" />
+    <div className="text-xs text-muted-foreground mt-1 font-medium uppercase tracking-wider">{stat.label}</div>
+  </div>
+));
 StatCard.displayName = 'StatCard';
 
 export const FeatureCard = memo(({ f, i }: { f: { icon: React.ElementType; title: string; desc: string; color: string }; i: number }) => (
-  <motion.div
-    key={f.title}
-    initial="hidden"
-    whileInView="visible"
-    viewport={{ once: true }}
-    variants={fadeUp}
-    custom={i + 1}
-    className="group relative p-6 rounded-2xl bg-card border border-border hover:border-primary/20 hover:shadow-[var(--shadow-card)] transition-all duration-300"
-  >
+  <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={i + 1}
+    className="group relative p-6 rounded-2xl bg-card border border-border hover:border-primary/20 hover:shadow-[var(--shadow-card)] transition-all duration-300">
     <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-transform group-hover:scale-110" style={{ backgroundColor: `${f.color}15` }}>
       <f.icon className="h-6 w-6" style={{ color: f.color }} />
     </div>
