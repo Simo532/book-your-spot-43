@@ -6,9 +6,14 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import PatientLayout from '@/components/PatientLayout';
+import { useAuth } from '@/contexts/AuthContext';
+import { authService } from '@/services/authService';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from '@/hooks/use-toast';
 
 const PatientPassword = () => {
   const { t } = useTranslation();
+  const { userEmail } = useAuth();
   const [current, setCurrent] = useState('');
   const [newPass, setNewPass] = useState('');
   const [confirm, setConfirm] = useState('');
@@ -16,6 +21,19 @@ const PatientPassword = () => {
   const [showNew, setShowNew] = useState(false);
 
   const isValid = current && newPass && newPass === confirm && newPass.length >= 8;
+
+  const updatePasswordMutation = useMutation({
+    mutationFn: () => authService.updatePassword(userEmail!, newPass),
+    onSuccess: () => {
+      toast({ title: t('patient.password.update') });
+      setCurrent('');
+      setNewPass('');
+      setConfirm('');
+    },
+    onError: () => {
+      toast({ title: 'Error', variant: 'destructive' });
+    },
+  });
 
   return (
     <PatientLayout>
@@ -56,7 +74,7 @@ const PatientPassword = () => {
               <Input type="password" value={confirm} onChange={e => setConfirm(e.target.value)} />
               {confirm && newPass !== confirm && <p className="text-xs text-destructive">{t('patient.password.mismatch')}</p>}
             </div>
-            <Button disabled={!isValid} className="gap-2">
+            <Button disabled={!isValid || updatePasswordMutation.isPending} onClick={() => updatePasswordMutation.mutate()} className="gap-2">
               <Save className="h-4 w-4" />
               {t('patient.password.update')}
             </Button>
