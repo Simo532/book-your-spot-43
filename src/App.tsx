@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
+import { ThemeProvider } from "./contexts/ThemeContext";
 import { UserRole } from "./types/auth";
 import AuthGuard from "./components/guards/AuthGuard";
 import RoleGuard from "./components/guards/RoleGuard";
@@ -70,82 +71,84 @@ const LoadingFallback = () => (
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Suspense fallback={<LoadingFallback />}>
-            <Routes>
-              {/* ─── Public routes ─────────────────────────────── */}
-              <Route path="/" element={<Index />} />
-              <Route path="/doctor/details/:id" element={<DoctorDetails />} />
-              <Route path="/search" element={<SearchResults />} />
+    <ThemeProvider>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Suspense fallback={<LoadingFallback />}>
+              <Routes>
+                {/* ─── Public routes ─────────────────────────────── */}
+                <Route path="/" element={<Index />} />
+                <Route path="/doctor/details/:id" element={<DoctorDetails />} />
+                <Route path="/search" element={<SearchResults />} />
 
-              {/* ─── Guest-only routes (redirect if logged in) ── */}
-              <Route element={<PublicGuard />}>
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-              </Route>
+                {/* ─── Guest-only routes (redirect if logged in) ── */}
+                <Route element={<PublicGuard />}>
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/signup" element={<Signup />} />
+                  <Route path="/forgot-password" element={<ForgotPassword />} />
+                </Route>
 
-              {/* ─── Authenticated routes ─────────────────────── */}
-              <Route element={<AuthGuard />}>
-                <Route path="/doctor/onboarding" element={<DoctorOnboarding />} />
-                <Route path="/patient/onboarding" element={<PatientOnboarding />} />
-                <Route path="/favorites" element={<Favorites />} />
-              </Route>
+                {/* ─── Authenticated routes ─────────────────────── */}
+                <Route element={<AuthGuard />}>
+                  <Route path="/doctor/onboarding" element={<DoctorOnboarding />} />
+                  <Route path="/patient/onboarding" element={<PatientOnboarding />} />
+                  <Route path="/favorites" element={<Favorites />} />
+                </Route>
 
-              {/* ─── Admin routes ─────────────────────────────── */}
-              <Route element={<RoleGuard allowedRoles={[UserRole.ADMIN]} />}>
-                <Route path="/admin" element={<AdminDashboard />} />
-                <Route path="/admin/users" element={<AdminUsers />} />
-                <Route path="/admin/analytics" element={<AdminAnalytics />} />
-                <Route path="/admin/specialties" element={<AdminSpecialties />} />
-                <Route path="/admin/badges" element={<AdminBadges />} />
-                <Route path="/admin/chat" element={<AdminChat />} />
-                <Route path="/admin/support" element={<AdminSupport />} />
-                <Route path="/admin/balances" element={<AdminBalances />} />
-                <Route path="/admin/reviews" element={<AdminReviews />} />
-                <Route path="/admin/notifications" element={<AdminNotifications />} />
-                <Route path="/admin/boosts" element={<AdminBoosts />} />
-                <Route path="/admin/xp-rules" element={<AdminXPRules />} />
-              </Route>
+                {/* ─── Admin routes ─────────────────────────────── */}
+                <Route element={<RoleGuard allowedRoles={[UserRole.ADMIN]} />}>
+                  <Route path="/admin" element={<AdminDashboard />} />
+                  <Route path="/admin/users" element={<AdminUsers />} />
+                  <Route path="/admin/analytics" element={<AdminAnalytics />} />
+                  <Route path="/admin/specialties" element={<AdminSpecialties />} />
+                  <Route path="/admin/badges" element={<AdminBadges />} />
+                  <Route path="/admin/chat" element={<AdminChat />} />
+                  <Route path="/admin/support" element={<AdminSupport />} />
+                  <Route path="/admin/balances" element={<AdminBalances />} />
+                  <Route path="/admin/reviews" element={<AdminReviews />} />
+                  <Route path="/admin/notifications" element={<AdminNotifications />} />
+                  <Route path="/admin/boosts" element={<AdminBoosts />} />
+                  <Route path="/admin/xp-rules" element={<AdminXPRules />} />
+                </Route>
 
-              {/* ─── Doctor routes ────────────────────────────── */}
-              <Route element={<RoleGuard allowedRoles={[UserRole.DOCTOR]} />}>
-                <Route path="/doctor" element={<DoctorDashboard />} />
-                <Route path="/doctor/appointments" element={<DoctorAppointments />} />
-                <Route path="/doctor/messages" element={<DoctorMessages />} />
-                <Route path="/doctor/reviews" element={<DoctorReviews />} />
-                <Route path="/doctor/analytics" element={<DoctorAnalytics />} />
-                <Route path="/doctor/badges" element={<DoctorBadges />} />
-                <Route path="/doctor/boosts" element={<DoctorBoosts />} />
-                <Route path="/doctor/xp-points" element={<DoctorXpPoints />} />
-                <Route path="/doctor/availability" element={<DoctorAvailability />} />
-                <Route path="/doctor/profile" element={<DoctorProfile />} />
-                <Route path="/doctor/settings" element={<DoctorSettings />} />
-                <Route path="/doctor/notifications" element={<DoctorNotifications />} />
-              </Route>
+                {/* ─── Doctor routes ────────────────────────────── */}
+                <Route element={<RoleGuard allowedRoles={[UserRole.DOCTOR]} />}>
+                  <Route path="/doctor" element={<DoctorDashboard />} />
+                  <Route path="/doctor/appointments" element={<DoctorAppointments />} />
+                  <Route path="/doctor/messages" element={<DoctorMessages />} />
+                  <Route path="/doctor/reviews" element={<DoctorReviews />} />
+                  <Route path="/doctor/analytics" element={<DoctorAnalytics />} />
+                  <Route path="/doctor/badges" element={<DoctorBadges />} />
+                  <Route path="/doctor/boosts" element={<DoctorBoosts />} />
+                  <Route path="/doctor/xp-points" element={<DoctorXpPoints />} />
+                  <Route path="/doctor/availability" element={<DoctorAvailability />} />
+                  <Route path="/doctor/profile" element={<DoctorProfile />} />
+                  <Route path="/doctor/settings" element={<DoctorSettings />} />
+                  <Route path="/doctor/notifications" element={<DoctorNotifications />} />
+                </Route>
 
-              {/* ─── Patient routes ───────────────────────────── */}
-              <Route element={<RoleGuard allowedRoles={[UserRole.PATIENT]} />}>
-                <Route path="/patient" element={<PatientDashboard />} />
-                <Route path="/patient/appointments" element={<PatientAppointments />} />
-                <Route path="/patient/messages" element={<PatientMessages />} />
-                <Route path="/patient/favorites" element={<PatientFavorites />} />
-                <Route path="/patient/support" element={<PatientSupport />} />
-                <Route path="/patient/profile" element={<PatientProfile />} />
-                <Route path="/patient/password" element={<PatientPassword />} />
-              </Route>
+                {/* ─── Patient routes ───────────────────────────── */}
+                <Route element={<RoleGuard allowedRoles={[UserRole.PATIENT]} />}>
+                  <Route path="/patient" element={<PatientDashboard />} />
+                  <Route path="/patient/appointments" element={<PatientAppointments />} />
+                  <Route path="/patient/messages" element={<PatientMessages />} />
+                  <Route path="/patient/favorites" element={<PatientFavorites />} />
+                  <Route path="/patient/support" element={<PatientSupport />} />
+                  <Route path="/patient/profile" element={<PatientProfile />} />
+                  <Route path="/patient/password" element={<PatientPassword />} />
+                </Route>
 
-              {/* ─── Catch-all ────────────────────────────────── */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
+                {/* ─── Catch-all ────────────────────────────────── */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 
