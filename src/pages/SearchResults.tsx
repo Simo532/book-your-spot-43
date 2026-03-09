@@ -19,6 +19,7 @@ import { ShimmerDoctorCard } from '@/components/ui/shimmer';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useSearchDoctors, useToggleFavorite, useFavorites } from '@/hooks/useApiHooks';
+import { useAllSpecialities } from '@/hooks/useSpecialityHooks';
 import { useAuth } from '@/contexts/AuthContext';
 import { Gender } from '@/types/doctor';
 
@@ -36,6 +37,7 @@ const SearchResults = () => {
   const { t } = useTranslation();
   const { userId } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedSpeciality, setSelectedSpeciality] = useState<string>('all');
   const [selectedCity, setSelectedCity] = useState<string>('all');
   const [priceRange, setPriceRange] = useState<number[]>([0, 5000]);
   const [minExperience, setMinExperience] = useState(0);
@@ -46,7 +48,10 @@ const SearchResults = () => {
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [page, setPage] = useState(0);
 
+  const { data: specialities } = useAllSpecialities();
+
   const searchParams = useMemo(() => ({
+    specialityId: selectedSpeciality !== 'all' ? selectedSpeciality : undefined,
     city: selectedCity !== 'all' ? selectedCity : undefined,
     gender: selectedGender !== 'all' ? (selectedGender.toUpperCase() as Gender) : undefined,
     minFee: priceRange[0] > 0 ? priceRange[0] : undefined,
@@ -57,7 +62,7 @@ const SearchResults = () => {
     sortBy: bestRated ? 'topRated' : closestToMe && userLocation ? 'nearby' : 'topRated,nearby',
     page,
     size: 12,
-  }), [selectedCity, selectedGender, priceRange, minExperience, bestRated, closestToMe, userLocation, page]);
+  }), [selectedSpeciality, selectedCity, selectedGender, priceRange, minExperience, bestRated, closestToMe, userLocation, page]);
 
   const { data: searchData, isLoading } = useSearchDoctors(searchParams);
   const { data: favoritesData } = useFavorites(userId || '');
@@ -91,6 +96,19 @@ const SearchResults = () => {
 
   const FiltersContent = () => (
     <div className="space-y-6">
+      <div className="space-y-2">
+        <Label className="text-sm font-semibold">{t('search.speciality') || 'Spécialité'}</Label>
+        <Select value={selectedSpeciality} onValueChange={v => { setSelectedSpeciality(v); setPage(0); }}>
+          <SelectTrigger><SelectValue placeholder={t('search.all_specialities') || 'Toutes les spécialités'} /></SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">{t('search.all_specialities') || 'Toutes les spécialités'}</SelectItem>
+            {specialities?.map(s => <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>)}
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="border-t border-border pt-4">
+        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-4">{t('search.extra_filters') || 'Filtres supplémentaires'}</p>
+      </div>
       <div className="space-y-2">
         <Label>{t('search.city')}</Label>
         <Select value={selectedCity} onValueChange={v => { setSelectedCity(v); setPage(0); }}>
@@ -132,7 +150,7 @@ const SearchResults = () => {
         <Checkbox id="closest" checked={closestToMe} onCheckedChange={(v) => { if (v && !userLocation) handleLocateMe(); else setClosestToMe(!!v); }} />
         <Label htmlFor="closest" className="cursor-pointer">{t('search.closest')}</Label>
       </div>
-      <Button variant="outline" className="w-full" onClick={() => { setSelectedCity('all'); setPriceRange([0, 5000]); setMinExperience(0); setSelectedGender('all'); setBestRated(false); setClosestToMe(false); setPage(0); }}>
+      <Button variant="outline" className="w-full" onClick={() => { setSelectedSpeciality('all'); setSelectedCity('all'); setPriceRange([0, 5000]); setMinExperience(0); setSelectedGender('all'); setBestRated(false); setClosestToMe(false); setPage(0); }}>
         {t('search.reset_filters')}
       </Button>
     </div>
