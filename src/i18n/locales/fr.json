@@ -434,6 +434,7 @@
       "badges": "Badges",
       "boosts": "Boosts",
       "xp_points": "Points XP",
+      "notifications": "Notifications",
       "availability": "Disponibilités",
       "profile": "Profil",
       "settings": "Préférences",
@@ -496,9 +497,20 @@
       "today": "Aujourd'hui",
       "upcoming_tab": "À venir",
       "search": "Rechercher un patient...",
+      "years": "ans",
+      "no_appointments": "Aucun rendez-vous",
+      "requested_at": "Demande reçue à",
+      "completed_at": "Marqué comme terminé à",
+      "calendar": {
+        "by_week": "Par semaine",
+        "by_month": "Par Mois",
+        "clear_selection": "Effacer la sélection"
+      },
       "status": {
-        "confirmed": "Confirmé",
         "pending": "En attente",
+        "confirmed": "Confirmé",
+        "paid": "Payé",
+        "completed": "Complété",
         "cancelled": "Annulé"
       },
       "accept": "Accepter",
@@ -523,6 +535,16 @@
         "online": "En ligne",
         "clear": "Effacer les filtres",
         "no_results": "Aucun résultat trouvé"
+      }
+    },
+    "notifications": {
+      "title": "Notifications",
+      "empty": "Aucune notification",
+      "filter": {
+        "all": "Tous",
+        "appointment": "Rendez-vous",
+        "message": "Message",
+        "system": "Système"
       }
     },
     "messages": {

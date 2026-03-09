@@ -41,6 +41,7 @@ const navItems = [
   { key: 'dashboard', icon: LayoutDashboard, path: '/doctor' },
   { key: 'appointments', icon: CalendarCheck, path: '/doctor/appointments' },
   { key: 'messages', icon: MessageSquare, path: '/doctor/messages' },
+  { key: 'notifications', icon: Bell, path: '/doctor/notifications' },
   { key: 'reviews', icon: Star, path: '/doctor/reviews' },
   { key: 'analytics', icon: BarChart3, path: '/doctor/analytics' },
   { key: 'badges', icon: Award, path: '/doctor/badges' },
