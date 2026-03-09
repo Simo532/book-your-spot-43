@@ -62,7 +62,7 @@ const SearchResults = () => {
     sortBy: bestRated ? 'topRated' : closestToMe && userLocation ? 'nearby' : 'topRated,nearby',
     page,
     size: 12,
-  }), [selectedCity, selectedGender, priceRange, minExperience, bestRated, closestToMe, userLocation, page]);
+  }), [selectedSpeciality, selectedCity, selectedGender, priceRange, minExperience, bestRated, closestToMe, userLocation, page]);
 
   const { data: searchData, isLoading } = useSearchDoctors(searchParams);
   const { data: favoritesData } = useFavorites(userId || '');
