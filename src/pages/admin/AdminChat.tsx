@@ -113,7 +113,7 @@ const AdminChat = () => {
               lastMessage: messageText,
               messages: [
                 ...c.messages,
-                { id: `m${Date.now()}`, text: messageText, sender: 'admin' as const, timestamp: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) },
+                { id: `m${Date.now()}`, text: messageText, sender: 'admin' as const, timestamp: formatTime(new Date()) },
               ],
             }
           : c
