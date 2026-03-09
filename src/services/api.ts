@@ -237,7 +237,7 @@ export async function apiRequest<T>(
     headers['X-Skip-Auth'] = 'true';
   }
 
-  const response = await api.request<T>({
+  const config: Record<string, unknown> = {
     url: endpoint,
     method,
     data: body,
@@ -246,9 +246,10 @@ export async function apiRequest<T>(
       ...headers,
       ...(silent ? { _silent: 'true' } : {}),
     },
-    // @ts-ignore - custom property for interceptor
     _silent: silent,
-  });
+  };
+
+  const response = await api.request<T>(config as any);
 
   return response.data;
 }
