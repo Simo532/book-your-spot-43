@@ -44,17 +44,19 @@ import PatientSupport from "./pages/patient/PatientSupport";
 import PatientProfile from "./pages/patient/PatientProfile";
 import PatientPassword from "./pages/patient/PatientPassword";
 import NotFound from "./pages/NotFound";
+import { AuthProvider } from "./contexts/AuthContext";
 import "./i18n";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
@@ -100,7 +102,8 @@ const App = () => (
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
-  </QueryClientProvider>
+  </AuthProvider>
+</QueryClientProvider>
 );
 
 export default App;
