@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Textarea } from '@/components/ui/textarea';
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from '@/components/ui/table';
@@ -19,83 +18,38 @@ import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import AdminLayout from '@/components/AdminLayout';
-
-interface Ticket {
-  id: string;
-  subject: string;
-  userName: string;
-  userRole: 'patient' | 'doctor';
-  status: 'open' | 'in_progress' | 'resolved';
-  priority: 'low' | 'medium' | 'high';
-  createdAt: string;
-  messages: { sender: string; text: string; date: string }[];
-}
-
-const mockTickets: Ticket[] = [
-  {
-    id: 'TK-001', subject: 'Problème de paiement', userName: 'Sara Alaoui', userRole: 'patient',
-    status: 'open', priority: 'high', createdAt: '2026-02-28',
-    messages: [{ sender: 'Sara Alaoui', text: 'Mon paiement n\'a pas été confirmé.', date: '2026-02-28' }],
-  },
-  {
-    id: 'TK-002', subject: 'Mise à jour du profil', userName: 'Dr. Ahmed Benali', userRole: 'doctor',
-    status: 'in_progress', priority: 'medium', createdAt: '2026-02-27',
-    messages: [{ sender: 'Dr. Ahmed Benali', text: 'Je ne peux pas modifier ma photo.', date: '2026-02-27' }],
-  },
-  {
-    id: 'TK-003', subject: 'Annulation de rendez-vous', userName: 'Fatima Zahra', userRole: 'patient',
-    status: 'resolved', priority: 'low', createdAt: '2026-02-25',
-    messages: [
-      { sender: 'Fatima Zahra', text: 'Je voudrais annuler mon rendez-vous.', date: '2026-02-25' },
-      { sender: 'Admin', text: 'Votre rendez-vous a été annulé avec succès.', date: '2026-02-25' },
-    ],
-  },
-];
-
-const statusIcons = {
-  open: <AlertCircle className="h-4 w-4" />,
-  in_progress: <Clock className="h-4 w-4" />,
-  resolved: <CheckCircle2 className="h-4 w-4" />,
-};
-
-const statusColors = {
-  open: 'text-destructive',
-  in_progress: 'text-yellow-600',
-  resolved: 'text-green-600',
-};
-
-const priorityVariants: Record<string, 'default' | 'secondary' | 'destructive'> = {
-  low: 'secondary',
-  medium: 'default',
-  high: 'destructive',
-};
+import { useAllSupportMessages, useUpdateSupportMessage, useDeleteSupportMessage } from '@/hooks/useSupportHooks';
+import { SupportMessage } from '@/types/support';
 
 const AdminSupport = () => {
   const { t } = useTranslation();
-  const [tickets, setTickets] = useState(mockTickets);
+  const { data: supportData, isLoading } = useAllSupportMessages(0, 50);
+  const updateMutation = useUpdateSupportMessage();
+  const deleteMutation = useDeleteSupportMessage();
+
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
-  const [reply, setReply] = useState('');
+  const [selectedTicket, setSelectedTicket] = useState<SupportMessage | null>(null);
+
+  const tickets = supportData?.content || [];
 
   const filtered = tickets.filter((tk) => {
-    const matchSearch = tk.subject.toLowerCase().includes(search.toLowerCase()) || tk.userName.toLowerCase().includes(search.toLowerCase());
-    const matchStatus = statusFilter === 'all' || tk.status === statusFilter;
+    const matchSearch = tk.objet.toLowerCase().includes(search.toLowerCase()) || tk.fullName.toLowerCase().includes(search.toLowerCase());
+    const matchStatus = statusFilter === 'all' ||
+      (statusFilter === 'treated' && tk.treated) ||
+      (statusFilter === 'untreated' && !tk.treated);
     return matchSearch && matchStatus;
   });
 
-  const handleStatusChange = (id: string, newStatus: Ticket['status']) => {
-    setTickets((prev) => prev.map((tk) => tk.id === id ? { ...tk, status: newStatus } : tk));
-    if (selectedTicket?.id === id) setSelectedTicket((prev) => prev ? { ...prev, status: newStatus } : prev);
+  const handleMarkTreated = (ticket: SupportMessage) => {
+    updateMutation.mutate({
+      id: ticket.id!,
+      message: { ...ticket, treated: true },
+    });
   };
 
-  const handleReply = () => {
-    if (!reply.trim() || !selectedTicket) return;
-    const newMsg = { sender: 'Admin', text: reply, date: new Date().toISOString().split('T')[0] };
-    setTickets((prev) => prev.map((tk) => tk.id === selectedTicket.id ? { ...tk, messages: [...tk.messages, newMsg] } : tk));
-    setSelectedTicket((prev) => prev ? { ...prev, messages: [...prev.messages, newMsg] } : prev);
-    setReply('');
-  };
+  const treatedCount = tickets.filter(t => t.treated).length;
+  const untreatedCount = tickets.filter(t => !t.treated).length;
 
   return (
     <AdminLayout>
@@ -105,19 +59,25 @@ const AdminSupport = () => {
           <p className="text-muted-foreground text-sm mt-1">{t('admin.support.subtitle')}</p>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {(['open', 'in_progress', 'resolved'] as const).map((s) => (
-            <Card key={s}>
-              <CardContent className="pt-6 flex items-center gap-3">
-                <div className={statusColors[s]}>{statusIcons[s]}</div>
-                <div>
-                  <p className="text-2xl font-bold">{tickets.filter((tk) => tk.status === s).length}</p>
-                  <p className="text-sm text-muted-foreground">{t(`admin.support.status_${s}`)}</p>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Card>
+            <CardContent className="pt-6 flex items-center gap-3">
+              <div className="text-destructive"><AlertCircle className="h-4 w-4" /></div>
+              <div>
+                <p className="text-2xl font-bold">{untreatedCount}</p>
+                <p className="text-sm text-muted-foreground">{t('admin.support.status_open')}</p>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-6 flex items-center gap-3">
+              <div className="text-green-600"><CheckCircle2 className="h-4 w-4" /></div>
+              <div>
+                <p className="text-2xl font-bold">{treatedCount}</p>
+                <p className="text-sm text-muted-foreground">{t('admin.support.status_resolved')}</p>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         <Card>
@@ -131,102 +91,79 @@ const AdminSupport = () => {
                 <SelectTrigger className="w-[180px]"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">{t('admin.support.all_status')}</SelectItem>
-                  <SelectItem value="open">{t('admin.support.status_open')}</SelectItem>
-                  <SelectItem value="in_progress">{t('admin.support.status_in_progress')}</SelectItem>
-                  <SelectItem value="resolved">{t('admin.support.status_resolved')}</SelectItem>
+                  <SelectItem value="untreated">{t('admin.support.status_open')}</SelectItem>
+                  <SelectItem value="treated">{t('admin.support.status_resolved')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>{t('admin.support.ticket_id')}</TableHead>
-                  <TableHead>{t('admin.support.subject')}</TableHead>
-                  <TableHead>{t('admin.users.name')}</TableHead>
-                  <TableHead>{t('admin.support.priority')}</TableHead>
-                  <TableHead>{t('admin.users.status')}</TableHead>
-                  <TableHead className="w-10" />
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filtered.map((tk) => (
-                  <TableRow key={tk.id} className="cursor-pointer" onClick={() => setSelectedTicket(tk)}>
-                    <TableCell className="font-mono text-xs">{tk.id}</TableCell>
-                    <TableCell className="font-medium">{tk.subject}</TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        {tk.userName}
-                        <Badge variant="outline" className="text-[10px]">
-                          {tk.userRole === 'doctor' ? t('auth.role_doctor') : t('auth.role_patient')}
-                        </Badge>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={priorityVariants[tk.priority]}>{t(`admin.support.priority_${tk.priority}`)}</Badge>
-                    </TableCell>
-                    <TableCell>
-                      <span className={`inline-flex items-center gap-1.5 text-xs font-medium ${statusColors[tk.status]}`}>
-                        {statusIcons[tk.status]}
-                        {t(`admin.support.status_${tk.status}`)}
-                      </span>
-                    </TableCell>
-                    <TableCell onClick={(e) => e.stopPropagation()}>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="h-4 w-4" /></Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => handleStatusChange(tk.id, 'in_progress')}>{t('admin.support.mark_in_progress')}</DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleStatusChange(tk.id, 'resolved')}>{t('admin.support.mark_resolved')}</DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </TableCell>
+            {isLoading ? (
+              <div className="text-center py-8 text-muted-foreground">Loading...</div>
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>{t('admin.support.subject')}</TableHead>
+                    <TableHead>{t('admin.users.name')}</TableHead>
+                    <TableHead>Email</TableHead>
+                    <TableHead>{t('admin.users.status')}</TableHead>
+                    <TableHead className="w-10" />
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {filtered.map((tk) => (
+                    <TableRow key={tk.id} className="cursor-pointer" onClick={() => setSelectedTicket(tk)}>
+                      <TableCell className="font-medium">{tk.objet}</TableCell>
+                      <TableCell>{tk.fullName}</TableCell>
+                      <TableCell className="text-muted-foreground text-sm">{tk.email}</TableCell>
+                      <TableCell>
+                        <span className={`inline-flex items-center gap-1.5 text-xs font-medium ${tk.treated ? 'text-green-600' : 'text-destructive'}`}>
+                          {tk.treated ? <CheckCircle2 className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />}
+                          {tk.treated ? t('admin.support.status_resolved') : t('admin.support.status_open')}
+                        </span>
+                      </TableCell>
+                      <TableCell onClick={(e) => e.stopPropagation()}>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="h-4 w-4" /></Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => handleMarkTreated(tk)}>{t('admin.support.mark_resolved')}</DropdownMenuItem>
+                            <DropdownMenuItem className="text-destructive" onClick={() => deleteMutation.mutate(tk.id!)}>{t('admin.delete')}</DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
           </CardContent>
         </Card>
 
-        {/* Ticket detail dialog */}
         <Dialog open={!!selectedTicket} onOpenChange={(open) => !open && setSelectedTicket(null)}>
           <DialogContent className="max-w-lg">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
-                <MessageSquare className="h-5 w-5" /> {selectedTicket?.subject}
+                <MessageSquare className="h-5 w-5" /> {selectedTicket?.objet}
               </DialogTitle>
             </DialogHeader>
             {selectedTicket && (
               <div className="space-y-4">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <span>{selectedTicket.userName}</span>
-                  <Badge variant="outline" className="text-[10px]">{selectedTicket.userRole === 'doctor' ? t('auth.role_doctor') : t('auth.role_patient')}</Badge>
-                  <span className="ml-auto">{selectedTicket.createdAt}</span>
+                  <span>{selectedTicket.fullName}</span>
+                  <span>({selectedTicket.email})</span>
+                  {selectedTicket.createdAt && <span className="ml-auto">{new Date(selectedTicket.createdAt).toLocaleDateString()}</span>}
                 </div>
-                <div className="space-y-3 max-h-60 overflow-y-auto">
-                  {selectedTicket.messages.map((msg, i) => (
-                    <div key={i} className={`rounded-xl px-4 py-2.5 text-sm ${msg.sender === 'Admin' ? 'bg-primary text-primary-foreground ml-8' : 'bg-accent mr-8'}`}>
-                      <span className="text-[10px] font-medium block mb-0.5 opacity-80">{msg.sender}</span>
-                      <p>{msg.text}</p>
-                    </div>
-                  ))}
+                <div className="rounded-xl px-4 py-2.5 text-sm bg-accent">
+                  <p>{selectedTicket.message}</p>
                 </div>
-                <div className="flex gap-2">
-                  <Textarea placeholder={t('admin.support.reply_placeholder')} value={reply} onChange={(e) => setReply(e.target.value)} className="min-h-[60px]" />
-                </div>
-                <div className="flex gap-2 justify-end">
-                  <Select value={selectedTicket.status} onValueChange={(v) => handleStatusChange(selectedTicket.id, v as Ticket['status'])}>
-                    <SelectTrigger className="w-[150px]"><SelectValue /></SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="open">{t('admin.support.status_open')}</SelectItem>
-                      <SelectItem value="in_progress">{t('admin.support.status_in_progress')}</SelectItem>
-                      <SelectItem value="resolved">{t('admin.support.status_resolved')}</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Button onClick={handleReply}>{t('admin.support.send_reply')}</Button>
-                </div>
+                {!selectedTicket.treated && (
+                  <Button onClick={() => { handleMarkTreated(selectedTicket); setSelectedTicket(null); }}>
+                    {t('admin.support.mark_resolved')}
+                  </Button>
+                )}
               </div>
             )}
           </DialogContent>

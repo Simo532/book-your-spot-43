@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LifeBuoy, Send, Plus, Clock, CheckCircle2 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -9,32 +9,34 @@ import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import PatientLayout from '@/components/PatientLayout';
-
-const initialTickets = [
-  { id: 'T-1001', subject: 'Problème de paiement', message: 'Je n\'arrive pas à payer en ligne.', status: 'open', date: '2026-02-28', reply: null },
-  { id: 'T-1002', subject: 'Annulation de rendez-vous', message: 'Mon rendez-vous n\'a pas été annulé.', status: 'resolved', date: '2026-02-25', reply: 'Votre rendez-vous a bien été annulé. Désolé pour le désagrément.' },
-];
+import { useAuth } from '@/contexts/AuthContext';
+import { useAllSupportMessages, useCreateSupportMessage } from '@/hooks/useSupportHooks';
 
 const PatientSupport = () => {
   const { t } = useTranslation();
-  const [tickets, setTickets] = useState(initialTickets);
+  const { userName, userEmail } = useAuth();
+  const { data: supportData, isLoading } = useAllSupportMessages(0, 50);
+  const createMutation = useCreateSupportMessage();
   const [open, setOpen] = useState(false);
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
 
+  const tickets = supportData?.content || [];
+
   const handleCreate = () => {
-    const newTicket = {
-      id: `T-${1000 + tickets.length + 1}`,
-      subject,
+    createMutation.mutate({
+      fullName: userName || '',
+      email: userEmail || '',
+      objet: subject,
       message,
-      status: 'open' as const,
-      date: new Date().toISOString().slice(0, 10),
-      reply: null,
-    };
-    setTickets([newTicket, ...tickets]);
-    setSubject('');
-    setMessage('');
-    setOpen(false);
+      treated: false,
+    }, {
+      onSuccess: () => {
+        setSubject('');
+        setMessage('');
+        setOpen(false);
+      },
+    });
   };
 
   return (
@@ -67,7 +69,7 @@ const PatientSupport = () => {
                   <Label>{t('patient.support.message')}</Label>
                   <Textarea value={message} onChange={e => setMessage(e.target.value)} placeholder={t('patient.support.message_placeholder')} rows={4} />
                 </div>
-                <Button onClick={handleCreate} className="w-full gap-2" disabled={!subject || !message}>
+                <Button onClick={handleCreate} className="w-full gap-2" disabled={!subject || !message || createMutation.isPending}>
                   <Send className="h-4 w-4" />
                   {t('patient.support.send')}
                 </Button>
@@ -76,36 +78,38 @@ const PatientSupport = () => {
           </Dialog>
         </div>
 
-        <div className="space-y-3">
-          {tickets.map(ticket => (
-            <Card key={ticket.id}>
-              <CardContent className="p-4">
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center shrink-0">
-                    {ticket.status === 'open' ? <Clock className="h-4 w-4 text-amber-500" /> : <CheckCircle2 className="h-4 w-4 text-emerald-500" />}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-xs text-muted-foreground font-mono">{ticket.id}</span>
-                      <Badge variant={ticket.status === 'open' ? 'secondary' : 'default'}>
-                        {t(`patient.support.status_${ticket.status}`)}
-                      </Badge>
+        {isLoading ? (
+          <div className="text-center py-8 text-muted-foreground">Loading...</div>
+        ) : (
+          <div className="space-y-3">
+            {tickets.map(ticket => (
+              <Card key={ticket.id}>
+                <CardContent className="p-4">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center shrink-0">
+                      {ticket.treated ? <CheckCircle2 className="h-4 w-4 text-emerald-500" /> : <Clock className="h-4 w-4 text-amber-500" />}
                     </div>
-                    <p className="text-sm font-semibold">{ticket.subject}</p>
-                    <p className="text-xs text-muted-foreground mt-1">{ticket.message}</p>
-                    {ticket.reply && (
-                      <div className="mt-3 p-3 rounded-lg bg-accent/50 border border-border">
-                        <p className="text-xs font-medium text-primary mb-1">Superdoc</p>
-                        <p className="text-xs text-muted-foreground">{ticket.reply}</p>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Badge variant={ticket.treated ? 'default' : 'secondary'}>
+                          {ticket.treated ? t('patient.support.status_resolved') : t('patient.support.status_open')}
+                        </Badge>
                       </div>
-                    )}
-                    <p className="text-[10px] text-muted-foreground mt-2">{ticket.date}</p>
+                      <p className="text-sm font-semibold">{ticket.objet}</p>
+                      <p className="text-xs text-muted-foreground mt-1">{ticket.message}</p>
+                      {ticket.createdAt && (
+                        <p className="text-[10px] text-muted-foreground mt-2">{new Date(ticket.createdAt).toLocaleDateString()}</p>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                </CardContent>
+              </Card>
+            ))}
+            {tickets.length === 0 && (
+              <div className="text-center py-8 text-muted-foreground">{t('patient.support.no_tickets')}</div>
+            )}
+          </div>
+        )}
       </div>
     </PatientLayout>
   );

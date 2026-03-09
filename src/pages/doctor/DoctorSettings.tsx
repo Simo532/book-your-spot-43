@@ -6,9 +6,38 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import DoctorLayout from '@/components/DoctorLayout';
 import AvailabilityManager from '@/components/doctor/AvailabilityManager';
+import { useAuth } from '@/contexts/AuthContext';
+import { useDoctorByUserId } from '@/hooks/useApiHooks';
+import { authService } from '@/services/authService';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useState, useEffect } from 'react';
 
 const DoctorSettings = () => {
   const { t } = useTranslation();
+  const { userId } = useAuth();
+  const { data: doctor } = useDoctorByUserId(userId || '');
+  const qc = useQueryClient();
+
+  const { data: notifPrefs } = useQuery({
+    queryKey: ['notifPrefs', userId],
+    queryFn: () => authService.getNotificationPreferences(userId!),
+    enabled: !!userId,
+  });
+
+  const [pushEnabled, setPushEnabled] = useState(true);
+  const [emailEnabled, setEmailEnabled] = useState(true);
+
+  useEffect(() => {
+    if (notifPrefs) {
+      setPushEnabled(notifPrefs.pushEnabled);
+      setEmailEnabled(notifPrefs.emailEnabled);
+    }
+  }, [notifPrefs]);
+
+  const updateNotifMutation = useMutation({
+    mutationFn: () => authService.updateNotificationPreferences(userId!, pushEnabled, emailEnabled),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['notifPrefs'] }),
+  });
 
   return (
     <DoctorLayout>
@@ -18,7 +47,6 @@ const DoctorSettings = () => {
           <p className="text-muted-foreground text-sm mt-1">{t('doctor.settings.subtitle')}</p>
         </div>
 
-        {/* Notifications */}
         <Card>
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
@@ -27,16 +55,20 @@ const DoctorSettings = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            {['new_appointment', 'cancelled_appointment', 'new_review', 'new_message'].map((key) => (
-              <div key={key} className="flex items-center justify-between">
-                <Label className="flex-1">{t(`doctor.settings.notif.${key}`)}</Label>
-                <Switch defaultChecked />
-              </div>
-            ))}
+            <div className="flex items-center justify-between">
+              <Label>Push Notifications</Label>
+              <Switch checked={pushEnabled} onCheckedChange={setPushEnabled} />
+            </div>
+            <div className="flex items-center justify-between">
+              <Label>Email Notifications</Label>
+              <Switch checked={emailEnabled} onCheckedChange={setEmailEnabled} />
+            </div>
+            <Button size="sm" onClick={() => updateNotifMutation.mutate()} disabled={updateNotifMutation.isPending}>
+              {t('admin.save')}
+            </Button>
           </CardContent>
         </Card>
 
-        {/* Availability */}
         <Card>
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
@@ -46,18 +78,9 @@ const DoctorSettings = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <AvailabilityManager />
-            <div className="flex items-center justify-between pt-2 border-t border-border">
-              <Label>{t('doctor.settings.auto_accept')}</Label>
-              <Switch />
-            </div>
-            <div className="flex items-center justify-between">
-              <Label>{t('doctor.settings.show_availability')}</Label>
-              <Switch defaultChecked />
-            </div>
           </CardContent>
         </Card>
 
-        {/* Privacy */}
         <Card>
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
@@ -80,10 +103,6 @@ const DoctorSettings = () => {
             </div>
           </CardContent>
         </Card>
-
-        <div className="flex justify-end">
-          <Button>{t('admin.save')}</Button>
-        </div>
       </div>
     </DoctorLayout>
   );
