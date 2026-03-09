@@ -5,7 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Shimmer, ShimmerReview } from '@/components/ui/shimmer';
 import DoctorLayout from '@/components/DoctorLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { useReviewsByDoctor } from '@/hooks/useApiHooks';
