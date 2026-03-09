@@ -1,22 +1,21 @@
 import { useState } from 'react';
-import { formatTime, formatDate, formatDateTime } from '@/lib/dateUtils';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { Phone, Clock, Calendar as CalendarIcon, Globe, MapPin, CheckCircle, XCircle, ChevronLeft, ChevronRight, Quote, Video } from 'lucide-react';
+import { Clock, Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ShimmerListItem } from '@/components/ui/shimmer';
 import { cn } from '@/lib/utils';
 import { format, startOfWeek, addDays, addWeeks, subWeeks, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns';
 import { fr, enUS, ar } from 'date-fns/locale';
 import DoctorLayout from '@/components/DoctorLayout';
+import AppointmentCard from '@/components/doctor/AppointmentCard';
 import { useAuth } from '@/contexts/AuthContext';
 import { useAppointmentsByDoctor, useUpdateAppointmentStatus } from '@/hooks/useApiHooks';
-import { AppointmentStatus, AppointmentResponseDTO } from '@/types/appointment';
+import { AppointmentStatus } from '@/types/appointment';
 
 const statusTabs = ['PENDING', 'CONFIRMED', 'PAID', 'COMPLETED', 'CANCELLED'] as const;
+const dayNames = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
 
 const DoctorAppointments = () => {
   const { t, i18n } = useTranslation();
@@ -28,10 +27,8 @@ const DoctorAppointments = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const locale = i18n.language === 'fr' ? fr : i18n.language === 'ar' ? ar : enUS;
-
   const { data: appointments, isLoading } = useAppointmentsByDoctor(doctorOrPatientId || '', 0, 50);
   const updateStatus = useUpdateAppointmentStatus();
-
   const allAppointments = appointments || [];
 
   const filtered = allAppointments.filter((a) => {
@@ -46,7 +43,6 @@ const DoctorAppointments = () => {
   const weekStart = startOfWeek(currentDate, { weekStartsOn: 0 });
   const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
   const monthDays = eachDayOfInterval({ start: startOfWeek(startOfMonth(currentDate), { weekStartsOn: 0 }), end: addDays(endOfMonth(currentDate), 6 - endOfMonth(currentDate).getDay()) });
-  const dayNames = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
 
   const hasAppointments = (date: Date) => allAppointments.some(a => a.appointmentDate && new Date(a.appointmentDate).toISOString().split('T')[0] === format(date, 'yyyy-MM-dd'));
 
@@ -132,73 +128,18 @@ const DoctorAppointments = () => {
             </CardContent></Card>
           ) : (
             filtered.map((apt) => (
-              <AppointmentCard key={apt.id} appointment={apt} t={t} onAccept={() => updateStatus.mutate({ id: apt.id, status: AppointmentStatus.CONFIRMED })} onDecline={() => updateStatus.mutate({ id: apt.id, status: AppointmentStatus.CANCELLED })} onJoinZoom={() => navigate(`/zoom/${apt.id}`)} />
+              <AppointmentCard
+                key={apt.id}
+                appointment={apt}
+                onAccept={() => updateStatus.mutate({ id: apt.id, status: AppointmentStatus.CONFIRMED })}
+                onDecline={() => updateStatus.mutate({ id: apt.id, status: AppointmentStatus.CANCELLED })}
+                onJoinZoom={() => navigate(`/zoom/${apt.id}`)}
+              />
             ))
           )}
         </div>
       </div>
     </DoctorLayout>
-  );
-};
-
-const AppointmentCard = ({ appointment: apt, t, onAccept, onDecline, onJoinZoom }: { appointment: AppointmentResponseDTO; t: any; onAccept: () => void; onDecline: () => void; onJoinZoom: () => void }) => {
-  const getInitials = (name: string) => name.split(' ').map(n => n[0]).join('').toUpperCase();
-  const aptTime = apt.appointmentDate ? formatTime(apt.appointmentDate) : 'ASAP';
-  const aptDate = apt.appointmentDate ? formatDate(apt.appointmentDate) : '-';
-
-  return (
-    <Card className="overflow-hidden border-l-4 border-l-primary/30">
-      <CardContent className="p-4">
-        <div className="flex items-start gap-3">
-          <Avatar className="h-14 w-14 border-2 border-border">
-            <AvatarImage src={apt.patientImage} />
-            <AvatarFallback className="bg-primary/10 text-primary font-semibold">{getInitials(apt.patientName)}</AvatarFallback>
-          </Avatar>
-          <div className="flex-1 min-w-0">
-            <div className="flex items-start justify-between">
-              <h3 className="font-semibold text-sm">{apt.patientName}</h3>
-              <span className="text-primary font-bold text-lg">{apt.consultationFee} DA</span>
-            </div>
-            <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
-              <Phone className="h-3 w-3" /><span>{apt.patientTel}</span>
-              <span>- {apt.patientAge} {t('doctor.appointments.years')}</span>
-            </div>
-            <div className="flex items-center gap-3 text-xs text-muted-foreground mt-1">
-              <div className="flex items-center gap-1"><Clock className="h-3 w-3" /><span>{aptTime}</span></div>
-              <div className="flex items-center gap-1"><CalendarIcon className="h-3 w-3" /><span>{aptDate}</span></div>
-              {apt.online && <Badge variant="outline" className="text-[10px] h-5 gap-1"><Globe className="h-2.5 w-2.5" />{t('doctor.appointments.filters.online')}</Badge>}
-            </div>
-          </div>
-        </div>
-        {apt.patientMessage && (
-          <div className="mt-3 relative pl-4 pr-2">
-            <Quote className="absolute left-0 top-0 h-4 w-4 text-primary/30" />
-            <p className="text-xs text-muted-foreground italic leading-relaxed">{apt.patientMessage}</p>
-          </div>
-        )}
-        <div className="mt-3 text-[11px] text-primary space-y-0.5">
-          <p>{t('doctor.appointments.requested_at')} {formatDateTime(apt.createdAt)}</p>
-        </div>
-        <div className="mt-3 flex items-center justify-center gap-2">
-          {apt.online && ['CONFIRMED', 'PAID'].includes(apt.status) && (
-            <Button size="sm" className="gap-1.5 h-9" variant="default" onClick={onJoinZoom}>
-              <Video className="h-3.5 w-3.5" />
-              {t('zoom.join', 'Rejoindre la session')}
-            </Button>
-          )}
-          {apt.status === 'COMPLETED' && <div className="flex items-center gap-1.5 text-emerald-600"><CheckCircle className="h-5 w-5" /><span className="text-sm font-medium">{t('doctor.appointments.status.completed')}</span></div>}
-          {apt.status === 'CANCELLED' && <div className="flex items-center gap-1.5 text-destructive"><XCircle className="h-5 w-5" /><span className="text-sm font-medium">{t('doctor.appointments.status.cancelled')}</span></div>}
-          {apt.status === 'CONFIRMED' && !apt.online && <Badge className="bg-primary/10 text-primary hover:bg-primary/20">{t('doctor.appointments.status.confirmed')}</Badge>}
-          {apt.status === 'PAID' && !apt.online && <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-200">{t('doctor.appointments.status.paid')}</Badge>}
-          {apt.status === 'PENDING' && (
-            <div className="flex gap-2 w-full">
-              <Button size="sm" className="flex-1 h-9" onClick={onAccept}>{t('doctor.appointments.accept')}</Button>
-              <Button size="sm" variant="outline" className="flex-1 h-9" onClick={onDecline}>{t('doctor.appointments.decline')}</Button>
-            </div>
-          )}
-        </div>
-      </CardContent>
-    </Card>
   );
 };
 
