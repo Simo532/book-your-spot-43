@@ -45,19 +45,23 @@ const DoctorDashboard = () => {
 
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {statCards.map((stat) => (
-            <Card key={stat.key}>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
-                  {t(`doctor.dashboard.stats.${stat.key}`)}
-                </CardTitle>
-                <stat.icon className={cn('h-4 w-4', stat.color)} />
-              </CardHeader>
-              <CardContent>
-                {statsLoading ? <Skeleton className="h-8 w-20" /> : <div className="text-2xl font-bold">{stat.value}</div>}
-              </CardContent>
-            </Card>
-          ))}
+          {statsLoading ? (
+            Array.from({ length: 6 }).map((_, i) => <ShimmerStatCard key={i} />)
+          ) : (
+            statCards.map((stat) => (
+              <Card key={stat.key}>
+                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">
+                    {t(`doctor.dashboard.stats.${stat.key}`)}
+                  </CardTitle>
+                  <stat.icon className={cn('h-4 w-4', stat.color)} />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{stat.value}</div>
+                </CardContent>
+              </Card>
+            ))
+          )}
         </div>
 
         {/* Upcoming appointments */}
