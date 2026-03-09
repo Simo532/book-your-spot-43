@@ -150,7 +150,7 @@ const SearchResults = () => {
         <Checkbox id="closest" checked={closestToMe} onCheckedChange={(v) => { if (v && !userLocation) handleLocateMe(); else setClosestToMe(!!v); }} />
         <Label htmlFor="closest" className="cursor-pointer">{t('search.closest')}</Label>
       </div>
-      <Button variant="outline" className="w-full" onClick={() => { setSelectedCity('all'); setPriceRange([0, 5000]); setMinExperience(0); setSelectedGender('all'); setBestRated(false); setClosestToMe(false); setPage(0); }}>
+      <Button variant="outline" className="w-full" onClick={() => { setSelectedSpeciality('all'); setSelectedCity('all'); setPriceRange([0, 5000]); setMinExperience(0); setSelectedGender('all'); setBestRated(false); setClosestToMe(false); setPage(0); }}>
         {t('search.reset_filters')}
       </Button>
     </div>
