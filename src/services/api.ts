@@ -1,3 +1,5 @@
+import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig } from 'axios';
+
 const BASE_URL = 'http://localhost:8090/api/v1';
 
 // ─── Token Storage ───────────────────────────────────────────────────
@@ -63,48 +65,113 @@ export const tokenStorage = {
   },
 };
 
-// ─── API Client ──────────────────────────────────────────────────────
-function buildHeaders(withAuth = true): Record<string, string> {
-  const headers: Record<string, string> = {
+// ─── Axios Instance ──────────────────────────────────────────────────
+const api: AxiosInstance = axios.create({
+  baseURL: BASE_URL,
+  headers: {
     'Content-Type': 'application/json; charset=UTF-8',
-  };
-  if (withAuth) {
-    const token = tokenStorage.getAccessToken();
-    if (token) headers['Authorization'] = `Bearer ${token}`;
-  }
-  return headers;
-}
+  },
+});
 
-async function refreshTokenIfNeeded(): Promise<boolean> {
-  if (!tokenStorage.isJwtExpired()) return true;
+// Flag to prevent multiple concurrent refresh attempts
+let isRefreshing = false;
+let failedQueue: Array<{
+  resolve: (token: string) => void;
+  reject: (error: unknown) => void;
+}> = [];
 
-  const refreshToken = tokenStorage.getRefreshToken();
-  if (!refreshToken) return false;
-
-  try {
-    const res = await fetch(`${BASE_URL}/auth/refresh?refreshToken=${refreshToken}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${refreshToken}`,
-      },
-    });
-
-    if (res.ok) {
-      const data = await res.json();
-      const newAccessToken = data['access-token'];
-      localStorage.setItem('access-token', newAccessToken);
-      return true;
+const processQueue = (error: unknown, token: string | null = null) => {
+  failedQueue.forEach((p) => {
+    if (error) {
+      p.reject(error);
     } else {
-      tokenStorage.clear();
-      return false;
+      p.resolve(token!);
     }
-  } catch {
-    tokenStorage.clear();
-    return false;
-  }
-}
+  });
+  failedQueue = [];
+};
 
+// ─── Request Interceptor: Attach access token ───────────────────────
+api.interceptors.request.use(
+  async (config: InternalAxiosRequestConfig) => {
+    // Skip auth for public endpoints
+    if (config.headers?.['X-Skip-Auth']) {
+      delete config.headers['X-Skip-Auth'];
+      return config;
+    }
+
+    const token = tokenStorage.getAccessToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
+
+// ─── Response Interceptor: Auto-refresh on 401 ─────────────────────
+api.interceptors.response.use(
+  (response) => response,
+  async (error: AxiosError) => {
+    const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      if (isRefreshing) {
+        return new Promise((resolve, reject) => {
+          failedQueue.push({
+            resolve: (token: string) => {
+              originalRequest.headers.Authorization = `Bearer ${token}`;
+              resolve(api(originalRequest));
+            },
+            reject,
+          });
+        });
+      }
+
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      const refreshToken = tokenStorage.getRefreshToken();
+      if (!refreshToken) {
+        tokenStorage.clear();
+        window.location.href = '/login';
+        return Promise.reject(error);
+      }
+
+      try {
+        const res = await axios.post(
+          `${BASE_URL}/auth/refresh`,
+          null,
+          {
+            params: { refreshToken },
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${refreshToken}`,
+            },
+          },
+        );
+
+        const newAccessToken = res.data['access-token'];
+        localStorage.setItem('access-token', newAccessToken);
+        processQueue(null, newAccessToken);
+
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        return api(originalRequest);
+      } catch (refreshError) {
+        processQueue(refreshError, null);
+        tokenStorage.clear();
+        window.location.href = '/login';
+        return Promise.reject(refreshError);
+      } finally {
+        isRefreshing = false;
+      }
+    }
+
+    return Promise.reject(error);
+  },
+);
+
+// ─── Generic API Request Helper ─────────────────────────────────────
 export async function apiRequest<T>(
   endpoint: string,
   options: {
@@ -112,43 +179,24 @@ export async function apiRequest<T>(
     body?: unknown;
     withAuth?: boolean;
     params?: Record<string, string>;
-  } = {}
+  } = {},
 ): Promise<T> {
   const { method = 'GET', body, withAuth = true, params } = options;
 
-  if (withAuth) {
-    const valid = await refreshTokenIfNeeded();
-    if (!valid) {
-      window.location.href = '/login';
-      throw new Error('Session expired');
-    }
+  const headers: Record<string, string> = {};
+  if (!withAuth) {
+    headers['X-Skip-Auth'] = 'true';
   }
 
-  let url = `${BASE_URL}${endpoint}`;
-  if (params) {
-    const searchParams = new URLSearchParams(params);
-    url += `?${searchParams.toString()}`;
-  }
-
-  const res = await fetch(url, {
+  const response = await api.request<T>({
+    url: endpoint,
     method,
-    headers: buildHeaders(withAuth),
-    body: body ? JSON.stringify(body) : undefined,
+    data: body,
+    params,
+    headers,
   });
 
-  if (!res.ok) {
-    const errorText = await res.text();
-    throw new Error(`API Error [${res.status}]: ${errorText}`);
-  }
-
-  const text = await res.text();
-  if (!text) return undefined as T;
-
-  try {
-    return JSON.parse(text) as T;
-  } catch {
-    return text as T;
-  }
+  return response.data;
 }
 
-export { BASE_URL, buildHeaders };
+export { BASE_URL, api };
