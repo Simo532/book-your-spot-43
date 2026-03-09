@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Menu, X, Globe, Heart } from 'lucide-react';
+import { Menu, X, Globe, Heart, Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const languages = [
   { code: 'fr', label: 'Français', flag: '🇫🇷' },
@@ -22,6 +23,11 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const isLanding = location.pathname === '/';
+  const { resolvedTheme, setTheme } = useTheme();
+
+  const toggleDarkMode = () => {
+    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
+  };
 
   return (
     <nav
@@ -76,6 +82,11 @@ const Navbar = () => {
               </DropdownMenuContent>
             </DropdownMenu>
 
+            {/* Dark Mode Toggle */}
+            <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground hover:text-foreground" onClick={toggleDarkMode}>
+              {resolvedTheme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </Button>
+
             <div className="w-px h-6 bg-border mx-1" />
 
             <Link to="/login">
@@ -91,12 +102,17 @@ const Navbar = () => {
           </div>
 
           {/* Mobile toggle */}
-          <button
-            className="md:hidden p-2 rounded-xl hover:bg-muted transition-colors"
-            onClick={() => setMobileOpen(!mobileOpen)}
-          >
-            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+          <div className="md:hidden flex items-center gap-1">
+            <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground" onClick={toggleDarkMode}>
+              {resolvedTheme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </Button>
+            <button
+              className="p-2 rounded-xl hover:bg-muted transition-colors"
+              onClick={() => setMobileOpen(!mobileOpen)}
+            >
+              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile menu */}
