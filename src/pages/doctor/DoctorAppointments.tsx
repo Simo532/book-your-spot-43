@@ -19,6 +19,7 @@ const statusTabs = ['PENDING', 'CONFIRMED', 'PAID', 'COMPLETED', 'CANCELLED'] as
 
 const DoctorAppointments = () => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const { doctorOrPatientId } = useAuth();
   const [activeStatus, setActiveStatus] = useState<string>('PENDING');
   const [calendarView, setCalendarView] = useState<'week' | 'month'>('week');
