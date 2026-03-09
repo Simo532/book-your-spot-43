@@ -3,7 +3,7 @@ import { CalendarCheck, MessageSquare, Heart, Clock, Star, TrendingUp } from 'lu
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
+import { ShimmerStatCard, ShimmerListItem } from '@/components/ui/shimmer';
 import { cn } from '@/lib/utils';
 import PatientLayout from '@/components/PatientLayout';
 import { Link } from 'react-router-dom';
