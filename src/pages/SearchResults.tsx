@@ -19,6 +19,7 @@ import { ShimmerDoctorCard } from '@/components/ui/shimmer';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useSearchDoctors, useToggleFavorite, useFavorites } from '@/hooks/useApiHooks';
+import { useAllSpecialities } from '@/hooks/useSpecialityHooks';
 import { useAuth } from '@/contexts/AuthContext';
 import { Gender } from '@/types/doctor';
 
