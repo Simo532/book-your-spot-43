@@ -1,4 +1,4 @@
-import { apiRequest, tokenStorage, BASE_URL } from './api';
+import { apiRequest, api } from './api';
 import { DoctorResponseDTO, DoctorRequestDTO, Gender } from '@/types/doctor';
 import { PageResponse } from '@/types/appointment';
 
@@ -12,7 +12,6 @@ async function multipartDoctorRequest(
 ): Promise<DoctorResponseDTO> {
   const formData = new FormData();
 
-  // Append all DTO fields
   Object.entries(dto).forEach(([key, value]) => {
     if (value !== undefined && value !== null) {
       formData.append(key, String(value));
@@ -22,48 +21,38 @@ async function multipartDoctorRequest(
   if (profilePicture) formData.append('profilePicture', profilePicture);
   if (visitCard) formData.append('visitCard', visitCard);
 
-  const token = tokenStorage.getAccessToken();
-  const res = await fetch(url, {
+  const { data } = await api.request<DoctorResponseDTO>({
+    url,
     method,
-    headers: token ? { Authorization: `Bearer ${token}` } : {},
-    body: formData,
+    data: formData,
+    headers: { 'Content-Type': 'multipart/form-data' },
   });
 
-  if (!res.ok) {
-    const errorText = await res.text();
-    throw new Error(`Doctor multipart error [${res.status}]: ${errorText}`);
-  }
-
-  return res.json();
+  return data;
 }
 
 // ─── DoctorService ──────────────────────────────────────────────────────────
 
 export const doctorService = {
-  // Create doctor (multipart)
   create(dto: DoctorRequestDTO, profilePicture?: File, visitCard?: File) {
-    return multipartDoctorRequest(`${BASE_URL}/doctors`, 'POST', dto, profilePicture, visitCard);
+    return multipartDoctorRequest('/doctors', 'POST', dto, profilePicture, visitCard);
   },
 
-  // Create doctor by admin (multipart)
   createByAdmin(dto: DoctorRequestDTO, password: string, profilePicture?: File, visitCard?: File) {
     return multipartDoctorRequest(
-      `${BASE_URL}/doctors/admin?password=${encodeURIComponent(password)}`,
+      `/doctors/admin?password=${encodeURIComponent(password)}`,
       'POST', dto, profilePicture, visitCard,
     );
   },
 
-  // Update doctor (multipart)
   update(doctorId: string, dto: DoctorRequestDTO, profilePicture?: File, visitCard?: File) {
-    return multipartDoctorRequest(`${BASE_URL}/doctors/${doctorId}`, 'PUT', dto, profilePicture, visitCard);
+    return multipartDoctorRequest(`/doctors/${doctorId}`, 'PUT', dto, profilePicture, visitCard);
   },
 
-  // Get doctor by ID
   getById(id: string) {
     return apiRequest<DoctorResponseDTO>(`/doctors/${id}`);
   },
 
-  // Get doctor by email
   async getByEmail(email: string): Promise<DoctorResponseDTO | Record<string, unknown>> {
     try {
       return await apiRequest<DoctorResponseDTO>(`/doctors/by-email`, { params: { email } });
@@ -72,31 +61,26 @@ export const doctorService = {
     }
   },
 
-  // Get doctor by userId
   getByUserId(userId: string) {
     return apiRequest<DoctorResponseDTO>(`/doctors/user/${userId}`);
   },
 
-  // Delete doctor
   delete(id: string) {
     return apiRequest<string>(`/doctors/${id}`, { method: 'DELETE' });
   },
 
-  // Get monthly statistics
   getDoctorMonthlyStats(doctorId: string, month: number, year: number) {
     return apiRequest<Record<string, unknown>>(`/doctors/${doctorId}/monthly-statistics`, {
       params: { month: String(month), year: String(year) },
     });
   },
 
-  // Get online appointments infos and audio calls
   getOnlineAppointmentsInfosAndAudioCalls(doctorId: string) {
     return apiRequest<Record<string, unknown>>(
       `/doctors/${doctorId}/audio-calls-and-online-appointments-infos`,
     );
   },
 
-  // Update online appointments infos and audio calls
   updateOnlineAppointmentsInfosAndAudioCalls(
     doctorId: string,
     onlineAppointmentsEnabled: boolean,
@@ -114,7 +98,6 @@ export const doctorService = {
     );
   },
 
-  // Search doctors (public / patient)
   searchDoctors(params: {
     specialityId?: string;
     gender?: Gender;
@@ -148,7 +131,6 @@ export const doctorService = {
     return apiRequest<PageResponse<DoctorResponseDTO>>(`/doctors/search`, { params: query });
   },
 
-  // Search doctors for admin
   searchDoctorsForAdmin(params: {
     specialityId?: string;
     gender?: Gender;
@@ -186,26 +168,22 @@ export const doctorService = {
     return apiRequest<PageResponse<DoctorResponseDTO>>(`/doctors/admin/search/doctors`, { params: query });
   },
 
-  // Get similar doctors
   getSimilarDoctors(doctorId: string) {
     return apiRequest<DoctorResponseDTO[]>(`/doctors/${doctorId}/similar`);
   },
 
-  // Get all doctors (paginated)
   getAll(page = 0, size = 10) {
     return apiRequest<PageResponse<DoctorResponseDTO>>(`/doctors`, {
       params: { page: String(page), size: String(size) },
     });
   },
 
-  // Get all enabled doctors
   getAllEnabled(page = 0, size = 10) {
     return apiRequest<PageResponse<DoctorResponseDTO>>(`/doctors/account-enabled`, {
       params: { page: String(page), size: String(size) },
     });
   },
 
-  // Get all disabled doctors
   getAllDisabled(page = 0, size = 10) {
     return apiRequest<PageResponse<DoctorResponseDTO>>(`/doctors/account-disabled`, {
       params: { page: String(page), size: String(size) },

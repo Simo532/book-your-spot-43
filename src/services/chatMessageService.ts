@@ -1,9 +1,8 @@
-import { apiRequest, tokenStorage, BASE_URL } from './api';
+import { apiRequest, api } from './api';
 import { ChatMessageResponseDTO, ChatMessageRequestDTO } from '@/types/chatMessage';
 import { PageResponse } from '@/types/appointment';
 
 export const chatMessageService = {
-  // Create a chat message
   create(dto: ChatMessageRequestDTO) {
     return apiRequest<ChatMessageResponseDTO>(`/chat-messages`, {
       method: 'POST',
@@ -11,14 +10,12 @@ export const chatMessageService = {
     });
   },
 
-  // Get unread message count for a chat
   countUnreadMessages(chatId: string, receiverType: string) {
     return apiRequest<number>(`/chat-messages/chat/${chatId}/unread-count`, {
       params: { receiverType },
     });
   },
 
-  // Get messages by chatId (paginated)
   getMessagesByChatId(chatId: string, page = 0, size = 10) {
     return apiRequest<PageResponse<ChatMessageResponseDTO>>(
       `/chat-messages/chat/${chatId}`,
@@ -26,7 +23,6 @@ export const chatMessageService = {
     );
   },
 
-  // Mark messages as seen
   markMessagesAsSeen(chatId: string, messageIds: string[]) {
     return apiRequest<void>(`/chat-messages/seen/${chatId}`, {
       method: 'PUT',
@@ -34,7 +30,6 @@ export const chatMessageService = {
     });
   },
 
-  // Upload a file message (multipart)
   async uploadFile(params: {
     chatId: string;
     senderId: string;
@@ -49,18 +44,10 @@ export const chatMessageService = {
     formData.append('contentType', params.contentType);
     formData.append('file', params.file);
 
-    const token = tokenStorage.getAccessToken();
-    const res = await fetch(`${BASE_URL}/chat-messages/file`, {
-      method: 'POST',
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-      body: formData,
+    const { data } = await api.post<ChatMessageResponseDTO>('/chat-messages/file', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
     });
 
-    if (!res.ok) {
-      const errorText = await res.text();
-      throw new Error(`File upload error [${res.status}]: ${errorText}`);
-    }
-
-    return res.json();
+    return data;
   },
 };
