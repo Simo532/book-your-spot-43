@@ -118,6 +118,22 @@ export const useReviewsByDoctor = (doctorId: string, page = 0, size = 10) =>
     enabled: !!doctorId,
   });
 
+export const useCreateReview = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (dto: { patientId: string; doctorId: string; rating: number; comment: string }) =>
+      reviewService.create(dto),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['reviews'] }),
+  });
+};
+
+export const useReviewExistsByPatientAndDoctor = (patientId: string, doctorId: string) =>
+  useQuery({
+    queryKey: ['reviews', 'exists', patientId, doctorId],
+    queryFn: () => reviewService.existsByPatientAndDoctor(patientId, doctorId),
+    enabled: !!patientId && !!doctorId,
+  });
+
 export const useDoctorReviewStats = (doctorIds: string[]) =>
   useQuery({
     queryKey: ['reviews', 'stats', doctorIds],
