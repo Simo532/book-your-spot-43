@@ -99,6 +99,7 @@ const App = () => (
                   <Route path="/doctor/onboarding" element={<DoctorOnboarding />} />
                   <Route path="/patient/onboarding" element={<PatientOnboarding />} />
                   <Route path="/favorites" element={<Favorites />} />
+                  <Route path="/zoom/:appointmentId" element={<ZoomSession />} />
                 </Route>
 
                 {/* ─── Admin routes ─────────────────────────────── */}
