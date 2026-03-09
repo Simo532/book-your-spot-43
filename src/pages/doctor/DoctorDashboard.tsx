@@ -89,7 +89,7 @@ const DoctorDashboard = () => {
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-semibold">{apt.patientName}</p>
                         <p className="text-xs text-muted-foreground">
-                          {apt.online ? 'En ligne' : 'Cabinet'} · {apt.appointmentDate ? new Date(apt.appointmentDate).toLocaleTimeString('fr', { hour: '2-digit', minute: '2-digit' }) : 'ASAP'}
+                          {apt.online ? 'En ligne' : 'Cabinet'} · {apt.appointmentDate ? formatTime(apt.appointmentDate) : 'ASAP'}
                         </p>
                       </div>
                       <Badge variant={apt.status === 'CONFIRMED' ? 'default' : 'secondary'}>
