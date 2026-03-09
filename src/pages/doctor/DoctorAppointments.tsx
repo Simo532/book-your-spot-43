@@ -131,7 +131,7 @@ const DoctorAppointments = () => {
             </CardContent></Card>
           ) : (
             filtered.map((apt) => (
-              <AppointmentCard key={apt.id} appointment={apt} t={t} onAccept={() => updateStatus.mutate({ id: apt.id, status: AppointmentStatus.CONFIRMED })} onDecline={() => updateStatus.mutate({ id: apt.id, status: AppointmentStatus.CANCELLED })} />
+              <AppointmentCard key={apt.id} appointment={apt} t={t} onAccept={() => updateStatus.mutate({ id: apt.id, status: AppointmentStatus.CONFIRMED })} onDecline={() => updateStatus.mutate({ id: apt.id, status: AppointmentStatus.CANCELLED })} onJoinZoom={() => navigate(`/zoom/${apt.id}`)} />
             ))
           )}
         </div>
