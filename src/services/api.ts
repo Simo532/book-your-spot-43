@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig } from 'ax
 import { toast } from 'sonner';
 import { secureStorage } from '@/lib/secureStorage';
 
-const BASE_URL = 'http://192.168.1.31:8090/api/v1';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://192.168.1.31:8090/api/v1';
 
 // ─── Token Storage (uses encrypted secureStorage) ────────────────────
 export const tokenStorage = {
