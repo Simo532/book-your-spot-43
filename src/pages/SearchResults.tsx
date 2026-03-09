@@ -15,7 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { Skeleton } from '@/components/ui/skeleton';
+import { ShimmerDoctorCard } from '@/components/ui/shimmer';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useSearchDoctors, useToggleFavorite, useFavorites } from '@/hooks/useApiHooks';
