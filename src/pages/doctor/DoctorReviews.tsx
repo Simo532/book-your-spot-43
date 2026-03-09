@@ -5,7 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Shimmer, ShimmerReview } from '@/components/ui/shimmer';
 import DoctorLayout from '@/components/DoctorLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { useReviewsByDoctor } from '@/hooks/useApiHooks';
@@ -33,7 +33,7 @@ const DoctorReviews = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <Card><CardContent className="pt-6 text-center">
-            {isLoading ? <Skeleton className="h-10 w-16 mx-auto" /> : <div className="text-3xl font-bold">{avgRating}</div>}
+            {isLoading ? <Shimmer className="h-10 w-16 mx-auto" /> : <div className="text-3xl font-bold">{avgRating}</div>}
             <div className="flex justify-center mt-1">
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star key={i} className={`h-4 w-4 ${i < Math.round(Number(avgRating)) ? 'text-yellow-500 fill-yellow-500' : 'text-muted'}`} />
@@ -53,7 +53,7 @@ const DoctorReviews = () => {
 
         <div className="space-y-4">
           {isLoading ? (
-            Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-24 w-full rounded-xl" />)
+            Array.from({ length: 3 }).map((_, i) => <ShimmerReview key={i} />)
           ) : reviews.map((review) => (
             <Card key={review.id}>
               <CardContent className="pt-6">

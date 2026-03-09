@@ -3,7 +3,7 @@ import { CalendarCheck, MessageSquare, Heart, Clock, Star, TrendingUp } from 'lu
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
+import { ShimmerStatCard, ShimmerListItem } from '@/components/ui/shimmer';
 import { cn } from '@/lib/utils';
 import PatientLayout from '@/components/PatientLayout';
 import { Link } from 'react-router-dom';
@@ -38,17 +38,21 @@ const PatientDashboard = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {statCards.map((stat) => (
-            <Card key={stat.key}>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">{t(`patient.dashboard.stats.${stat.key}`)}</CardTitle>
-                <stat.icon className={cn('h-4 w-4', stat.color)} />
-              </CardHeader>
-              <CardContent>
-                {aptsLoading ? <Skeleton className="h-8 w-12" /> : <div className="text-2xl font-bold">{stat.value}</div>}
-              </CardContent>
-            </Card>
-          ))}
+          {aptsLoading ? (
+            Array.from({ length: 4 }).map((_, i) => <ShimmerStatCard key={i} />)
+          ) : (
+            statCards.map((stat) => (
+              <Card key={stat.key}>
+                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">{t(`patient.dashboard.stats.${stat.key}`)}</CardTitle>
+                  <stat.icon className={cn('h-4 w-4', stat.color)} />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{stat.value}</div>
+                </CardContent>
+              </Card>
+            ))
+          )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -59,7 +63,7 @@ const PatientDashboard = () => {
             </CardHeader>
             <CardContent>
               {aptsLoading ? (
-                <div className="space-y-3">{Array.from({ length: 2 }).map((_, i) => <Skeleton key={i} className="h-16 w-full rounded-xl" />)}</div>
+                <div className="space-y-3">{Array.from({ length: 2 }).map((_, i) => <ShimmerListItem key={i} />)}</div>
               ) : upcoming.length === 0 ? (
                 <p className="text-sm text-muted-foreground text-center py-8">{t('patient.appointments.no_upcoming')}</p>
               ) : (

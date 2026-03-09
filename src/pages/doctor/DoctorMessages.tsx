@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Skeleton } from '@/components/ui/skeleton';
+import { ShimmerChatItem } from '@/components/ui/shimmer';
 import { cn } from '@/lib/utils';
 import DoctorLayout from '@/components/DoctorLayout';
 import { useAuth } from '@/contexts/AuthContext';
@@ -63,7 +63,7 @@ const DoctorMessages = () => {
             </div>
             <div className="flex-1 overflow-y-auto">
               {chatsLoading ? (
-                Array.from({ length: 4 }).map((_, i) => <div key={i} className="p-3 border-b border-border"><Skeleton className="h-10 w-full" /></div>)
+                Array.from({ length: 4 }).map((_, i) => <ShimmerChatItem key={i} />)
               ) : filteredChats.map((chat) => (
                 <button key={chat.id} onClick={() => setSelectedChatId(chat.id)}
                   className={cn('w-full flex items-center gap-3 p-3 text-left hover:bg-accent/50 transition-colors border-b border-border', selectedChatId === chat.id && 'bg-accent')}>

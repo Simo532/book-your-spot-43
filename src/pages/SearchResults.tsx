@@ -15,7 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { Skeleton } from '@/components/ui/skeleton';
+import { ShimmerDoctorCard } from '@/components/ui/shimmer';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useSearchDoctors, useToggleFavorite, useFavorites } from '@/hooks/useApiHooks';
@@ -185,10 +185,7 @@ const SearchResults = () => {
               {isLoading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                   {Array.from({ length: 6 }).map((_, i) => (
-                    <Card key={i}><CardContent className="p-5 space-y-3">
-                      <div className="flex gap-3"><Skeleton className="h-14 w-14 rounded-full" /><div className="flex-1 space-y-2"><Skeleton className="h-4 w-3/4" /><Skeleton className="h-3 w-1/2" /></div></div>
-                      <Skeleton className="h-8 w-full" />
-                    </CardContent></Card>
+                    <ShimmerDoctorCard key={i} />
                   ))}
                 </div>
               ) : viewMode === 'map' ? (

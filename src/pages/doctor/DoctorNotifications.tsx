@@ -5,7 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Skeleton } from '@/components/ui/skeleton';
+import { ShimmerNotification } from '@/components/ui/shimmer';
 import DoctorLayout from '@/components/DoctorLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNotificationsByDoctor, useDeleteNotification, useMarkNotificationsRead } from '@/hooks/useApiHooks';
@@ -63,7 +63,7 @@ const DoctorNotifications = () => {
 
         <div className="space-y-4">
           {isLoading ? (
-            Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-24 w-full rounded-xl" />)
+            Array.from({ length: 4 }).map((_, i) => <ShimmerNotification key={i} />)
           ) : filtered.length === 0 ? (
             <Card><CardContent className="py-16 text-center text-muted-foreground">{t('doctor.notifications.empty')}</CardContent></Card>
           ) : (

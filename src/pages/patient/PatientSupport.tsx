@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { ShimmerListItem } from '@/components/ui/shimmer';
 import PatientLayout from '@/components/PatientLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { useAllSupportMessages, useCreateSupportMessage } from '@/hooks/useSupportHooks';
@@ -79,7 +80,7 @@ const PatientSupport = () => {
         </div>
 
         {isLoading ? (
-          <div className="text-center py-8 text-muted-foreground">Loading...</div>
+          <div className="space-y-3">{Array.from({ length: 3 }).map((_, i) => <ShimmerListItem key={i} />)}</div>
         ) : (
           <div className="space-y-3">
             {tickets.map(ticket => (

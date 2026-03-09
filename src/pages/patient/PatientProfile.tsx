@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { ShimmerProfile } from '@/components/ui/shimmer';
 import PatientLayout from '@/components/PatientLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { usePatientByUserId, useUpdatePatient } from '@/hooks/usePatientHooks';
@@ -58,7 +59,7 @@ const PatientProfile = () => {
         </div>
 
         {isLoading ? (
-          <div className="text-center py-12 text-muted-foreground">Loading...</div>
+          <ShimmerProfile />
         ) : patient ? (
           <Card>
             <CardContent className="pt-6">

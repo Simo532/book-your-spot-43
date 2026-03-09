@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { ShimmerProfile } from '@/components/ui/shimmer';
 import DoctorLayout from '@/components/DoctorLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { useDoctorByUserId } from '@/hooks/useApiHooks';
@@ -68,7 +69,10 @@ const DoctorProfile = () => {
         </div>
 
         {isLoading ? (
-          <div className="text-center py-12 text-muted-foreground">Loading...</div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <ShimmerProfile className="lg:col-span-1" />
+            <ShimmerProfile className="lg:col-span-2" />
+          </div>
         ) : doctor ? (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <Card className="lg:col-span-1">

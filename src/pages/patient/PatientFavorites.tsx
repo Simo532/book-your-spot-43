@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
-import { Skeleton } from '@/components/ui/skeleton';
+import { ShimmerListItem } from '@/components/ui/shimmer';
 import PatientLayout from '@/components/PatientLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { useFavorites, useToggleFavorite } from '@/hooks/useApiHooks';
@@ -44,7 +44,7 @@ const PatientFavorites = () => {
 
         <div className="space-y-3">
           {isLoading ? (
-            Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-20 w-full rounded-xl" />)
+            Array.from({ length: 3 }).map((_, i) => <ShimmerListItem key={i} />)
           ) : filtered.map(fav => (
             <Card key={fav.id} className="hover:border-primary/20 transition-colors">
               <CardContent className="p-4 flex items-center gap-4">

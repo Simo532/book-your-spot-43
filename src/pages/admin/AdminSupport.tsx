@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import AdminLayout from '@/components/AdminLayout';
 import { useAllSupportMessages, useUpdateSupportMessage, useDeleteSupportMessage } from '@/hooks/useSupportHooks';
+import { ShimmerTableRow } from '@/components/ui/shimmer';
 import { SupportMessage } from '@/types/support';
 
 const AdminSupport = () => {
@@ -99,7 +100,7 @@ const AdminSupport = () => {
           </CardHeader>
           <CardContent>
             {isLoading ? (
-              <div className="text-center py-8 text-muted-foreground">Loading...</div>
+              <div className="space-y-1">{Array.from({ length: 5 }).map((_, i) => <ShimmerTableRow key={i} cols={5} />)}</div>
             ) : (
               <Table>
                 <TableHeader>
