@@ -1,5 +1,3 @@
-import { format as fnsFormat } from 'date-fns';
-
 /** App-wide timezone — all displayed times use this */
 export const APP_TIMEZONE = 'Africa/Casablanca';
 
