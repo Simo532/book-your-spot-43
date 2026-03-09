@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -13,6 +14,47 @@ const fadeUp = {
     y: 0,
     transition: { delay: i * 0.08, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as const },
   }),
+};
+
+const CountUp = ({ target, suffix = '', className }: { target: number; suffix?: string; className?: string }) => {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started.current) {
+          started.current = true;
+          const duration = 1800;
+          const steps = 60;
+          const increment = target / steps;
+          let current = 0;
+          const interval = duration / steps;
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+              setCount(target);
+              clearInterval(timer);
+            } else {
+              setCount(Math.floor(current));
+            }
+          }, interval);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [target]);
+
+  return (
+    <div ref={ref} className={className}>
+      {count.toLocaleString()}{suffix}
+    </div>
+  );
 };
 
 const Index = () => {
@@ -32,10 +74,10 @@ const Index = () => {
   ];
 
   const stats = [
-    { value: '5,000+', label: t('landing.stats_doctors'), icon: Stethoscope },
-    { value: '120K+', label: t('landing.stats_patients'), icon: Users },
-    { value: '500K+', label: t('landing.stats_appointments'), icon: CalendarCheck },
-    { value: '48', label: t('landing.stats_cities'), icon: MapPin },
+    { value: 5000, suffix: '+', label: t('landing.stats_doctors'), icon: Stethoscope },
+    { value: 120, suffix: 'K+', label: t('landing.stats_patients'), icon: Users },
+    { value: 500, suffix: 'K+', label: t('landing.stats_appointments'), icon: CalendarCheck },
+    { value: 48, suffix: '', label: t('landing.stats_cities'), icon: MapPin },
   ];
 
   return (
@@ -116,7 +158,7 @@ const Index = () => {
             {stats.map((stat) => (
               <div key={stat.label} className="glass-card rounded-2xl p-5 text-center">
                 <stat.icon className="h-5 w-5 text-primary mx-auto mb-2" />
-                <div className="text-2xl sm:text-3xl font-bold text-foreground">{stat.value}</div>
+                <CountUp target={stat.value} suffix={stat.suffix} className="text-2xl sm:text-3xl font-bold text-foreground" />
                 <div className="text-xs text-muted-foreground mt-1 font-medium uppercase tracking-wider">{stat.label}</div>
               </div>
             ))}
