@@ -16,6 +16,7 @@ import {
 import AdminLayout from '@/components/AdminLayout';
 import { cn } from '@/lib/utils';
 import { useAllBadges, useCreateBadge, useUpdateBadge, useDeleteBadge } from '@/hooks/useBadgeHooks';
+import { ShimmerCard } from '@/components/ui/shimmer';
 import { BadgeRequestDTO } from '@/types/badge';
 
 const badgeIcons = [Star, Award, Trophy, Gem, Crown];
