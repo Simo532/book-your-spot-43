@@ -17,6 +17,7 @@ const Index = lazy(() => import("./pages/Index"));
 const Login = lazy(() => import("./pages/Login"));
 const Signup = lazy(() => import("./pages/Signup"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
+const VerifyEmail = lazy(() => import("./pages/VerifyEmail"));
 const DoctorOnboarding = lazy(() => import("./pages/DoctorOnboarding"));
 const PatientOnboarding = lazy(() => import("./pages/PatientOnboarding"));
 const DoctorDetails = lazy(() => import("./pages/DoctorDetails"));
