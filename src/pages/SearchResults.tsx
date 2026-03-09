@@ -48,7 +48,10 @@ const SearchResults = () => {
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [page, setPage] = useState(0);
 
+  const { data: specialities } = useAllSpecialities();
+
   const searchParams = useMemo(() => ({
+    specialityId: selectedSpeciality !== 'all' ? selectedSpeciality : undefined,
     city: selectedCity !== 'all' ? selectedCity : undefined,
     gender: selectedGender !== 'all' ? (selectedGender.toUpperCase() as Gender) : undefined,
     minFee: priceRange[0] > 0 ? priceRange[0] : undefined,
