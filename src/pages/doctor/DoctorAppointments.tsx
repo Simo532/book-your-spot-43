@@ -179,10 +179,16 @@ const AppointmentCard = ({ appointment: apt, t, onAccept, onDecline, onJoinZoom 
           <p>{t('doctor.appointments.requested_at')} {new Date(apt.createdAt).toLocaleString('fr')}</p>
         </div>
         <div className="mt-3 flex items-center justify-center gap-2">
+          {apt.online && ['CONFIRMED', 'PAID'].includes(apt.status) && (
+            <Button size="sm" className="gap-1.5 h-9" variant="default" onClick={onJoinZoom}>
+              <Video className="h-3.5 w-3.5" />
+              {t('zoom.join', 'Rejoindre la session')}
+            </Button>
+          )}
           {apt.status === 'COMPLETED' && <div className="flex items-center gap-1.5 text-emerald-600"><CheckCircle className="h-5 w-5" /><span className="text-sm font-medium">{t('doctor.appointments.status.completed')}</span></div>}
           {apt.status === 'CANCELLED' && <div className="flex items-center gap-1.5 text-destructive"><XCircle className="h-5 w-5" /><span className="text-sm font-medium">{t('doctor.appointments.status.cancelled')}</span></div>}
-          {apt.status === 'CONFIRMED' && <Badge className="bg-primary/10 text-primary hover:bg-primary/20">{t('doctor.appointments.status.confirmed')}</Badge>}
-          {apt.status === 'PAID' && <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-200">{t('doctor.appointments.status.paid')}</Badge>}
+          {apt.status === 'CONFIRMED' && !apt.online && <Badge className="bg-primary/10 text-primary hover:bg-primary/20">{t('doctor.appointments.status.confirmed')}</Badge>}
+          {apt.status === 'PAID' && !apt.online && <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-200">{t('doctor.appointments.status.paid')}</Badge>}
           {apt.status === 'PENDING' && (
             <div className="flex gap-2 w-full">
               <Button size="sm" className="flex-1 h-9" onClick={onAccept}>{t('doctor.appointments.accept')}</Button>
