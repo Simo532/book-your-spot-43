@@ -63,7 +63,7 @@ const PatientDashboard = () => {
             </CardHeader>
             <CardContent>
               {aptsLoading ? (
-                <div className="space-y-3">{Array.from({ length: 2 }).map((_, i) => <Skeleton key={i} className="h-16 w-full rounded-xl" />)}</div>
+                <div className="space-y-3">{Array.from({ length: 2 }).map((_, i) => <ShimmerListItem key={i} />)}</div>
               ) : upcoming.length === 0 ? (
                 <p className="text-sm text-muted-foreground text-center py-8">{t('patient.appointments.no_upcoming')}</p>
               ) : (

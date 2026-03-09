@@ -121,7 +121,7 @@ const DoctorAppointments = () => {
         {/* Appointment Cards */}
         <div className="space-y-4">
           {isLoading ? (
-            Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-32 w-full rounded-xl" />)
+            Array.from({ length: 3 }).map((_, i) => <ShimmerListItem key={i} />)
           ) : filtered.length === 0 ? (
             <Card><CardContent className="py-16 text-center">
               <CalendarIcon className="h-12 w-12 text-muted-foreground/40 mx-auto mb-3" />

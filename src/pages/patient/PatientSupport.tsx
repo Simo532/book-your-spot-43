@@ -80,7 +80,7 @@ const PatientSupport = () => {
         </div>
 
         {isLoading ? (
-          <div className="text-center py-8 text-muted-foreground">Loading...</div>
+          <div className="space-y-3">{Array.from({ length: 3 }).map((_, i) => <ShimmerListItem key={i} />)}</div>
         ) : (
           <div className="space-y-3">
             {tickets.map(ticket => (

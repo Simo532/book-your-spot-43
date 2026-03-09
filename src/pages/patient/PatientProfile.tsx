@@ -59,7 +59,7 @@ const PatientProfile = () => {
         </div>
 
         {isLoading ? (
-          <div className="text-center py-12 text-muted-foreground">Loading...</div>
+          <ShimmerProfile />
         ) : patient ? (
           <Card>
             <CardContent className="pt-6">

@@ -65,7 +65,16 @@ const DoctorBadges = () => {
         )}
 
         {isLoading ? (
-          <div className="text-center py-8 text-muted-foreground">Loading...</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="rounded-lg border bg-card p-6 space-y-3 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_1.5s_infinite] before:bg-gradient-to-r before:from-transparent before:via-foreground/5 before:to-transparent">
+                <div className="h-16 w-16 rounded-2xl bg-muted mx-auto" />
+                <div className="h-5 w-24 bg-muted rounded mx-auto" />
+                <div className="h-3 w-32 bg-muted rounded mx-auto" />
+                <div className="h-5 w-16 bg-muted rounded-full mx-auto" />
+              </div>
+            ))}
+          </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {sortedBadges.map((badge) => {

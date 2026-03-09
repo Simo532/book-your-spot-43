@@ -165,7 +165,7 @@ const PatientAppointments = () => {
         )}
 
         {isLoading ? (
-          <div className="space-y-3">{Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-20 w-full rounded-xl" />)}</div>
+          <div className="space-y-3">{Array.from({ length: 4 }).map((_, i) => <ShimmerListItem key={i} />)}</div>
         ) : (
           <Tabs defaultValue="upcoming">
             <TabsList>

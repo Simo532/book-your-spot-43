@@ -63,7 +63,7 @@ const DoctorNotifications = () => {
 
         <div className="space-y-4">
           {isLoading ? (
-            Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-24 w-full rounded-xl" />)
+            Array.from({ length: 4 }).map((_, i) => <ShimmerNotification key={i} />)
           ) : filtered.length === 0 ? (
             <Card><CardContent className="py-16 text-center text-muted-foreground">{t('doctor.notifications.empty')}</CardContent></Card>
           ) : (
