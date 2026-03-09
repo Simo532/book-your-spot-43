@@ -97,6 +97,19 @@ const SearchResults = () => {
   const FiltersContent = () => (
     <div className="space-y-6">
       <div className="space-y-2">
+        <Label className="text-sm font-semibold">{t('search.speciality') || 'Spécialité'}</Label>
+        <Select value={selectedSpeciality} onValueChange={v => { setSelectedSpeciality(v); setPage(0); }}>
+          <SelectTrigger><SelectValue placeholder={t('search.all_specialities') || 'Toutes les spécialités'} /></SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">{t('search.all_specialities') || 'Toutes les spécialités'}</SelectItem>
+            {specialities?.map(s => <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>)}
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="border-t border-border pt-4">
+        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-4">{t('search.extra_filters') || 'Filtres supplémentaires'}</p>
+      </div>
+      <div className="space-y-2">
         <Label>{t('search.city')}</Label>
         <Select value={selectedCity} onValueChange={v => { setSelectedCity(v); setPage(0); }}>
           <SelectTrigger><SelectValue /></SelectTrigger>
