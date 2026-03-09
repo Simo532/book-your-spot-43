@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
-import { Skeleton } from '@/components/ui/skeleton';
+import { ShimmerListItem } from '@/components/ui/shimmer';
 import PatientLayout from '@/components/PatientLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { useFavorites, useToggleFavorite } from '@/hooks/useApiHooks';
