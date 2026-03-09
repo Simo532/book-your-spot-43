@@ -1,112 +1,90 @@
+import axios from 'axios';
 import { apiRequest, tokenStorage, BASE_URL } from './api';
 import type { AuthTokens, UserRequestDTO, UserResponseDTO, UserLoginInfosDTO, NotificationsPreferenceDTO } from '@/types/auth';
+
+// Public axios instance (no interceptors needed for auth endpoints)
+const publicApi = axios.create({
+  baseURL: BASE_URL,
+  headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+});
 
 export const authService = {
   // ─── Login ─────────────────────────────────────────────────────────
   async login(username: string, password: string): Promise<AuthTokens> {
-    const res = await fetch(
-      `${BASE_URL}/auth/login?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-      }
-    );
-
-    if (!res.ok) throw new Error('Email ou mot de passe incorrect');
-    return res.json();
+    const { data } = await publicApi.post<AuthTokens>('/auth/login', null, {
+      params: { username, password },
+    });
+    return data;
   },
 
   // ─── Signup ────────────────────────────────────────────────────────
   async signup(user: UserRequestDTO): Promise<string> {
-    const res = await fetch(`${BASE_URL}/auth/signup`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-      body: JSON.stringify(user),
-    });
-
-    if (!res.ok) throw new Error('Cet email est déjà utilisé');
-    return res.text();
+    const { data } = await publicApi.post<string>('/auth/signup', user);
+    return data;
   },
 
-  // ─── Google Sign-In (send Firebase ID token) ──────────────────────
+  // ─── Google Sign-In ────────────────────────────────────────────────
   async loginWithGoogle(idToken: string): Promise<{ tokens?: AuthTokens; reason?: string; message?: string; status: number }> {
-    const res = await fetch(`${BASE_URL}/auth/login-with-google`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-      body: JSON.stringify({ idToken }),
-    });
-
-    const data = await res.json();
-    return { ...data, status: res.status };
+    try {
+      const { data, status } = await publicApi.post('/auth/login-with-google', { idToken });
+      return { ...data, status };
+    } catch (error: any) {
+      if (error.response) {
+        return { ...error.response.data, status: error.response.status };
+      }
+      throw error;
+    }
   },
 
-  // ─── Complete Google Registration (new user picks role) ───────────
+  // ─── Complete Google Registration ──────────────────────────────────
   async completeGoogleRegistration(idToken: string, role: string): Promise<AuthTokens> {
-    const res = await fetch(`${BASE_URL}/auth/complete-google-registration`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-      body: JSON.stringify({ idToken, role }),
-    });
-
-    if (!res.ok) throw new Error('Failed to complete Google registration');
-    return res.json();
+    const { data } = await publicApi.post<AuthTokens>('/auth/complete-google-registration', { idToken, role });
+    return data;
   },
 
   // ─── Forgot Password ──────────────────────────────────────────────
   async generateResetPasswordToken(email: string): Promise<string> {
-    const res = await fetch(
-      `${BASE_URL}/auth/generate-reset-password-token?email=${encodeURIComponent(email)}`,
-      { method: 'POST', headers: { 'Content-Type': 'application/json; charset=UTF-8' } }
-    );
-    if (!res.ok) throw new Error('Failed to generate reset token');
-    return res.text();
+    const { data } = await publicApi.post<string>('/auth/generate-reset-password-token', null, {
+      params: { email },
+    });
+    return data;
   },
 
   async verifyResetPasswordToken(email: string, token: string): Promise<string> {
-    const res = await fetch(
-      `${BASE_URL}/auth/verify-reset-password-token?email=${encodeURIComponent(email)}&token=${encodeURIComponent(token)}`,
-      { method: 'POST', headers: { 'Content-Type': 'application/json; charset=UTF-8' } }
-    );
-    if (!res.ok) throw new Error('Invalid reset token');
-    return res.text();
+    const { data } = await publicApi.post<string>('/auth/verify-reset-password-token', null, {
+      params: { email, token },
+    });
+    return data;
   },
 
   async updatePassword(email: string, newPassword: string): Promise<string> {
-    const res = await fetch(
-      `${BASE_URL}/auth/update-password?email=${encodeURIComponent(email)}&newPassword=${encodeURIComponent(newPassword)}`,
-      { method: 'POST', headers: { 'Content-Type': 'application/json; charset=UTF-8' } }
-    );
-    if (!res.ok) throw new Error('Failed to update password');
-    return res.text();
+    const { data } = await publicApi.post<string>('/auth/update-password', null, {
+      params: { email, newPassword },
+    });
+    return data;
   },
 
   // ─── Email Verification ───────────────────────────────────────────
   async verifyEmail(email: string, code: string): Promise<string> {
-    const res = await fetch(
-      `${BASE_URL}/auth/verify-email?email=${encodeURIComponent(email)}&code=${encodeURIComponent(code)}`,
-      { method: 'POST', headers: { 'Content-Type': 'application/json; charset=UTF-8' } }
-    );
-    if (!res.ok) throw new Error('Failed to verify email');
-    return res.text();
+    const { data } = await publicApi.post<string>('/auth/verify-email', null, {
+      params: { email, code },
+    });
+    return data;
   },
 
   async sendEmailForVerification(email: string): Promise<string> {
-    const res = await fetch(
-      `${BASE_URL}/auth/send-email-for-email-verification?email=${encodeURIComponent(email)}`,
-      { method: 'POST', headers: { 'Content-Type': 'application/json; charset=UTF-8' } }
-    );
-    if (!res.ok) throw new Error('Failed to send verification email');
-    return res.text();
+    const { data } = await publicApi.post<string>('/auth/send-email-for-email-verification', null, {
+      params: { email },
+    });
+    return data;
   },
 
   // ─── User Info ─────────────────────────────────────────────────────
   async getUserByEmail(email: string): Promise<UserResponseDTO> {
-    const res = await fetch(
-      `${BASE_URL}/auth/get-user-by-email?email=${encodeURIComponent(email)}`,
-      { headers: { 'Content-Type': 'application/json; charset=UTF-8' } }
-    );
-    if (!res.ok) throw new Error('Failed to get user');
-    return res.json();
+    const { data } = await publicApi.get<UserResponseDTO>('/auth/get-user-by-email', {
+      params: { email },
+    });
+    return data;
   },
 
   async getUserInfos(userId: string): Promise<UserLoginInfosDTO> {
@@ -159,7 +137,7 @@ export const authService = {
   async updateNotificationPreferences(userId: string, pushEnabled: boolean, emailEnabled: boolean): Promise<string> {
     return apiRequest<string>(
       `/auth/${userId}/notifications-preferences`,
-      { method: 'PUT', params: { pushEnabled: String(pushEnabled), emailEnabled: String(emailEnabled) } }
+      { method: 'PUT', params: { pushEnabled: String(pushEnabled), emailEnabled: String(emailEnabled) } },
     );
   },
 

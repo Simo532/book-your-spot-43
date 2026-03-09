@@ -1,4 +1,4 @@
-import { apiRequest, tokenStorage, BASE_URL } from './api';
+import { apiRequest, api } from './api';
 import { PatientResponseDTO, PatientRequestDTO } from '@/types/patient';
 import { Gender } from '@/types/doctor';
 import { PageResponse } from '@/types/appointment';
@@ -20,47 +20,37 @@ async function multipartPatientRequest(
 
   if (profilePicture) formData.append('profilePicture', profilePicture);
 
-  const token = tokenStorage.getAccessToken();
-  const res = await fetch(url, {
+  const { data } = await api.request<PatientResponseDTO>({
+    url,
     method,
-    headers: token ? { Authorization: `Bearer ${token}` } : {},
-    body: formData,
+    data: formData,
+    headers: { 'Content-Type': 'multipart/form-data' },
   });
 
-  if (!res.ok) {
-    const errorText = await res.text();
-    throw new Error(`Patient multipart error [${res.status}]: ${errorText}`);
-  }
-
-  return res.json();
+  return data;
 }
 
 // ─── PatientService ─────────────────────────────────────────────────────────
 export const patientService = {
-  // Create patient (multipart)
   create(dto: PatientRequestDTO, profilePicture?: File) {
-    return multipartPatientRequest(`${BASE_URL}/patients`, 'POST', dto, profilePicture);
+    return multipartPatientRequest('/patients', 'POST', dto, profilePicture);
   },
 
-  // Create patient by admin (multipart)
   createByAdmin(dto: PatientRequestDTO, password: string, profilePicture?: File) {
     return multipartPatientRequest(
-      `${BASE_URL}/patients/admin?password=${encodeURIComponent(password)}`,
+      `/patients/admin?password=${encodeURIComponent(password)}`,
       'POST', dto, profilePicture,
     );
   },
 
-  // Update patient (multipart)
   update(id: string, dto: PatientRequestDTO, profilePicture?: File) {
-    return multipartPatientRequest(`${BASE_URL}/patients/${id}`, 'PUT', dto, profilePicture);
+    return multipartPatientRequest(`/patients/${id}`, 'PUT', dto, profilePicture);
   },
 
-  // Get patient by ID
   getById(id: string) {
     return apiRequest<PatientResponseDTO>(`/patients/${id}`);
   },
 
-  // Get patient by email
   async getByEmail(email: string): Promise<PatientResponseDTO | Record<string, unknown>> {
     try {
       return await apiRequest<PatientResponseDTO>('/patients/by-email', { params: { email } });
@@ -69,17 +59,14 @@ export const patientService = {
     }
   },
 
-  // Get patient by userId
   getByUserId(userId: string) {
     return apiRequest<PatientResponseDTO>(`/patients/user/${userId}`);
   },
 
-  // Delete patient
   delete(id: string) {
     return apiRequest<string>(`/patients/${id}`, { method: 'DELETE' });
   },
 
-  // Admin search patients
   searchPatientsForAdmin(params: {
     gender?: Gender;
     city?: string;
@@ -109,49 +96,42 @@ export const patientService = {
     return apiRequest<PageResponse<PatientResponseDTO>>('/patients/admin/search/patients', { params: query });
   },
 
-  // Get all patients (paginated)
   getAll(page = 0, size = 10) {
     return apiRequest<PageResponse<PatientResponseDTO>>('/patients', {
       params: { page: String(page), size: String(size) },
     });
   },
 
-  // Get all enabled patients
   getAllEnabled(page = 0, size = 10) {
     return apiRequest<PageResponse<PatientResponseDTO>>('/patients/account-enabled', {
       params: { page: String(page), size: String(size) },
     });
   },
 
-  // Get all disabled patients
   getAllDisabled(page = 0, size = 10) {
     return apiRequest<PageResponse<PatientResponseDTO>>('/patients/account-disabled', {
       params: { page: String(page), size: String(size) },
     });
   },
 
-  // Get by phone
   getByPhone(phone: string, page = 0, size = 10) {
     return apiRequest<PageResponse<PatientResponseDTO>>('/patients/by-phone', {
       params: { phone, page: String(page), size: String(size) },
     });
   },
 
-  // Get by gender
   getByGender(gender: Gender, page = 0, size = 10) {
     return apiRequest<PageResponse<PatientResponseDTO>>('/patients/by-gender', {
       params: { gender, page: String(page), size: String(size) },
     });
   },
 
-  // Get by city
   getByCity(city: string, page = 0, size = 10) {
     return apiRequest<PageResponse<PatientResponseDTO>>('/patients/by-city', {
       params: { city, page: String(page), size: String(size) },
     });
   },
 
-  // Get by postal code
   getByPostalCode(postalCode: string, page = 0, size = 10) {
     return apiRequest<PageResponse<PatientResponseDTO>>('/patients/by-postalCode', {
       params: { postalCode, page: String(page), size: String(size) },

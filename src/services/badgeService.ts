@@ -1,4 +1,4 @@
-import { apiRequest, tokenStorage, BASE_URL } from './api';
+import { apiRequest, api } from './api';
 import { BadgeResponseDTO, BadgeRequestDTO } from '@/types/badge';
 import { DoctorResponseDTO } from '@/types/doctor';
 import { PageResponse } from '@/types/appointment';
@@ -22,49 +22,38 @@ async function multipartBadgeRequest(
 
   if (image) formData.append('image', image);
 
-  const token = tokenStorage.getAccessToken();
-  const res = await fetch(url, {
+  const { data } = await api.request<BadgeResponseDTO>({
+    url,
     method,
-    headers: token ? { Authorization: `Bearer ${token}` } : {},
-    body: formData,
+    data: formData,
+    headers: { 'Content-Type': 'multipart/form-data' },
   });
 
-  if (!res.ok) {
-    const errorText = await res.text();
-    throw new Error(`Badge multipart error [${res.status}]: ${errorText}`);
-  }
-
-  return res.json();
+  return data;
 }
 
 // ─── BadgeService ───────────────────────────────────────────────────────────
 export const badgeService = {
-  // Create badge (multipart)
   create(dto: BadgeRequestDTO, image?: File) {
-    return multipartBadgeRequest(`${BASE_URL}/badges`, 'POST', dto, image);
+    return multipartBadgeRequest('/badges', 'POST', dto, image);
   },
 
-  // Get all badges
   getAll() {
     return apiRequest<BadgeResponseDTO[]>('/badges');
   },
 
-  // Get badge by ID
   getById(id: string) {
     return apiRequest<BadgeResponseDTO>(`/badges/${id}`);
   },
 
-  // Update badge (multipart)
   update(id: string, dto: BadgeRequestDTO, image?: File) {
-    return multipartBadgeRequest(`${BASE_URL}/badges/${id}`, 'PUT', dto, image);
+    return multipartBadgeRequest(`/badges/${id}`, 'PUT', dto, image);
   },
 
-  // Delete badge
   delete(id: string) {
     return apiRequest<void>(`/badges/${id}`, { method: 'DELETE' });
   },
 
-  // Get doctors by badge (paginated)
   getDoctorsByBadge(badgeId: string, page = 0, size = 10) {
     return apiRequest<PageResponse<DoctorResponseDTO>>(`/badges/${badgeId}/doctors`, {
       params: { page: String(page), size: String(size) },
