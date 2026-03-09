@@ -98,6 +98,7 @@ const DoctorDetails = () => {
     firstName: doctor.firstName,
     lastName: doctor.lastName,
     specialty: doctor.speciality?.name || '',
+    avatar: doctor.profilePicture || '',
     consultPrice: doctor.consultationFee,
     currency: 'DA',
   };
