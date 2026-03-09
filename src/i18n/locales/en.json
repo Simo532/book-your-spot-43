@@ -497,9 +497,20 @@
       "today": "Today",
       "upcoming_tab": "Upcoming",
       "search": "Search a patient...",
+      "years": "years",
+      "no_appointments": "No appointments",
+      "requested_at": "Request received at",
+      "completed_at": "Marked as completed at",
+      "calendar": {
+        "by_week": "By week",
+        "by_month": "By Month",
+        "clear_selection": "Clear selection"
+      },
       "status": {
-        "confirmed": "Confirmed",
         "pending": "Pending",
+        "confirmed": "Confirmed",
+        "paid": "Paid",
+        "completed": "Completed",
         "cancelled": "Cancelled"
       },
       "accept": "Accept",
@@ -520,10 +531,20 @@
         "female": "Female",
         "mode": "Mode",
         "all_modes": "All modes",
-        "cabinet": "In-office",
+        "cabinet": "In office",
         "online": "Online",
         "clear": "Clear filters",
         "no_results": "No results found"
+      }
+    },
+    "notifications": {
+      "title": "Notifications",
+      "empty": "No notifications",
+      "filter": {
+        "all": "All",
+        "appointment": "Appointments",
+        "message": "Message",
+        "system": "System"
       }
     },
     "messages": {

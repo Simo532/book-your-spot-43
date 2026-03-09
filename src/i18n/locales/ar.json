@@ -497,9 +497,20 @@
       "today": "اليوم",
       "upcoming_tab": "القادمة",
       "search": "البحث عن مريض...",
+      "years": "سنة",
+      "no_appointments": "لا توجد مواعيد",
+      "requested_at": "تم الطلب في",
+      "completed_at": "تم الانتهاء في",
+      "calendar": {
+        "by_week": "بالأسبوع",
+        "by_month": "بالشهر",
+        "clear_selection": "مسح التحديد"
+      },
       "status": {
-        "confirmed": "مؤكد",
         "pending": "قيد الانتظار",
+        "confirmed": "مؤكد",
+        "paid": "مدفوع",
+        "completed": "مكتمل",
         "cancelled": "ملغى"
       },
       "accept": "قبول",
@@ -511,7 +522,7 @@
         "select_date": "اختر تاريخ",
         "time": "الوقت",
         "all_times": "كل الأوقات",
-        "morning": "صباحاً",
+        "morning": "صباحًا",
         "afternoon": "بعد الظهر",
         "evening": "مساءً",
         "gender": "الجنس",
@@ -524,6 +535,16 @@
         "online": "عبر الإنترنت",
         "clear": "مسح الفلاتر",
         "no_results": "لا توجد نتائج"
+      }
+    },
+    "notifications": {
+      "title": "الإشعارات",
+      "empty": "لا توجد إشعارات",
+      "filter": {
+        "all": "الكل",
+        "appointment": "المواعيد",
+        "message": "الرسائل",
+        "system": "النظام"
       }
     },
     "messages": {
