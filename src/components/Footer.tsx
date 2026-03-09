@@ -1,8 +1,9 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Heart, Mail, Phone, MapPin } from 'lucide-react';
 
-const Footer = () => {
+const Footer = memo(() => {
   const { t } = useTranslation();
   const year = new Date().getFullYear();
 
@@ -72,6 +73,8 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
+});
+
+Footer.displayName = 'Footer';
 
 export default Footer;

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, useMemo, ReactNode } from 'react';
 import { tokenStorage } from '@/services/api';
 import { UserRole } from '@/types/auth';
 
@@ -22,9 +22,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [userEmail, setUserEmail] = useState<string | null>(tokenStorage.getUserEmail());
   const [doctorOrPatientId, setDoctorOrPatientIdState] = useState<string | null>(tokenStorage.getDoctorOrPatientId());
 
-  const firstName = tokenStorage.getUserFirstName();
-  const lastName = tokenStorage.getUserLastName();
-  const userName = firstName && lastName ? `${firstName} ${lastName}` : null;
+  const userName = useMemo(() => {
+    const firstName = tokenStorage.getUserFirstName();
+    const lastName = tokenStorage.getUserLastName();
+    return firstName && lastName ? `${firstName} ${lastName}` : null;
+  }, [isAuthenticated]);
 
   useEffect(() => {
     const checkAuth = () => {
@@ -41,12 +43,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return () => window.removeEventListener('storage', checkAuth);
   }, []);
 
-  const setDoctorOrPatientId = (id: string) => {
+  const setDoctorOrPatientId = useCallback((id: string) => {
     tokenStorage.setDoctorOrPatientId(id);
     setDoctorOrPatientIdState(id);
-  };
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     tokenStorage.clear();
     setIsAuthenticated(false);
     setUserRole(null);
@@ -54,10 +56,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUserEmail(null);
     setDoctorOrPatientIdState(null);
     window.location.href = '/login';
-  };
+  }, []);
+
+  const value = useMemo(() => ({
+    isAuthenticated, userRole, userId, userEmail, userName, doctorOrPatientId, setDoctorOrPatientId, logout,
+  }), [isAuthenticated, userRole, userId, userEmail, userName, doctorOrPatientId, setDoctorOrPatientId, logout]);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, userRole, userId, userEmail, userName, doctorOrPatientId, setDoctorOrPatientId, logout }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
