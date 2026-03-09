@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback, memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Menu, X, Globe, Heart, Moon, Sun } from 'lucide-react';
@@ -16,18 +16,21 @@ const languages = [
   { code: 'fr', label: 'Français', flag: '🇫🇷' },
   { code: 'en', label: 'English', flag: '🇬🇧' },
   { code: 'ar', label: 'العربية', flag: '🇲🇦' },
-];
+] as const;
 
-const Navbar = () => {
+const Navbar = memo(() => {
   const { t, i18n } = useTranslation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const isLanding = location.pathname === '/';
   const { resolvedTheme, setTheme } = useTheme();
 
-  const toggleDarkMode = () => {
+  const toggleDarkMode = useCallback(() => {
     setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
-  };
+  }, [resolvedTheme, setTheme]);
+
+  const closeMobile = useCallback(() => setMobileOpen(false), []);
+  const toggleMobile = useCallback(() => setMobileOpen(prev => !prev), []);
 
   return (
     <nav
@@ -108,7 +111,7 @@ const Navbar = () => {
             </Button>
             <button
               className="p-2 rounded-xl hover:bg-muted transition-colors"
-              onClick={() => setMobileOpen(!mobileOpen)}
+              onClick={toggleMobile}
             >
               {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -118,7 +121,7 @@ const Navbar = () => {
         {/* Mobile menu */}
         {mobileOpen && (
           <div className="md:hidden pb-4 space-y-2 animate-in slide-in-from-top-2 duration-200">
-            <Link to="/search" onClick={() => setMobileOpen(false)}>
+            <Link to="/search" onClick={closeMobile}>
               <Button variant="ghost" className="w-full justify-start">
                 {t('nav.search')}
               </Button>
@@ -129,7 +132,7 @@ const Navbar = () => {
                   key={lang.code}
                   onClick={() => {
                     i18n.changeLanguage(lang.code);
-                    setMobileOpen(false);
+                    closeMobile();
                   }}
                   className={cn(
                     'text-xs px-3 py-1.5 rounded-full border transition-colors',
@@ -142,12 +145,12 @@ const Navbar = () => {
                 </button>
               ))}
             </div>
-            <Link to="/login" onClick={() => setMobileOpen(false)}>
+            <Link to="/login" onClick={closeMobile}>
               <Button variant="ghost" className="w-full justify-start">
                 {t('nav.login')}
               </Button>
             </Link>
-            <Link to="/signup" onClick={() => setMobileOpen(false)}>
+            <Link to="/signup" onClick={closeMobile}>
               <Button className="w-full" style={{ background: 'var(--gradient-primary)' }}>
                 {t('nav.signup')}
               </Button>
@@ -157,6 +160,8 @@ const Navbar = () => {
       </div>
     </nav>
   );
-};
+});
+
+Navbar.displayName = 'Navbar';
 
 export default Navbar;
