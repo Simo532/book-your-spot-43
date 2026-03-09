@@ -19,9 +19,9 @@ const Index = () => {
   const { t } = useTranslation();
 
   const features = [
-    { icon: Search, title: t('landing.feature_search_title'), desc: t('landing.feature_search_desc'), color: 'hsl(210 100% 45%)' },
-    { icon: CalendarCheck, title: t('landing.feature_booking_title'), desc: t('landing.feature_booking_desc'), color: 'hsl(168 60% 42%)' },
-    { icon: MapPin, title: t('landing.feature_map_title'), desc: t('landing.feature_map_desc'), color: 'hsl(38 92% 50%)' },
+    { icon: Search, title: t('landing.feature_search_title'), desc: t('landing.feature_search_desc'), color: 'hsl(231 99% 66%)' },
+    { icon: CalendarCheck, title: t('landing.feature_booking_title'), desc: t('landing.feature_booking_desc'), color: 'hsl(260 80% 60%)' },
+    { icon: MapPin, title: t('landing.feature_map_title'), desc: t('landing.feature_map_desc'), color: 'hsl(231 70% 55%)' },
     { icon: ShieldCheck, title: t('landing.feature_secure_title'), desc: t('landing.feature_secure_desc'), color: 'hsl(260 60% 55%)' },
   ];
 
