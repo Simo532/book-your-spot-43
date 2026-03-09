@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { formatDate, formatTime } from '@/lib/dateUtils';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { CalendarCheck, Clock, Video, MapPin, RefreshCw, Trash2, Search, Filter } from 'lucide-react';
+import { CalendarCheck, Clock, Video, MapPin, Trash2, Search, Filter, MessageSquare } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import ReviewModal from '@/components/patient/ReviewModal';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -27,10 +28,8 @@ const PatientAppointments = () => {
   const navigate = useNavigate();
   const { doctorOrPatientId } = useAuth();
   const [search, setSearch] = useState('');
-  const [rescheduleId, setRescheduleId] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
-  const [newDate, setNewDate] = useState('');
-  const [newTime, setNewTime] = useState('');
+  const [reviewApt, setReviewApt] = useState<AppointmentResponseDTO | null>(null);
   const [dateFilter, setDateFilter] = useState<Date | undefined>();
   const [timeFilter, setTimeFilter] = useState('all');
   const [modeFilter, setModeFilter] = useState('all');
@@ -98,6 +97,11 @@ const PatientAppointments = () => {
             {['CONFIRMED', 'PENDING'].includes(apt.status) && (
               <Button variant="ghost" size="sm" className="text-xs gap-1 h-7 text-destructive hover:text-destructive" onClick={() => setDeleteId(apt.id)}>
                 <Trash2 className="h-3 w-3" />{t('patient.appointments.cancel')}
+              </Button>
+            )}
+            {apt.status === 'COMPLETED' && (
+              <Button variant="outline" size="sm" className="text-xs gap-1 h-7" onClick={() => setReviewApt(apt)}>
+                <MessageSquare className="h-3 w-3" />{t('patient.review.add', 'Avis')}
               </Button>
             )}
           </div>
@@ -207,6 +211,16 @@ const PatientAppointments = () => {
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
+
+        {reviewApt && (
+          <ReviewModal
+            open={!!reviewApt}
+            onOpenChange={(open) => !open && setReviewApt(null)}
+            doctorId={reviewApt.doctorId}
+            doctorName={reviewApt.doctorName}
+            patientId={doctorOrPatientId || ''}
+          />
+        )}
       </div>
     </PatientLayout>
   );
