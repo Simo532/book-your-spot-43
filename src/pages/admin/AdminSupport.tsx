@@ -156,7 +156,7 @@ const AdminSupport = () => {
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <span>{selectedTicket.fullName}</span>
                   <span>({selectedTicket.email})</span>
-                  {selectedTicket.createdAt && <span className="ml-auto">{new Date(selectedTicket.createdAt).toLocaleDateString()}</span>}
+                  {selectedTicket.createdAt && <span className="ml-auto">{formatDate(selectedTicket.createdAt)}</span>}
                 </div>
                 <div className="rounded-xl px-4 py-2.5 text-sm bg-accent">
                   <p>{selectedTicket.message}</p>

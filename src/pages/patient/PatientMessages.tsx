@@ -96,7 +96,7 @@ const PatientMessages = () => {
                       <div className={cn('max-w-[70%] px-3 py-2 rounded-xl text-sm', m.senderType === 'PATIENT' ? 'bg-primary text-primary-foreground' : 'bg-accent')}>
                         <p>{m.content}</p>
                         <p className={cn('text-[10px] mt-1', m.senderType === 'PATIENT' ? 'text-primary-foreground/70' : 'text-muted-foreground')}>
-                          {new Date(m.sentAt).toLocaleTimeString('fr', { hour: '2-digit', minute: '2-digit' })}
+                          {formatTime(m.sentAt)}
                         </p>
                       </div>
                     </div>

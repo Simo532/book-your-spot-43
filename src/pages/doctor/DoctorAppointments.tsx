@@ -177,7 +177,7 @@ const AppointmentCard = ({ appointment: apt, t, onAccept, onDecline, onJoinZoom 
           </div>
         )}
         <div className="mt-3 text-[11px] text-primary space-y-0.5">
-          <p>{t('doctor.appointments.requested_at')} {new Date(apt.createdAt).toLocaleString('fr')}</p>
+          <p>{t('doctor.appointments.requested_at')} {formatDateTime(apt.createdAt)}</p>
         </div>
         <div className="mt-3 flex items-center justify-center gap-2">
           {apt.online && ['CONFIRMED', 'PAID'].includes(apt.status) && (

@@ -100,7 +100,7 @@ const PatientSupport = () => {
                       <p className="text-sm font-semibold">{ticket.objet}</p>
                       <p className="text-xs text-muted-foreground mt-1">{ticket.message}</p>
                       {ticket.createdAt && (
-                        <p className="text-[10px] text-muted-foreground mt-2">{new Date(ticket.createdAt).toLocaleDateString()}</p>
+                        <p className="text-[10px] text-muted-foreground mt-2">{formatDate(ticket.createdAt)}</p>
                       )}
                     </div>
                   </div>
