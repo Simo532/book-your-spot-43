@@ -133,7 +133,7 @@ const AdminChat = () => {
       lastMessage: newChatMessage,
       unread: 0,
       messages: [
-        { id: `m${Date.now()}`, text: newChatMessage, sender: 'admin', timestamp: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) },
+        { id: `m${Date.now()}`, text: newChatMessage, sender: 'admin', timestamp: formatTime(new Date()) },
       ],
     };
     setConversations((prev) => [newConv, ...prev]);
