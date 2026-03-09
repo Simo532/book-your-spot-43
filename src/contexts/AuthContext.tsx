@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const setDoctorOrPatientId = useCallback((id: string) => {
-    tokenStorage.setDoctorOrPatientId(id);
+    tokenStorage.setDoctorOrPatientId(id); // async but fire-and-forget is fine here
     setDoctorOrPatientIdState(id);
   }, []);
 

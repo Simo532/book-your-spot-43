@@ -191,7 +191,8 @@ api.interceptors.response.use(
         );
 
         const newAccessToken = res.data['access-token'];
-        localStorage.setItem('access-token', newAccessToken);
+        // Update encrypted storage and memory cache
+        await secureStorage.setItem('access-token', newAccessToken);
         processQueue(null, newAccessToken);
 
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
