@@ -45,9 +45,8 @@ const Signup = () => {
       });
       toast.success(t('auth.signup_success', 'Inscription réussie ! Vérifiez votre email.'));
       navigate('/login');
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Erreur lors de l\'inscription';
-      toast.error(message);
+    } catch {
+      // Error toast handled by global interceptor
     } finally {
       setLoading(false);
     }
@@ -56,27 +55,51 @@ const Signup = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="flex min-h-screen items-center justify-center px-4 pt-16 pb-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="w-full max-w-md"
-        >
-          <div className="bg-card rounded-2xl border border-border p-8 shadow-[var(--shadow-card)]">
-            <div className="text-center mb-8">
-              <Link to="/" className="inline-flex items-center gap-2 mb-6">
-                <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-                  <span className="text-primary-foreground font-bold text-xl">S</span>
+      <div className="flex min-h-screen">
+        {/* Left side - Branding */}
+        <div className="hidden lg:flex lg:w-1/2 relative items-center justify-center p-12" style={{ background: 'var(--gradient-primary)' }}>
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute top-20 -left-20 w-72 h-72 rounded-full bg-white/5" />
+            <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-white/5" />
+          </div>
+          <div className="relative z-10 max-w-md">
+            <div className="flex items-center gap-2.5 mb-8">
+              <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center">
+                <Heart className="h-5 w-5 text-primary-foreground fill-primary-foreground" />
+              </div>
+              <span className="text-2xl font-bold text-primary-foreground">Superdoc</span>
+            </div>
+            <h2 className="text-3xl font-bold text-primary-foreground mb-4">
+              Join 5,000+ healthcare professionals
+            </h2>
+            <p className="text-primary-foreground/70 text-lg leading-relaxed">
+              Whether you're a patient seeking care or a doctor growing your practice — Superdoc is built for you.
+            </p>
+          </div>
+        </div>
+
+        {/* Right side - Form */}
+        <div className="flex-1 flex items-center justify-center px-4 pt-20 pb-8">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="w-full max-w-[420px]"
+          >
+            <div className="lg:hidden text-center mb-6">
+              <Link to="/" className="inline-flex items-center gap-2.5 mb-4">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'var(--gradient-primary)' }}>
+                  <Heart className="h-5 w-5 text-primary-foreground fill-primary-foreground" />
                 </div>
               </Link>
-              <h1 className="text-2xl font-bold">{t('auth.signup_title')}</h1>
-              <p className="text-muted-foreground text-sm mt-1">{t('auth.signup_subtitle')}</p>
             </div>
+
+            <h1 className="text-2xl font-bold mb-1">{t('auth.signup_title')}</h1>
+            <p className="text-muted-foreground text-sm mb-6">{t('auth.signup_subtitle')}</p>
 
             {/* Role Selector */}
             <div className="mb-6">
-              <Label className="mb-3 block">{t('auth.role_select')}</Label>
+              <Label className="mb-3 block text-sm font-medium">{t('auth.role_select')}</Label>
               <div className="grid grid-cols-2 gap-3">
                 <button
                   type="button"
@@ -84,11 +107,16 @@ const Signup = () => {
                   className={cn(
                     'flex items-center gap-3 p-4 rounded-xl border-2 transition-all',
                     role === 'patient'
-                      ? 'border-primary bg-primary/5'
-                      : 'border-border hover:border-primary/30'
+                      ? 'border-primary bg-primary/5 shadow-sm'
+                      : 'border-border hover:border-primary/30 hover:bg-muted/30'
                   )}
                 >
-                  <Heart className={cn('h-5 w-5', role === 'patient' ? 'text-primary' : 'text-muted-foreground')} />
+                  <div className={cn(
+                    'w-9 h-9 rounded-lg flex items-center justify-center',
+                    role === 'patient' ? 'bg-primary/15' : 'bg-muted'
+                  )}>
+                    <Heart className={cn('h-4 w-4', role === 'patient' ? 'text-primary' : 'text-muted-foreground')} />
+                  </div>
                   <span className={cn('font-medium text-sm', role === 'patient' ? 'text-primary' : 'text-muted-foreground')}>
                     {t('auth.role_patient')}
                   </span>
@@ -99,11 +127,16 @@ const Signup = () => {
                   className={cn(
                     'flex items-center gap-3 p-4 rounded-xl border-2 transition-all',
                     role === 'doctor'
-                      ? 'border-primary bg-primary/5'
-                      : 'border-border hover:border-primary/30'
+                      ? 'border-primary bg-primary/5 shadow-sm'
+                      : 'border-border hover:border-primary/30 hover:bg-muted/30'
                   )}
                 >
-                  <Stethoscope className={cn('h-5 w-5', role === 'doctor' ? 'text-primary' : 'text-muted-foreground')} />
+                  <div className={cn(
+                    'w-9 h-9 rounded-lg flex items-center justify-center',
+                    role === 'doctor' ? 'bg-primary/15' : 'bg-muted'
+                  )}>
+                    <Stethoscope className={cn('h-4 w-4', role === 'doctor' ? 'text-primary' : 'text-muted-foreground')} />
+                  </div>
                   <span className={cn('font-medium text-sm', role === 'doctor' ? 'text-primary' : 'text-muted-foreground')}>
                     {t('auth.role_doctor')}
                   </span>
@@ -112,7 +145,7 @@ const Signup = () => {
             </div>
 
             {/* Google Button */}
-            <Button variant="outline" className="w-full gap-3 h-11 mb-6" type="button" onClick={() => toast.info('Google Sign-In sera disponible prochainement')}>
+            <Button variant="outline" className="w-full gap-3 h-12 rounded-xl border-2 mb-6 hover:bg-muted/50" type="button" onClick={() => toast.info('Google Sign-In sera disponible prochainement')}>
               <svg className="h-5 w-5" viewBox="0 0 24 24">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
                 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
@@ -127,20 +160,20 @@ const Signup = () => {
                 <div className="w-full border-t border-border" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card px-3 text-muted-foreground">ou</span>
+                <span className="bg-background px-3 text-muted-foreground">or</span>
               </div>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-2">
-                  <Label htmlFor="firstName">{t('auth.first_name', 'Prénom')}</Label>
+                  <Label htmlFor="firstName" className="text-sm font-medium">{t('auth.first_name', 'Prénom')}</Label>
                   <div className="relative">
-                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="firstName"
                       placeholder="Ahmed"
-                      className="pl-10"
+                      className="pl-10 h-12 rounded-xl border-2 focus:border-primary"
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
                       disabled={loading}
@@ -148,10 +181,11 @@ const Signup = () => {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="lastName">{t('auth.last_name', 'Nom')}</Label>
+                  <Label htmlFor="lastName" className="text-sm font-medium">{t('auth.last_name', 'Nom')}</Label>
                   <Input
                     id="lastName"
                     placeholder="Benali"
+                    className="h-12 rounded-xl border-2 focus:border-primary"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                     disabled={loading}
@@ -160,14 +194,14 @@ const Signup = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email">{t('auth.email')}</Label>
+                <Label htmlFor="email" className="text-sm font-medium">{t('auth.email')}</Label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="email"
                     type="email"
                     placeholder="exemple@email.com"
-                    className="pl-10"
+                    className="pl-10 h-12 rounded-xl border-2 focus:border-primary"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={loading}
@@ -176,14 +210,14 @@ const Signup = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">{t('auth.password')}</Label>
+                <Label htmlFor="password" className="text-sm font-medium">{t('auth.password')}</Label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="password"
                     type={showPassword ? 'text' : 'password'}
                     placeholder="••••••••"
-                    className="pl-10 pr-10"
+                    className="pl-10 pr-10 h-12 rounded-xl border-2 focus:border-primary"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     disabled={loading}
@@ -191,7 +225,7 @@ const Signup = () => {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
@@ -199,14 +233,14 @@ const Signup = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword">{t('auth.confirm_password')}</Label>
+                <Label htmlFor="confirmPassword" className="text-sm font-medium">{t('auth.confirm_password')}</Label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="confirmPassword"
                     type="password"
                     placeholder="••••••••"
-                    className="pl-10"
+                    className="pl-10 h-12 rounded-xl border-2 focus:border-primary"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     disabled={loading}
@@ -214,20 +248,20 @@ const Signup = () => {
                 </div>
               </div>
 
-              <Button type="submit" className="w-full h-11 shadow-[var(--shadow-primary)]" disabled={loading}>
+              <Button type="submit" className="w-full h-12 shadow-[var(--shadow-primary)] rounded-xl text-base" style={{ background: 'var(--gradient-primary)' }} disabled={loading}>
                 {loading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
                 {t('auth.signup_button')}
               </Button>
             </form>
 
-            <p className="text-center text-sm text-muted-foreground mt-6">
+            <p className="text-center text-sm text-muted-foreground mt-8">
               {t('auth.has_account')}{' '}
-              <Link to="/login" className="text-primary font-medium hover:underline">
+              <Link to="/login" className="text-primary font-semibold hover:underline">
                 {t('nav.login')}
               </Link>
             </p>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </div>
   );

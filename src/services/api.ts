@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig } from 'axios';
+import { toast } from 'sonner';
 
 const BASE_URL = 'http://192.168.1.31:8090/api/v1';
 
@@ -65,9 +66,48 @@ export const tokenStorage = {
   },
 };
 
+// ─── Error Message Extraction ───────────────────────────────────────
+function extractErrorMessage(error: AxiosError): string {
+  if (!error.response) {
+    if (error.code === 'ERR_NETWORK') {
+      return 'Unable to connect to the server. Please check your connection.';
+    }
+    if (error.code === 'ECONNABORTED') {
+      return 'Request timed out. Please try again.';
+    }
+    return 'An unexpected network error occurred.';
+  }
+
+  const status = error.response.status;
+  const data = error.response.data as Record<string, unknown> | string;
+
+  // Try to extract message from response body
+  if (typeof data === 'object' && data !== null) {
+    const msg = data.message || data.error || data.detail;
+    if (typeof msg === 'string') return msg;
+  }
+  if (typeof data === 'string' && data.length < 200) return data;
+
+  // Fallback by status code
+  switch (status) {
+    case 400: return 'Invalid request. Please check your input.';
+    case 401: return 'Session expired. Please log in again.';
+    case 403: return 'You do not have permission for this action.';
+    case 404: return 'The requested resource was not found.';
+    case 409: return 'A conflict occurred. The resource may already exist.';
+    case 422: return 'Invalid data provided. Please review your input.';
+    case 429: return 'Too many requests. Please wait a moment.';
+    case 500: return 'Server error. Please try again later.';
+    case 502: return 'Server is temporarily unavailable.';
+    case 503: return 'Service is under maintenance. Please try later.';
+    default: return `An error occurred (${status}).`;
+  }
+}
+
 // ─── Axios Instance ──────────────────────────────────────────────────
 const api: AxiosInstance = axios.create({
   baseURL: BASE_URL,
+  timeout: 30000,
   headers: {
     'Content-Type': 'application/json; charset=UTF-8',
   },
@@ -94,7 +134,6 @@ const processQueue = (error: unknown, token: string | null = null) => {
 // ─── Request Interceptor: Attach access token ───────────────────────
 api.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {
-    // Skip auth for public endpoints
     if (config.headers?.['X-Skip-Auth']) {
       delete config.headers['X-Skip-Auth'];
       return config;
@@ -109,12 +148,13 @@ api.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
-// ─── Response Interceptor: Auto-refresh on 401 ─────────────────────
+// ─── Response Interceptor: Auto-refresh on 401 + Global Error Toast ─
 api.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
-    const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
+    const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean; _silent?: boolean };
 
+    // Handle 401 with token refresh
     if (error.response?.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
@@ -134,6 +174,7 @@ api.interceptors.response.use(
       const refreshToken = tokenStorage.getRefreshToken();
       if (!refreshToken) {
         tokenStorage.clear();
+        toast.error('Session expired. Please log in again.');
         window.location.href = '/login';
         return Promise.reject(error);
       }
@@ -160,11 +201,18 @@ api.interceptors.response.use(
       } catch (refreshError) {
         processQueue(refreshError, null);
         tokenStorage.clear();
+        toast.error('Session expired. Please log in again.');
         window.location.href = '/login';
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;
       }
+    }
+
+    // Global error toast (skip for silent requests or 401 already handled)
+    if (!originalRequest?._silent && error.response?.status !== 401) {
+      const message = extractErrorMessage(error);
+      toast.error(message);
     }
 
     return Promise.reject(error);
@@ -179,9 +227,10 @@ export async function apiRequest<T>(
     body?: unknown;
     withAuth?: boolean;
     params?: Record<string, string>;
+    silent?: boolean;
   } = {},
 ): Promise<T> {
-  const { method = 'GET', body, withAuth = true, params } = options;
+  const { method = 'GET', body, withAuth = true, params, silent = false } = options;
 
   const headers: Record<string, string> = {};
   if (!withAuth) {
@@ -193,7 +242,12 @@ export async function apiRequest<T>(
     method,
     data: body,
     params,
-    headers,
+    headers: {
+      ...headers,
+      ...(silent ? { _silent: 'true' } : {}),
+    },
+    // @ts-ignore - custom property for interceptor
+    _silent: silent,
   });
 
   return response.data;
