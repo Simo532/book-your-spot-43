@@ -71,7 +71,7 @@ const PatientMessages = () => {
                   </Avatar>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold truncate">{c.doctorFullName}</p>
-                    <span className="text-xs text-muted-foreground">{new Date(c.createdAt).toLocaleDateString()}</span>
+                    <span className="text-xs text-muted-foreground">{formatDate(c.createdAt)}</span>
                   </div>
                 </button>
               ))}
