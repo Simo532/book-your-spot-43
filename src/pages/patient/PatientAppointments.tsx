@@ -28,10 +28,8 @@ const PatientAppointments = () => {
   const navigate = useNavigate();
   const { doctorOrPatientId } = useAuth();
   const [search, setSearch] = useState('');
-  const [rescheduleId, setRescheduleId] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
-  const [newDate, setNewDate] = useState('');
-  const [newTime, setNewTime] = useState('');
+  const [reviewApt, setReviewApt] = useState<AppointmentResponseDTO | null>(null);
   const [dateFilter, setDateFilter] = useState<Date | undefined>();
   const [timeFilter, setTimeFilter] = useState('all');
   const [modeFilter, setModeFilter] = useState('all');
