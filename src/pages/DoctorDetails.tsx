@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { formatDate } from '@/lib/dateUtils';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -198,7 +199,7 @@ const DoctorDetails = () => {
                             <div className="flex items-center justify-between gap-2">
                               <span className="font-medium text-sm">{review.patientName}</span>
                               <span className="text-xs text-muted-foreground shrink-0">
-                                {new Date(review.createdAt).toLocaleDateString()}
+                                {formatDate(review.createdAt)}
                               </span>
                             </div>
                             <StarRating rating={review.rating} size={14} />

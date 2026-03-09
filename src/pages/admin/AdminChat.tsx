@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { formatTime } from '@/lib/dateUtils';
 import { useTranslation } from 'react-i18next';
 import { Send, Search, Plus, User } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -112,7 +113,7 @@ const AdminChat = () => {
               lastMessage: messageText,
               messages: [
                 ...c.messages,
-                { id: `m${Date.now()}`, text: messageText, sender: 'admin' as const, timestamp: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) },
+                { id: `m${Date.now()}`, text: messageText, sender: 'admin' as const, timestamp: formatTime(new Date()) },
               ],
             }
           : c
@@ -132,7 +133,7 @@ const AdminChat = () => {
       lastMessage: newChatMessage,
       unread: 0,
       messages: [
-        { id: `m${Date.now()}`, text: newChatMessage, sender: 'admin', timestamp: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) },
+        { id: `m${Date.now()}`, text: newChatMessage, sender: 'admin', timestamp: formatTime(new Date()) },
       ],
     };
     setConversations((prev) => [newConv, ...prev]);

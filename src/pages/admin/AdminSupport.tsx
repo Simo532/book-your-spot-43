@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { formatDate } from '@/lib/dateUtils';
 import { useTranslation } from 'react-i18next';
 import { Search, MoreHorizontal, CheckCircle2, Clock, AlertCircle, MessageSquare } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -155,7 +156,7 @@ const AdminSupport = () => {
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <span>{selectedTicket.fullName}</span>
                   <span>({selectedTicket.email})</span>
-                  {selectedTicket.createdAt && <span className="ml-auto">{new Date(selectedTicket.createdAt).toLocaleDateString()}</span>}
+                  {selectedTicket.createdAt && <span className="ml-auto">{formatDate(selectedTicket.createdAt)}</span>}
                 </div>
                 <div className="rounded-xl px-4 py-2.5 text-sm bg-accent">
                   <p>{selectedTicket.message}</p>

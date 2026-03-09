@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { formatTime, formatDate } from '@/lib/dateUtils';
 import { CalendarCheck, MessageSquare, Star, TrendingUp, Clock, Users, DollarSign, Eye, ArrowUpRight, ArrowDownRight } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -88,7 +89,7 @@ const DoctorDashboard = () => {
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-semibold">{apt.patientName}</p>
                         <p className="text-xs text-muted-foreground">
-                          {apt.online ? 'En ligne' : 'Cabinet'} · {apt.appointmentDate ? new Date(apt.appointmentDate).toLocaleTimeString('fr', { hour: '2-digit', minute: '2-digit' }) : 'ASAP'}
+                          {apt.online ? 'En ligne' : 'Cabinet'} · {apt.appointmentDate ? formatTime(apt.appointmentDate) : 'ASAP'}
                         </p>
                       </div>
                       <Badge variant={apt.status === 'CONFIRMED' ? 'default' : 'secondary'}>
@@ -143,7 +144,7 @@ const DoctorDashboard = () => {
                           <Star key={i} className="h-3.5 w-3.5 text-yellow-500 fill-yellow-500" />
                         ))}
                       </div>
-                      <span className="text-xs text-muted-foreground ml-auto">{new Date(review.createdAt).toLocaleDateString()}</span>
+                      <span className="text-xs text-muted-foreground ml-auto">{formatDate(review.createdAt)}</span>
                     </div>
                     <p className="text-sm text-muted-foreground">{review.comment}</p>
                   </div>

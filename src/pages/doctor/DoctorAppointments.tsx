@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { formatTime, formatDate, formatDateTime } from '@/lib/dateUtils';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Phone, Clock, Calendar as CalendarIcon, Globe, MapPin, CheckCircle, XCircle, ChevronLeft, ChevronRight, Quote, Video } from 'lucide-react';
@@ -142,8 +143,8 @@ const DoctorAppointments = () => {
 
 const AppointmentCard = ({ appointment: apt, t, onAccept, onDecline, onJoinZoom }: { appointment: AppointmentResponseDTO; t: any; onAccept: () => void; onDecline: () => void; onJoinZoom: () => void }) => {
   const getInitials = (name: string) => name.split(' ').map(n => n[0]).join('').toUpperCase();
-  const aptTime = apt.appointmentDate ? new Date(apt.appointmentDate).toLocaleTimeString('fr', { hour: '2-digit', minute: '2-digit' }) : 'ASAP';
-  const aptDate = apt.appointmentDate ? new Date(apt.appointmentDate).toLocaleDateString('fr') : '-';
+  const aptTime = apt.appointmentDate ? formatTime(apt.appointmentDate) : 'ASAP';
+  const aptDate = apt.appointmentDate ? formatDate(apt.appointmentDate) : '-';
 
   return (
     <Card className="overflow-hidden border-l-4 border-l-primary/30">
@@ -176,7 +177,7 @@ const AppointmentCard = ({ appointment: apt, t, onAccept, onDecline, onJoinZoom 
           </div>
         )}
         <div className="mt-3 text-[11px] text-primary space-y-0.5">
-          <p>{t('doctor.appointments.requested_at')} {new Date(apt.createdAt).toLocaleString('fr')}</p>
+          <p>{t('doctor.appointments.requested_at')} {formatDateTime(apt.createdAt)}</p>
         </div>
         <div className="mt-3 flex items-center justify-center gap-2">
           {apt.online && ['CONFIRMED', 'PAID'].includes(apt.status) && (

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { formatTime, formatDate } from '@/lib/dateUtils';
 import { useTranslation } from 'react-i18next';
 import { Search, Send } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -70,7 +71,7 @@ const PatientMessages = () => {
                   </Avatar>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold truncate">{c.doctorFullName}</p>
-                    <span className="text-xs text-muted-foreground">{new Date(c.createdAt).toLocaleDateString()}</span>
+                    <span className="text-xs text-muted-foreground">{formatDate(c.createdAt)}</span>
                   </div>
                 </button>
               ))}
@@ -95,7 +96,7 @@ const PatientMessages = () => {
                       <div className={cn('max-w-[70%] px-3 py-2 rounded-xl text-sm', m.senderType === 'PATIENT' ? 'bg-primary text-primary-foreground' : 'bg-accent')}>
                         <p>{m.content}</p>
                         <p className={cn('text-[10px] mt-1', m.senderType === 'PATIENT' ? 'text-primary-foreground/70' : 'text-muted-foreground')}>
-                          {new Date(m.sentAt).toLocaleTimeString('fr', { hour: '2-digit', minute: '2-digit' })}
+                          {formatTime(m.sentAt)}
                         </p>
                       </div>
                     </div>

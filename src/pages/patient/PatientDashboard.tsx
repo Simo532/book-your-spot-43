@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { formatDate, formatTime } from '@/lib/dateUtils';
 import { CalendarCheck, MessageSquare, Heart, Clock, Star, TrendingUp } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -76,7 +77,7 @@ const PatientDashboard = () => {
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-semibold">{apt.doctorName}</p>
                         <p className="text-xs text-muted-foreground">
-                          {apt.appointmentDate ? new Date(apt.appointmentDate).toLocaleDateString('fr') : 'ASAP'} · {apt.appointmentDate ? new Date(apt.appointmentDate).toLocaleTimeString('fr', { hour: '2-digit', minute: '2-digit' }) : ''}
+                          {apt.appointmentDate ? formatDate(apt.appointmentDate) : 'ASAP'} · {apt.appointmentDate ? formatTime(apt.appointmentDate) : ''}
                         </p>
                       </div>
                       <div className="flex items-center gap-2">
