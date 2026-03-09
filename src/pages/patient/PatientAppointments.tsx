@@ -99,6 +99,11 @@ const PatientAppointments = () => {
                 <Trash2 className="h-3 w-3" />{t('patient.appointments.cancel')}
               </Button>
             )}
+            {apt.status === 'COMPLETED' && (
+              <Button variant="outline" size="sm" className="text-xs gap-1 h-7" onClick={() => setReviewApt(apt)}>
+                <MessageSquare className="h-3 w-3" />{t('patient.review.add', 'Avis')}
+              </Button>
+            )}
           </div>
         </div>
       </div>
