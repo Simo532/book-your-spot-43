@@ -44,7 +44,7 @@ const PatientFavorites = () => {
 
         <div className="space-y-3">
           {isLoading ? (
-            Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-20 w-full rounded-xl" />)
+            Array.from({ length: 3 }).map((_, i) => <ShimmerListItem key={i} />)
           ) : filtered.map(fav => (
             <Card key={fav.id} className="hover:border-primary/20 transition-colors">
               <CardContent className="p-4 flex items-center gap-4">

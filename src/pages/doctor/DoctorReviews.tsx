@@ -53,7 +53,7 @@ const DoctorReviews = () => {
 
         <div className="space-y-4">
           {isLoading ? (
-            Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-24 w-full rounded-xl" />)
+            Array.from({ length: 3 }).map((_, i) => <ShimmerReview key={i} />)
           ) : reviews.map((review) => (
             <Card key={review.id}>
               <CardContent className="pt-6">
