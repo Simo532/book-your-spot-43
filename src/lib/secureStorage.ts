@@ -35,9 +35,10 @@ function getSalt(): Uint8Array {
 
 async function deriveKey(): Promise<CryptoKey> {
   const encoder = new TextEncoder();
+  const rawKey = encoder.encode(getPassphrase());
   const keyMaterial = await crypto.subtle.importKey(
     'raw',
-    encoder.encode(getPassphrase()),
+    rawKey.buffer as ArrayBuffer,
     'PBKDF2',
     false,
     ['deriveKey']
