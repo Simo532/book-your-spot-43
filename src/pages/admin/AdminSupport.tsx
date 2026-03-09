@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import AdminLayout from '@/components/AdminLayout';
 import { useAllSupportMessages, useUpdateSupportMessage, useDeleteSupportMessage } from '@/hooks/useSupportHooks';
+import { ShimmerTableRow } from '@/components/ui/shimmer';
 import { SupportMessage } from '@/types/support';
 
 const AdminSupport = () => {
