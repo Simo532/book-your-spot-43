@@ -24,6 +24,7 @@ const DoctorDetails = lazy(() => import("./pages/DoctorDetails"));
 const SearchResults = lazy(() => import("./pages/SearchResults"));
 const Favorites = lazy(() => import("./pages/Favorites"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const ZoomSession = lazy(() => import("./pages/ZoomSession"));
 
 // Admin
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
@@ -98,6 +99,7 @@ const App = () => (
                   <Route path="/doctor/onboarding" element={<DoctorOnboarding />} />
                   <Route path="/patient/onboarding" element={<PatientOnboarding />} />
                   <Route path="/favorites" element={<Favorites />} />
+                  <Route path="/zoom/:appointmentId" element={<ZoomSession />} />
                 </Route>
 
                 {/* ─── Admin routes ─────────────────────────────── */}

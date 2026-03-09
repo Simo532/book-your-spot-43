@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Phone, Clock, Calendar as CalendarIcon, Globe, MapPin, CheckCircle, XCircle, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Phone, Clock, Calendar as CalendarIcon, Globe, MapPin, CheckCircle, XCircle, ChevronLeft, ChevronRight, Quote, Video } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -18,6 +19,7 @@ const statusTabs = ['PENDING', 'CONFIRMED', 'PAID', 'COMPLETED', 'CANCELLED'] as
 
 const DoctorAppointments = () => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const { doctorOrPatientId } = useAuth();
   const [activeStatus, setActiveStatus] = useState<string>('PENDING');
   const [calendarView, setCalendarView] = useState<'week' | 'month'>('week');
@@ -129,7 +131,7 @@ const DoctorAppointments = () => {
             </CardContent></Card>
           ) : (
             filtered.map((apt) => (
-              <AppointmentCard key={apt.id} appointment={apt} t={t} onAccept={() => updateStatus.mutate({ id: apt.id, status: AppointmentStatus.CONFIRMED })} onDecline={() => updateStatus.mutate({ id: apt.id, status: AppointmentStatus.CANCELLED })} />
+              <AppointmentCard key={apt.id} appointment={apt} t={t} onAccept={() => updateStatus.mutate({ id: apt.id, status: AppointmentStatus.CONFIRMED })} onDecline={() => updateStatus.mutate({ id: apt.id, status: AppointmentStatus.CANCELLED })} onJoinZoom={() => navigate(`/zoom/${apt.id}`)} />
             ))
           )}
         </div>
@@ -138,7 +140,7 @@ const DoctorAppointments = () => {
   );
 };
 
-const AppointmentCard = ({ appointment: apt, t, onAccept, onDecline }: { appointment: AppointmentResponseDTO; t: any; onAccept: () => void; onDecline: () => void }) => {
+const AppointmentCard = ({ appointment: apt, t, onAccept, onDecline, onJoinZoom }: { appointment: AppointmentResponseDTO; t: any; onAccept: () => void; onDecline: () => void; onJoinZoom: () => void }) => {
   const getInitials = (name: string) => name.split(' ').map(n => n[0]).join('').toUpperCase();
   const aptTime = apt.appointmentDate ? new Date(apt.appointmentDate).toLocaleTimeString('fr', { hour: '2-digit', minute: '2-digit' }) : 'ASAP';
   const aptDate = apt.appointmentDate ? new Date(apt.appointmentDate).toLocaleDateString('fr') : '-';
@@ -177,10 +179,16 @@ const AppointmentCard = ({ appointment: apt, t, onAccept, onDecline }: { appoint
           <p>{t('doctor.appointments.requested_at')} {new Date(apt.createdAt).toLocaleString('fr')}</p>
         </div>
         <div className="mt-3 flex items-center justify-center gap-2">
+          {apt.online && ['CONFIRMED', 'PAID'].includes(apt.status) && (
+            <Button size="sm" className="gap-1.5 h-9" variant="default" onClick={onJoinZoom}>
+              <Video className="h-3.5 w-3.5" />
+              {t('zoom.join', 'Rejoindre la session')}
+            </Button>
+          )}
           {apt.status === 'COMPLETED' && <div className="flex items-center gap-1.5 text-emerald-600"><CheckCircle className="h-5 w-5" /><span className="text-sm font-medium">{t('doctor.appointments.status.completed')}</span></div>}
           {apt.status === 'CANCELLED' && <div className="flex items-center gap-1.5 text-destructive"><XCircle className="h-5 w-5" /><span className="text-sm font-medium">{t('doctor.appointments.status.cancelled')}</span></div>}
-          {apt.status === 'CONFIRMED' && <Badge className="bg-primary/10 text-primary hover:bg-primary/20">{t('doctor.appointments.status.confirmed')}</Badge>}
-          {apt.status === 'PAID' && <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-200">{t('doctor.appointments.status.paid')}</Badge>}
+          {apt.status === 'CONFIRMED' && !apt.online && <Badge className="bg-primary/10 text-primary hover:bg-primary/20">{t('doctor.appointments.status.confirmed')}</Badge>}
+          {apt.status === 'PAID' && !apt.online && <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-200">{t('doctor.appointments.status.paid')}</Badge>}
           {apt.status === 'PENDING' && (
             <div className="flex gap-2 w-full">
               <Button size="sm" className="flex-1 h-9" onClick={onAccept}>{t('doctor.appointments.accept')}</Button>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { CalendarCheck, Clock, Video, MapPin, RefreshCw, Trash2, Search, Filter } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -22,6 +23,7 @@ import { AppointmentResponseDTO } from '@/types/appointment';
 
 const PatientAppointments = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { doctorOrPatientId } = useAuth();
   const [search, setSearch] = useState('');
   const [rescheduleId, setRescheduleId] = useState<string | null>(null);
@@ -86,13 +88,18 @@ const PatientAppointments = () => {
           <Badge variant={apt.status === 'CONFIRMED' ? 'default' : apt.status === 'PENDING' ? 'secondary' : apt.status === 'COMPLETED' ? 'default' : 'destructive'}>
             {t(`patient.appointments.status.${apt.status.toLowerCase()}`)}
           </Badge>
-          {['CONFIRMED', 'PENDING'].includes(apt.status) && (
-            <div className="flex gap-1">
+          <div className="flex gap-1">
+            {apt.online && ['CONFIRMED', 'PAID'].includes(apt.status) && (
+              <Button variant="default" size="sm" className="text-xs gap-1 h-7" onClick={() => navigate(`/zoom/${apt.id}`)}>
+                <Video className="h-3 w-3" />{t('zoom.join', 'Rejoindre')}
+              </Button>
+            )}
+            {['CONFIRMED', 'PENDING'].includes(apt.status) && (
               <Button variant="ghost" size="sm" className="text-xs gap-1 h-7 text-destructive hover:text-destructive" onClick={() => setDeleteId(apt.id)}>
                 <Trash2 className="h-3 w-3" />{t('patient.appointments.cancel')}
               </Button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     );
