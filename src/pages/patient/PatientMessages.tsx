@@ -58,7 +58,7 @@ const PatientMessages = () => {
             </div>
             <div className="flex-1 overflow-y-auto">
               {chatsLoading ? (
-                Array.from({ length: 3 }).map((_, i) => <div key={i} className="p-3 border-b border-border"><Skeleton className="h-10 w-full" /></div>)
+                Array.from({ length: 3 }).map((_, i) => <ShimmerChatItem key={i} />)
               ) : filteredChats.map(c => (
                 <button key={c.id} onClick={() => setSelectedChatId(c.id)}
                   className={cn('w-full flex items-center gap-3 p-3 text-left hover:bg-accent/50 transition-colors border-b border-border', selectedChatId === c.id && 'bg-accent')}>
