@@ -23,6 +23,7 @@ import { AppointmentResponseDTO } from '@/types/appointment';
 
 const PatientAppointments = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { doctorOrPatientId } = useAuth();
   const [search, setSearch] = useState('');
   const [rescheduleId, setRescheduleId] = useState<string | null>(null);
