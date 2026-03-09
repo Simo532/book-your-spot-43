@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { formatDateTime } from '@/lib/dateUtils';
 import { useTranslation } from 'react-i18next';
 import { Trash2, CalendarCheck, MessageSquare, Settings, Award } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
