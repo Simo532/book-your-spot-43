@@ -211,6 +211,16 @@ const PatientAppointments = () => {
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
+
+        {reviewApt && (
+          <ReviewModal
+            open={!!reviewApt}
+            onOpenChange={(open) => !open && setReviewApt(null)}
+            doctorId={reviewApt.doctorId}
+            doctorName={reviewApt.doctorName}
+            patientId={doctorOrPatientId || ''}
+          />
+        )}
       </div>
     </PatientLayout>
   );
