@@ -37,6 +37,7 @@ const SearchResults = () => {
   const { t } = useTranslation();
   const { userId } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedSpeciality, setSelectedSpeciality] = useState<string>('all');
   const [selectedCity, setSelectedCity] = useState<string>('all');
   const [priceRange, setPriceRange] = useState<number[]>([0, 5000]);
   const [minExperience, setMinExperience] = useState(0);
