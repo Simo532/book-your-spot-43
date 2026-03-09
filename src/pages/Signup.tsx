@@ -44,7 +44,7 @@ const Signup = () => {
         role: role === 'doctor' ? UserRole.DOCTOR : UserRole.PATIENT,
       });
       toast.success(t('auth.signup_success', 'Inscription réussie ! Vérifiez votre email.'));
-      navigate('/login');
+      navigate('/verify-email', { state: { email } });
     } catch {
       // Error toast handled by global interceptor
     } finally {
