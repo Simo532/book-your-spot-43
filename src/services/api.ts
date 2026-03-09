@@ -1,39 +1,44 @@
 import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { toast } from 'sonner';
+import { secureStorage } from '@/lib/secureStorage';
 
 const BASE_URL = 'http://192.168.1.31:8090/api/v1';
 
-// ─── Token Storage ───────────────────────────────────────────────────
+// ─── Token Storage (uses encrypted secureStorage) ────────────────────
 export const tokenStorage = {
-  getAccessToken: (): string | null => localStorage.getItem('access-token'),
-  getRefreshToken: (): string | null => localStorage.getItem('refresh-token'),
-  getUserRole: (): string | null => localStorage.getItem('user-role'),
-  getUserId: (): string | null => localStorage.getItem('user-id'),
-  getDoctorOrPatientId: (): string | null => localStorage.getItem('doctor-patient-id'),
-  getUserEmail: (): string | null => localStorage.getItem('user-email'),
-  getUserFirstName: (): string | null => localStorage.getItem('user-firstName'),
-  getUserLastName: (): string | null => localStorage.getItem('user-lastName'),
+  getAccessToken: (): string | null => secureStorage.getItem('access-token'),
+  getRefreshToken: (): string | null => secureStorage.getItem('refresh-token'),
+  getUserRole: (): string | null => secureStorage.getItem('user-role'),
+  getUserId: (): string | null => secureStorage.getItem('user-id'),
+  getDoctorOrPatientId: (): string | null => secureStorage.getItem('doctor-patient-id'),
+  getUserEmail: (): string | null => secureStorage.getItem('user-email'),
+  getUserFirstName: (): string | null => secureStorage.getItem('user-firstName'),
+  getUserLastName: (): string | null => secureStorage.getItem('user-lastName'),
 
-  saveTokens(accessToken: string, refreshToken: string) {
-    localStorage.setItem('access-token', accessToken);
-    localStorage.setItem('refresh-token', refreshToken);
+  async saveTokens(accessToken: string, refreshToken: string) {
+    await Promise.all([
+      secureStorage.setItem('access-token', accessToken),
+      secureStorage.setItem('refresh-token', refreshToken),
+    ]);
   },
 
-  saveUserInfo(decoded: Record<string, unknown>) {
-    if (decoded.role) localStorage.setItem('user-role', decoded.role as string);
-    if (decoded.sub) localStorage.setItem('user-id', decoded.sub as string);
-    if (decoded.email) localStorage.setItem('user-email', decoded.email as string);
-    if (decoded.firstName) localStorage.setItem('user-firstName', decoded.firstName as string);
-    if (decoded.lastName) localStorage.setItem('user-lastName', decoded.lastName as string);
+  async saveUserInfo(decoded: Record<string, unknown>) {
+    const promises: Promise<void>[] = [];
+    if (decoded.role) promises.push(secureStorage.setItem('user-role', decoded.role as string));
+    if (decoded.sub) promises.push(secureStorage.setItem('user-id', decoded.sub as string));
+    if (decoded.email) promises.push(secureStorage.setItem('user-email', decoded.email as string));
+    if (decoded.firstName) promises.push(secureStorage.setItem('user-firstName', decoded.firstName as string));
+    if (decoded.lastName) promises.push(secureStorage.setItem('user-lastName', decoded.lastName as string));
+    await Promise.all(promises);
   },
 
-  setDoctorOrPatientId(id: string) {
-    localStorage.setItem('doctor-patient-id', id);
+  async setDoctorOrPatientId(id: string) {
+    await secureStorage.setItem('doctor-patient-id', id);
   },
 
-  isDoctor: () => localStorage.getItem('user-role') === 'DOCTOR',
-  isPatient: () => localStorage.getItem('user-role') === 'PATIENT',
-  isAdmin: () => localStorage.getItem('user-role') === 'ADMIN',
+  isDoctor: () => secureStorage.getItem('user-role') === 'DOCTOR',
+  isPatient: () => secureStorage.getItem('user-role') === 'PATIENT',
+  isAdmin: () => secureStorage.getItem('user-role') === 'ADMIN',
 
   isJwtExpired(): boolean {
     const token = this.getAccessToken();
@@ -55,14 +60,7 @@ export const tokenStorage = {
   },
 
   clear() {
-    localStorage.removeItem('access-token');
-    localStorage.removeItem('refresh-token');
-    localStorage.removeItem('user-role');
-    localStorage.removeItem('user-id');
-    localStorage.removeItem('user-email');
-    localStorage.removeItem('user-firstName');
-    localStorage.removeItem('user-lastName');
-    localStorage.removeItem('doctor-patient-id');
+    secureStorage.clear();
   },
 };
 
@@ -193,7 +191,8 @@ api.interceptors.response.use(
         );
 
         const newAccessToken = res.data['access-token'];
-        localStorage.setItem('access-token', newAccessToken);
+        // Update encrypted storage and memory cache
+        await secureStorage.setItem('access-token', newAccessToken);
         processQueue(null, newAccessToken);
 
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;

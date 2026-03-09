@@ -32,7 +32,7 @@ const Login = () => {
     setLoading(true);
     try {
       const tokens = await authService.login(email, password);
-      authService.saveLoginData(tokens);
+      await authService.saveLoginData(tokens);
       toast.success(t('auth.login_success', 'Connexion réussie'));
       navigateAfterLogin();
     } catch (err: unknown) {
