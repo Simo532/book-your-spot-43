@@ -18,6 +18,7 @@ import {
   useAllSpecialities, useCreateSpeciality, useUpdateSpeciality, useDeleteSpeciality,
   useTagsBySpeciality, useCreateTag, useDeleteTag,
 } from '@/hooks/useSpecialityHooks';
+import { ShimmerCard } from '@/components/ui/shimmer';
 
 const AdminSpecialties = () => {
   const { t } = useTranslation();
