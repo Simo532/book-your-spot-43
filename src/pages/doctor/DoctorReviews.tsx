@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { formatDate } from '@/lib/dateUtils';
 import { useTranslation } from 'react-i18next';
 import { Star, MessageSquare } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
