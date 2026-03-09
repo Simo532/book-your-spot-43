@@ -199,7 +199,7 @@ const DoctorDetails = () => {
                             <div className="flex items-center justify-between gap-2">
                               <span className="font-medium text-sm">{review.patientName}</span>
                               <span className="text-xs text-muted-foreground shrink-0">
-                                {new Date(review.createdAt).toLocaleDateString()}
+                                {formatDate(review.createdAt)}
                               </span>
                             </div>
                             <StarRating rating={review.rating} size={14} />

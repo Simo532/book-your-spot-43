@@ -145,7 +145,7 @@ const DoctorXpPoints = () => {
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold">{t(`doctor.xp_points.actions.${entry.actionCode}`)}</p>
                       <p className="text-xs text-muted-foreground">
-                        {new Date(entry.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                        {formatDateTime(entry.createdAt)}
                       </p>
                     </div>
                     <Badge variant="secondary" className="font-bold text-emerald-600 bg-emerald-500/10">

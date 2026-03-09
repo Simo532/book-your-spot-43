@@ -71,7 +71,7 @@ const DoctorReviews = () => {
                         <span className="font-semibold text-sm">{review.patientName}</span>
                         <div className="flex">{Array.from({ length: review.rating }).map((_, i) => <Star key={i} className="h-3.5 w-3.5 text-yellow-500 fill-yellow-500" />)}</div>
                       </div>
-                      <span className="text-xs text-muted-foreground">{new Date(review.createdAt).toLocaleDateString()}</span>
+                      <span className="text-xs text-muted-foreground">{formatDate(review.createdAt)}</span>
                     </div>
                     <p className="text-sm text-muted-foreground mt-2">{review.comment}</p>
                     {review.response && (

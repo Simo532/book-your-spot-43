@@ -144,7 +144,7 @@ const DoctorDashboard = () => {
                           <Star key={i} className="h-3.5 w-3.5 text-yellow-500 fill-yellow-500" />
                         ))}
                       </div>
-                      <span className="text-xs text-muted-foreground ml-auto">{new Date(review.createdAt).toLocaleDateString()}</span>
+                      <span className="text-xs text-muted-foreground ml-auto">{formatDate(review.createdAt)}</span>
                     </div>
                     <p className="text-sm text-muted-foreground">{review.comment}</p>
                   </div>

@@ -83,7 +83,7 @@ const DoctorNotifications = () => {
                     </div>
                     <h3 className="font-semibold text-primary text-sm mb-1">{notif.title}</h3>
                     <p className="text-xs text-muted-foreground leading-relaxed">{notif.message}</p>
-                    <p className="text-[11px] text-primary mt-2 text-right">{new Date(notif.createdAt).toLocaleString('fr')}</p>
+                    <p className="text-[11px] text-primary mt-2 text-right">{formatDateTime(notif.createdAt)}</p>
                   </CardContent>
                 </Card>
               );

@@ -82,7 +82,7 @@ const PatientAppointments = () => {
           <p className="text-xs text-muted-foreground">{apt.doctorCity}</p>
           <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
             <Clock className="h-3 w-3" />
-            {aptDate ? `${aptDate.toLocaleDateString('fr')} · ${aptDate.toLocaleTimeString('fr', { hour: '2-digit', minute: '2-digit' })}` : 'ASAP'}
+            {aptDate ? `${formatDate(aptDate)} · ${formatTime(aptDate)}` : 'ASAP'}
           </p>
         </div>
         <div className="flex flex-col items-end gap-2">
