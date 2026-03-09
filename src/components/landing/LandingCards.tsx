@@ -1,7 +1,6 @@
 import { memo } from 'react';
 import { motion } from 'framer-motion';
-
-export const fadeUp = {
+import CountUp from './CountUp';
   hidden: { opacity: 0, y: 24 },
   visible: (i: number) => ({
     opacity: 1,
