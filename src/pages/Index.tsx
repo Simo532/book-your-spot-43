@@ -117,7 +117,7 @@ const Index = () => {
             {stats.map((stat) => (
               <div key={stat.label} className="glass-card rounded-2xl p-5 text-center">
                 <stat.icon className="h-5 w-5 text-primary mx-auto mb-2" />
-                <div className="text-2xl sm:text-3xl font-bold text-foreground">{stat.value}</div>
+                <CountUp target={stat.value} suffix={stat.suffix} className="text-2xl sm:text-3xl font-bold text-foreground" />
                 <div className="text-xs text-muted-foreground mt-1 font-medium uppercase tracking-wider">{stat.label}</div>
               </div>
             ))}
