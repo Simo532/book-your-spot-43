@@ -4,22 +4,25 @@ import { Link } from 'react-router-dom';
 import { Heart, Star, MapPin, Trash2, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
+import { Skeleton } from '@/components/ui/skeleton';
 import PatientLayout from '@/components/PatientLayout';
-
-const initialFavorites = [
-  { id: '1', name: 'Dr. Mohamed Benali', specialty: 'Cardiologue', rating: 4.7, totalReviews: 128, price: 3000, city: 'Alger' },
-  { id: '4', name: 'Dr. Fatima Zerhouni', specialty: 'Pédiatre', rating: 4.8, totalReviews: 312, price: 2000, city: 'Alger' },
-  { id: '2', name: 'Dr. Amira Hadj', specialty: 'Dermatologue', rating: 4.9, totalReviews: 256, price: 2500, city: 'Oran' },
-];
+import { useAuth } from '@/contexts/AuthContext';
+import { useFavorites, useToggleFavorite } from '@/hooks/useApiHooks';
 
 const PatientFavorites = () => {
   const { t } = useTranslation();
-  const [favorites, setFavorites] = useState(initialFavorites);
+  const { userId } = useAuth();
   const [search, setSearch] = useState('');
 
-  const filtered = favorites.filter(d => d.name.toLowerCase().includes(search.toLowerCase()));
+  const { data: favorites, isLoading } = useFavorites(userId || '');
+  const toggleFav = useToggleFavorite();
+
+  const allFavorites = favorites || [];
+  const filtered = allFavorites.filter(f =>
+    `${f.doctor.firstName} ${f.doctor.lastName}`.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <PatientLayout>
@@ -30,7 +33,7 @@ const PatientFavorites = () => {
           </div>
           <div>
             <h1 className="text-2xl font-bold">{t('patient.favorites.title')}</h1>
-            <p className="text-sm text-muted-foreground">{favorites.length} {t('patient.favorites.count')}</p>
+            <p className="text-sm text-muted-foreground">{allFavorites.length} {t('patient.favorites.count')}</p>
           </div>
         </div>
 
@@ -40,37 +43,42 @@ const PatientFavorites = () => {
         </div>
 
         <div className="space-y-3">
-          {filtered.map(doc => (
-            <Card key={doc.id} className="hover:border-primary/20 transition-colors">
+          {isLoading ? (
+            Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-20 w-full rounded-xl" />)
+          ) : filtered.map(fav => (
+            <Card key={fav.id} className="hover:border-primary/20 transition-colors">
               <CardContent className="p-4 flex items-center gap-4">
                 <Avatar className="h-12 w-12 shrink-0">
-                  <AvatarFallback className="bg-primary/10 text-primary font-bold">{doc.name.split(' ').pop()?.[0]}</AvatarFallback>
+                  <AvatarImage src={fav.doctor.profilePicture} />
+                  <AvatarFallback className="bg-primary/10 text-primary font-bold">{fav.doctor.lastName?.[0]}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
-                  <Link to={`/doctor/details/${doc.id}`} className="font-semibold text-sm hover:text-primary transition-colors">{doc.name}</Link>
-                  <p className="text-xs text-primary font-medium">{doc.specialty}</p>
+                  <Link to={`/doctor/details/${fav.doctor.id}`} className="font-semibold text-sm hover:text-primary transition-colors">
+                    Dr. {fav.doctor.firstName} {fav.doctor.lastName}
+                  </Link>
+                  <p className="text-xs text-primary font-medium">{fav.doctor.speciality?.name}</p>
                   <div className="flex items-center gap-3 mt-1">
                     <div className="flex items-center gap-1">
                       <Star className="h-3 w-3 text-yellow-500 fill-yellow-500" />
-                      <span className="text-xs font-medium">{doc.rating}</span>
-                      <span className="text-xs text-muted-foreground">({doc.totalReviews})</span>
+                      <span className="text-xs font-medium">{fav.doctor.averageRating?.toFixed(1) ?? '-'}</span>
+                      <span className="text-xs text-muted-foreground">({fav.doctor.reviewCount ?? 0})</span>
                     </div>
                     <span className="text-xs text-muted-foreground flex items-center gap-0.5">
-                      <MapPin className="h-3 w-3" /> {doc.city}
+                      <MapPin className="h-3 w-3" /> {fav.doctor.address?.city}
                     </span>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <p className="font-bold text-primary text-sm">{doc.price} DA</p>
-                  <Button variant="ghost" size="sm" className="text-xs text-destructive hover:text-destructive mt-1 gap-1" onClick={() => setFavorites(prev => prev.filter(f => f.id !== doc.id))}>
-                    <Trash2 className="h-3 w-3" />
-                    {t('patient.favorites.remove')}
+                  <p className="font-bold text-primary text-sm">{fav.doctor.consultationFee} DA</p>
+                  <Button variant="ghost" size="sm" className="text-xs text-destructive hover:text-destructive mt-1 gap-1"
+                    onClick={() => userId && toggleFav.mutate({ userId, doctorId: fav.doctor.id, isFav: true })}>
+                    <Trash2 className="h-3 w-3" />{t('patient.favorites.remove')}
                   </Button>
                 </div>
               </CardContent>
             </Card>
           ))}
-          {filtered.length === 0 && (
+          {!isLoading && filtered.length === 0 && (
             <p className="text-center text-muted-foreground py-12">{t('patient.favorites.empty')}</p>
           )}
         </div>
