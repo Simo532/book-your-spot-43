@@ -143,8 +143,8 @@ const DoctorAppointments = () => {
 
 const AppointmentCard = ({ appointment: apt, t, onAccept, onDecline, onJoinZoom }: { appointment: AppointmentResponseDTO; t: any; onAccept: () => void; onDecline: () => void; onJoinZoom: () => void }) => {
   const getInitials = (name: string) => name.split(' ').map(n => n[0]).join('').toUpperCase();
-  const aptTime = apt.appointmentDate ? new Date(apt.appointmentDate).toLocaleTimeString('fr', { hour: '2-digit', minute: '2-digit' }) : 'ASAP';
-  const aptDate = apt.appointmentDate ? new Date(apt.appointmentDate).toLocaleDateString('fr') : '-';
+  const aptTime = apt.appointmentDate ? formatTime(apt.appointmentDate) : 'ASAP';
+  const aptDate = apt.appointmentDate ? formatDate(apt.appointmentDate) : '-';
 
   return (
     <Card className="overflow-hidden border-l-4 border-l-primary/30">
