@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { formatDate, formatTime } from '@/lib/dateUtils';
 import { CalendarCheck, MessageSquare, Heart, Clock, Star, TrendingUp } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
