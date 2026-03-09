@@ -33,10 +33,10 @@ const Index = () => {
   ];
 
   const stats = [
-    { value: '5,000+', label: t('landing.stats_doctors'), icon: Stethoscope },
-    { value: '120K+', label: t('landing.stats_patients'), icon: Users },
-    { value: '500K+', label: t('landing.stats_appointments'), icon: CalendarCheck },
-    { value: '48', label: t('landing.stats_cities'), icon: MapPin },
+    { value: 5000, suffix: '+', label: t('landing.stats_doctors'), icon: Stethoscope },
+    { value: 120, suffix: 'K+', label: t('landing.stats_patients'), icon: Users },
+    { value: 500, suffix: 'K+', label: t('landing.stats_appointments'), icon: CalendarCheck },
+    { value: 48, suffix: '', label: t('landing.stats_cities'), icon: MapPin },
   ];
 
   return (
