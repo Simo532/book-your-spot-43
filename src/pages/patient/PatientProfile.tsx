@@ -8,13 +8,13 @@ import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ShimmerProfile } from '@/components/ui/shimmer';
 import PatientLayout from '@/components/PatientLayout';
-import { useAuth } from '@/contexts/AuthContext';
+import { tokenStorage } from '@/services/api';
 import { usePatientByUserId, useUpdatePatient } from '@/hooks/usePatientHooks';
 import { toast } from '@/hooks/use-toast';
 
 const PatientProfile = () => {
   const { t } = useTranslation();
-  const { userId } = useAuth();
+  const userId = tokenStorage.getUserId();
   const { data: patient, isLoading } = usePatientByUserId(userId || '');
   const updateMutation = useUpdatePatient();
 

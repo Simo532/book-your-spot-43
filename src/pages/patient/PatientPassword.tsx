@@ -6,14 +6,14 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import PatientLayout from '@/components/PatientLayout';
-import { useAuth } from '@/contexts/AuthContext';
+import { tokenStorage } from '@/services/api';
 import { authService } from '@/services/authService';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from '@/hooks/use-toast';
 
 const PatientPassword = () => {
   const { t } = useTranslation();
-  const { userEmail } = useAuth();
+  const userEmail = tokenStorage.getUserEmail();
   const [current, setCurrent] = useState('');
   const [newPass, setNewPass] = useState('');
   const [confirm, setConfirm] = useState('');

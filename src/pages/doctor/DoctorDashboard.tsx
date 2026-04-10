@@ -9,12 +9,12 @@ import { ShimmerStatCard, ShimmerListItem, ShimmerReview } from '@/components/ui
 import { cn } from '@/lib/utils';
 import DoctorLayout from '@/components/DoctorLayout';
 import { Link } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+import { tokenStorage } from '@/services/api';
 import { useDoctorMonthlyStats, useAppointmentsByDoctor, useReviewsByDoctor } from '@/hooks/useApiHooks';
 
 const DoctorDashboard = () => {
   const { t } = useTranslation();
-  const { doctorOrPatientId } = useAuth();
+  const doctorOrPatientId = tokenStorage.getDoctorOrPatientId();
   const now = new Date();
 
   const { data: monthlyStats, isLoading: statsLoading } = useDoctorMonthlyStats(

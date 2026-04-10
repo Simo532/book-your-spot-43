@@ -8,12 +8,12 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ShimmerNotification } from '@/components/ui/shimmer';
 import DoctorLayout from '@/components/DoctorLayout';
-import { useAuth } from '@/contexts/AuthContext';
+import { tokenStorage } from '@/services/api';
 import { useNotificationsByDoctor, useDeleteNotification, useMarkNotificationsRead } from '@/hooks/useApiHooks';
 
 const DoctorNotifications = () => {
   const { t } = useTranslation();
-  const { doctorOrPatientId } = useAuth();
+  const doctorOrPatientId = tokenStorage.getDoctorOrPatientId();
   const [filter, setFilter] = useState<string>('all');
 
   const { data: notifsData, isLoading } = useNotificationsByDoctor(doctorOrPatientId || '', 0, 50);

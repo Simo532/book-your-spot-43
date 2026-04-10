@@ -4,13 +4,13 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import DoctorLayout from '@/components/DoctorLayout';
-import { useAuth } from '@/contexts/AuthContext';
+import { tokenStorage } from '@/services/api';
 import { useDoctorByUserId, useDoctorCompletedCount } from '@/hooks/useApiHooks';
 import { useAllBadges } from '@/hooks/useBadgeHooks';
 
 const DoctorBadges = () => {
   const { t } = useTranslation();
-  const { userId } = useAuth();
+  const userId = tokenStorage.getUserId();
   const { data: doctor } = useDoctorByUserId(userId || '');
   const { data: badges, isLoading } = useAllBadges();
   const { data: completedCount } = useDoctorCompletedCount(doctor?.id || '');

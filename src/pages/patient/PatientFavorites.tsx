@@ -8,12 +8,12 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
 import { ShimmerListItem } from '@/components/ui/shimmer';
 import PatientLayout from '@/components/PatientLayout';
-import { useAuth } from '@/contexts/AuthContext';
+import { tokenStorage } from '@/services/api';
 import { useFavorites, useToggleFavorite } from '@/hooks/useApiHooks';
 
 const PatientFavorites = () => {
   const { t } = useTranslation();
-  const { userId } = useAuth();
+  const userId = tokenStorage.getUserId();
   const [search, setSearch] = useState('');
 
   const { data: favorites, isLoading } = useFavorites(userId || '');

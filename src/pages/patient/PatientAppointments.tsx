@@ -19,14 +19,14 @@ import { ShimmerListItem } from '@/components/ui/shimmer';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import PatientLayout from '@/components/PatientLayout';
-import { useAuth } from '@/contexts/AuthContext';
+import { tokenStorage } from '@/services/api';
 import { useAppointmentsByPatient, useCancelAppointment } from '@/hooks/useApiHooks';
 import { AppointmentResponseDTO } from '@/types/appointment';
 
 const PatientAppointments = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { doctorOrPatientId } = useAuth();
+  const doctorOrPatientId = tokenStorage.getDoctorOrPatientId();
   const [search, setSearch] = useState('');
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [reviewApt, setReviewApt] = useState<AppointmentResponseDTO | null>(null);

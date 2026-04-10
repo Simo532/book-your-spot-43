@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ShimmerProfile } from '@/components/ui/shimmer';
 import DoctorLayout from '@/components/DoctorLayout';
-import { useAuth } from '@/contexts/AuthContext';
+import { tokenStorage } from '@/services/api';
 import { useDoctorByUserId } from '@/hooks/useApiHooks';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { doctorService } from '@/services/doctorService';
@@ -18,7 +18,7 @@ import { toast } from '@/hooks/use-toast';
 
 const DoctorProfile = () => {
   const { t } = useTranslation();
-  const { userId } = useAuth();
+  const userId = tokenStorage.getUserId();
   const { data: doctor, isLoading } = useDoctorByUserId(userId || '');
   const qc = useQueryClient();
 

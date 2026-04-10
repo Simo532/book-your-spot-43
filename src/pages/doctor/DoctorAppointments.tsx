@@ -10,7 +10,7 @@ import { format, startOfWeek, addDays, addWeeks, subWeeks, startOfMonth, endOfMo
 import { fr, enUS, ar } from 'date-fns/locale';
 import DoctorLayout from '@/components/DoctorLayout';
 import AppointmentCard from '@/components/doctor/AppointmentCard';
-import { useAuth } from '@/contexts/AuthContext';
+import { tokenStorage } from '@/services/api';
 import { useAppointmentsByDoctor, useUpdateAppointmentStatus } from '@/hooks/useApiHooks';
 import { AppointmentStatus } from '@/types/appointment';
 
@@ -20,7 +20,7 @@ const dayNames = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
 const DoctorAppointments = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const { doctorOrPatientId } = useAuth();
+  const doctorOrPatientId = tokenStorage.getDoctorOrPatientId();
   const [activeStatus, setActiveStatus] = useState<string>('PENDING');
   const [calendarView, setCalendarView] = useState<'week' | 'month'>('week');
   const [currentDate, setCurrentDate] = useState(new Date());
