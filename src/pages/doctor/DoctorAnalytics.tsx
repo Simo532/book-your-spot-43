@@ -2,13 +2,13 @@ import { useTranslation } from 'react-i18next';
 import { TrendingUp, Users, CalendarCheck, Star, Eye } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import DoctorLayout from '@/components/DoctorLayout';
-import { useAuth } from '@/contexts/AuthContext';
+import { tokenStorage } from '@/services/api';
 import { useDoctorByUserId, useDoctorMonthlyStats, useDoctorCompletedCount } from '@/hooks/useApiHooks';
 import { useReviewsByDoctor } from '@/hooks/useApiHooks';
 
 const DoctorAnalytics = () => {
   const { t } = useTranslation();
-  const { userId } = useAuth();
+  const userId = tokenStorage.getUserId();
   const { data: doctor } = useDoctorByUserId(userId || '');
   const now = new Date();
   const { data: stats } = useDoctorMonthlyStats(doctor?.id || '', now.getMonth() + 1, now.getFullYear());
