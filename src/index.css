@@ -53,9 +53,11 @@
     --gradient-primary: linear-gradient(135deg, hsl(231 99% 66%), hsl(260 80% 60%));
     --gradient-hero: linear-gradient(160deg, hsl(231 99% 66% / 0.06), hsl(260 80% 60% / 0.04), transparent);
     --gradient-card: linear-gradient(135deg, hsl(231 99% 66% / 0.03), hsl(260 80% 60% / 0.02));
+    --gradient-subtle: linear-gradient(135deg, hsl(231 99% 66% / 0.08), hsl(260 80% 60% / 0.04));
     --shadow-primary: 0 4px 24px -4px hsl(231 99% 66% / 0.3);
     --shadow-card: 0 1px 3px hsl(230 25% 12% / 0.04), 0 8px 24px hsl(230 25% 12% / 0.06);
     --shadow-elevated: 0 4px 16px hsl(230 25% 12% / 0.08), 0 12px 40px hsl(230 25% 12% / 0.1);
+    --shadow-soft: 0 2px 12px hsl(230 25% 12% / 0.04);
   }
 
   .dark {
@@ -104,9 +106,11 @@
     --gradient-primary: linear-gradient(135deg, hsl(231 99% 66%), hsl(260 80% 60%));
     --gradient-hero: linear-gradient(160deg, hsl(231 99% 66% / 0.08), hsl(260 80% 60% / 0.05), transparent);
     --gradient-card: linear-gradient(135deg, hsl(231 99% 66% / 0.05), hsl(260 80% 60% / 0.03));
+    --gradient-subtle: linear-gradient(135deg, hsl(231 99% 66% / 0.1), hsl(260 80% 60% / 0.06));
     --shadow-primary: 0 4px 24px -4px hsl(231 99% 66% / 0.35);
     --shadow-card: 0 1px 3px hsl(0 0% 0% / 0.2), 0 8px 24px hsl(0 0% 0% / 0.25);
     --shadow-elevated: 0 4px 16px hsl(0 0% 0% / 0.3), 0 12px 40px hsl(0 0% 0% / 0.35);
+    --shadow-soft: 0 2px 12px hsl(0 0% 0% / 0.15);
   }
 }
 
@@ -123,15 +127,39 @@
   [dir="rtl"] body {
     font-family: 'Cairo', sans-serif;
   }
+
+  /* Smoother scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.2);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.35);
+  }
 }
 
 @layer utilities {
   .glass-card {
-    @apply bg-card/80 backdrop-blur-xl border border-border/50;
+    @apply bg-card/80 backdrop-blur-xl border border-border/50 shadow-[var(--shadow-soft)];
   }
 
   .text-gradient {
     @apply bg-clip-text text-transparent;
     background-image: var(--gradient-primary);
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300;
+  }
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-elevated);
   }
 }

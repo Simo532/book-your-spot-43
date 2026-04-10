@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Mail, Lock, Eye, EyeOff, Loader2, Heart, ShieldCheck, Clock, Users } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, Loader2, Heart, ShieldCheck, Clock, Users, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -56,35 +56,44 @@ const Login = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <div className="flex min-h-screen">
-        {/* Left side - Branding (hidden on mobile) */}
+        {/* Left side - Branding */}
         <div className="hidden lg:flex lg:w-1/2 relative items-center justify-center p-12" style={{ background: 'var(--gradient-primary)' }}>
           <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-20 -left-20 w-72 h-72 rounded-full bg-white/5" />
-            <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-white/5" />
+            <div className="absolute top-20 -left-20 w-80 h-80 rounded-full bg-white/5" />
+            <div className="absolute bottom-20 right-10 w-[400px] h-[400px] rounded-full bg-white/5" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-white/[0.02]" />
           </div>
           <div className="relative z-10 max-w-md">
-            <div className="flex items-center gap-2.5 mb-8">
-              <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center">
-                <Heart className="h-5 w-5 text-primary-foreground fill-primary-foreground" />
-              </div>
-              <span className="text-2xl font-bold text-primary-foreground">Superdoc</span>
-            </div>
-            <h2 className="text-3xl font-bold text-primary-foreground mb-4">
-              Your health, simplified.
-            </h2>
-            <p className="text-primary-foreground/70 text-lg mb-10 leading-relaxed">
-              Connect with top-rated doctors, book appointments instantly, and manage your healthcare journey — all in one place.
-            </p>
-            <div className="space-y-4">
-              {trustPoints.map((point) => (
-                <div key={point.text} className="flex items-center gap-3 text-primary-foreground/80">
-                  <div className="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center">
-                    <point.icon className="h-4 w-4" />
-                  </div>
-                  <span className="text-sm font-medium">{point.text}</span>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+              <div className="flex items-center gap-2.5 mb-10">
+                <div className="w-11 h-11 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center">
+                  <Heart className="h-5 w-5 text-primary-foreground fill-primary-foreground" />
                 </div>
-              ))}
-            </div>
+                <span className="text-2xl font-bold text-primary-foreground">Superdoc</span>
+              </div>
+              <h2 className="text-4xl font-bold text-primary-foreground mb-4 leading-tight">
+                Your health,<br />simplified.
+              </h2>
+              <p className="text-primary-foreground/70 text-lg mb-12 leading-relaxed">
+                Connect with top-rated doctors, book appointments instantly, and manage your healthcare journey — all in one place.
+              </p>
+              <div className="space-y-4">
+                {trustPoints.map((point, i) => (
+                  <motion.div
+                    key={point.text}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4 + i * 0.1 }}
+                    className="flex items-center gap-3 text-primary-foreground/80"
+                  >
+                    <div className="w-9 h-9 rounded-xl bg-white/15 backdrop-blur-sm flex items-center justify-center">
+                      <point.icon className="h-4 w-4" />
+                    </div>
+                    <span className="text-sm font-medium">{point.text}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
           </div>
         </div>
 
@@ -104,11 +113,16 @@ const Login = () => {
               </Link>
             </div>
 
+            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/8 border border-primary/15 text-primary text-xs font-medium mb-6">
+              <Sparkles className="h-3 w-3" />
+              {t('auth.welcome_back', 'Welcome back')}
+            </div>
+
             <h1 className="text-2xl font-bold mb-1">{t('auth.login_title')}</h1>
             <p className="text-muted-foreground text-sm mb-8">{t('auth.login_subtitle')}</p>
 
             {/* Google Button */}
-            <Button variant="outline" className="w-full gap-3 h-12 rounded-xl border-2 mb-6 hover:bg-muted/50" type="button" onClick={handleGoogleSignIn}>
+            <Button variant="outline" className="w-full gap-3 h-12 rounded-xl border-2 mb-6 hover:bg-accent/50 transition-all" type="button" onClick={handleGoogleSignIn}>
               <svg className="h-5 w-5" viewBox="0 0 24 24">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
                 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
@@ -123,7 +137,7 @@ const Login = () => {
                 <div className="w-full border-t border-border" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-3 text-muted-foreground">or</span>
+                <span className="bg-background px-3 text-muted-foreground">{t('auth.or', 'or')}</span>
               </div>
             </div>
 
@@ -136,7 +150,7 @@ const Login = () => {
                     id="email"
                     type="email"
                     placeholder="exemple@email.com"
-                    className="pl-10 h-12 rounded-xl border-2 focus:border-primary"
+                    className="pl-10 h-12 rounded-xl border-2 focus:border-primary transition-colors"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={loading}
@@ -157,7 +171,7 @@ const Login = () => {
                     id="password"
                     type={showPassword ? 'text' : 'password'}
                     placeholder="••••••••"
-                    className="pl-10 pr-10 h-12 rounded-xl border-2 focus:border-primary"
+                    className="pl-10 pr-10 h-12 rounded-xl border-2 focus:border-primary transition-colors"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     disabled={loading}
@@ -172,7 +186,7 @@ const Login = () => {
                 </div>
               </div>
 
-              <Button type="submit" className="w-full h-12 shadow-[var(--shadow-primary)] rounded-xl text-base" style={{ background: 'var(--gradient-primary)' }} disabled={loading}>
+              <Button type="submit" className="w-full h-12 shadow-[var(--shadow-primary)] rounded-xl text-base font-semibold" style={{ background: 'var(--gradient-primary)' }} disabled={loading}>
                 {loading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
                 {t('auth.login_button')}
               </Button>
