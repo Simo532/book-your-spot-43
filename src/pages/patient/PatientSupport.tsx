@@ -16,7 +16,7 @@ import { useAllSupportMessages, useCreateSupportMessage } from '@/hooks/useSuppo
 
 const PatientSupport = () => {
   const { t } = useTranslation();
-  const userName = (() => { const f = tokenStorage.getUserFirstName(); const l = tokenStorage.getUserLastName(); return f && l ? `${f} ${l}` : null; })();
+  const userName = tokenStorage.getUserName();
   const userEmail = tokenStorage.getUserEmail();
   const { data: supportData, isLoading } = useAllSupportMessages(0, 50);
   const createMutation = useCreateSupportMessage();
