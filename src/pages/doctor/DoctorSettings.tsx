@@ -6,7 +6,7 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import DoctorLayout from '@/components/DoctorLayout';
 import AvailabilityManager from '@/components/doctor/AvailabilityManager';
-import { useAuth } from '@/contexts/AuthContext';
+import { tokenStorage } from '@/services/api';
 import { useDoctorByUserId } from '@/hooks/useApiHooks';
 import { authService } from '@/services/authService';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -14,7 +14,7 @@ import { useState, useEffect } from 'react';
 
 const DoctorSettings = () => {
   const { t } = useTranslation();
-  const { userId } = useAuth();
+  const userId = tokenStorage.getUserId();
   const { data: doctor } = useDoctorByUserId(userId || '');
   const qc = useQueryClient();
 

@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+import { tokenStorage } from '@/services/api';
 import { UserRole } from '@/types/auth';
 
 interface RoleGuardProps {
@@ -7,12 +7,11 @@ interface RoleGuardProps {
 }
 
 const RoleGuard = ({ allowedRoles }: RoleGuardProps) => {
-  const { isAuthenticated, userRole } = useAuth();
-
-  if (!isAuthenticated) {
+  if (tokenStorage.isJwtExpired()) {
     return <Navigate to="/login" replace />;
   }
 
+  const userRole = tokenStorage.getUserRole() as UserRole | null;
   if (!userRole || !allowedRoles.includes(userRole)) {
     return <Navigate to="/" replace />;
   }

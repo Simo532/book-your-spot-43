@@ -1,10 +1,8 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+import { tokenStorage } from '@/services/api';
 
 const AuthGuard = () => {
-  const { isAuthenticated } = useAuth();
-
-  if (!isAuthenticated) {
+  if (tokenStorage.isJwtExpired()) {
     return <Navigate to="/login" replace />;
   }
 

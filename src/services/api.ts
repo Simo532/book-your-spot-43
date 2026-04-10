@@ -14,6 +14,11 @@ export const tokenStorage = {
   getUserEmail: (): string | null => secureStorage.getItem('user-email'),
   getUserFirstName: (): string | null => secureStorage.getItem('user-firstName'),
   getUserLastName: (): string | null => secureStorage.getItem('user-lastName'),
+  getUserName(): string | null {
+    const f = this.getUserFirstName();
+    const l = this.getUserLastName();
+    return f && l ? `${f} ${l}` : null;
+  },
 
   async saveTokens(accessToken: string, refreshToken: string) {
     await Promise.all([

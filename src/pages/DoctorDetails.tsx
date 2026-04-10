@@ -16,7 +16,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useDoctorById, useReviewsByDoctor, useDoctorCompletedCount, useToggleFavorite, useIsFavorite } from '@/hooks/useApiHooks';
-import { useAuth } from '@/contexts/AuthContext';
+import { tokenStorage } from '@/services/api';
 import DoctorHeader from '@/components/doctor-details/DoctorHeader';
 import DoctorSidebar from '@/components/doctor-details/DoctorSidebar';
 import ReviewsSection from '@/components/doctor-details/ReviewsSection';
@@ -29,7 +29,7 @@ const fadeUp = {
 const DoctorDetails = () => {
   const { t } = useTranslation();
   const { id } = useParams();
-  const { userId } = useAuth();
+  const userId = tokenStorage.getUserId();
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [bookingOpen, setBookingOpen] = useState(false);
   const [reviewPage, setReviewPage] = useState(0);

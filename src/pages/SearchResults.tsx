@@ -16,12 +16,12 @@ import StarRating from '@/components/StarRating';
 import SearchFilters from '@/components/search/SearchFilters';
 import { useSearchDoctors, useToggleFavorite, useFavorites } from '@/hooks/useApiHooks';
 import { useAllSpecialities } from '@/hooks/useSpecialityHooks';
-import { useAuth } from '@/contexts/AuthContext';
+import { tokenStorage } from '@/services/api';
 import { Gender } from '@/types/doctor';
 
 const SearchResults = () => {
   const { t } = useTranslation();
-  const { userId } = useAuth();
+  const userId = tokenStorage.getUserId();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSpeciality, setSelectedSpeciality] = useState<string>('all');
   const [selectedCity, setSelectedCity] = useState<string>('all');

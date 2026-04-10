@@ -8,13 +8,13 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ShimmerChatItem } from '@/components/ui/shimmer';
 import { cn } from '@/lib/utils';
 import PatientLayout from '@/components/PatientLayout';
-import { useAuth } from '@/contexts/AuthContext';
+import { tokenStorage } from '@/services/api';
 import { useChatsByPatient, useChatMessages, useSendMessage } from '@/hooks/useApiHooks';
 import { SenderType } from '@/types/chatMessage';
 
 const PatientMessages = () => {
   const { t } = useTranslation();
-  const { doctorOrPatientId } = useAuth();
+  const doctorOrPatientId = tokenStorage.getDoctorOrPatientId();
   const [selectedChatId, setSelectedChatId] = useState<string>('');
   const [search, setSearch] = useState('');
   const [newMessage, setNewMessage] = useState('');

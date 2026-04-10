@@ -8,12 +8,12 @@ import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Shimmer, ShimmerReview } from '@/components/ui/shimmer';
 import DoctorLayout from '@/components/DoctorLayout';
-import { useAuth } from '@/contexts/AuthContext';
+import { tokenStorage } from '@/services/api';
 import { useReviewsByDoctor } from '@/hooks/useApiHooks';
 
 const DoctorReviews = () => {
   const { t } = useTranslation();
-  const { doctorOrPatientId } = useAuth();
+  const doctorOrPatientId = tokenStorage.getDoctorOrPatientId();
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
   const [replyText, setReplyText] = useState('');
   const [page, setPage] = useState(0);

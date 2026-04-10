@@ -9,12 +9,13 @@ import { cn } from '@/lib/utils';
 import PatientLayout from '@/components/PatientLayout';
 import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { useAuth } from '@/contexts/AuthContext';
+import { tokenStorage } from '@/services/api';
 import { useAppointmentsByPatient, useFavorites } from '@/hooks/useApiHooks';
 
 const PatientDashboard = () => {
   const { t } = useTranslation();
-  const { doctorOrPatientId, userId } = useAuth();
+  const doctorOrPatientId = tokenStorage.getDoctorOrPatientId();
+  const userId = tokenStorage.getUserId();
 
   const { data: appointments, isLoading: aptsLoading } = useAppointmentsByPatient(doctorOrPatientId || '', 0, 20);
   const { data: favoritesData } = useFavorites(userId || '');

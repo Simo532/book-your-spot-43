@@ -11,12 +11,13 @@ import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { ShimmerListItem } from '@/components/ui/shimmer';
 import PatientLayout from '@/components/PatientLayout';
-import { useAuth } from '@/contexts/AuthContext';
+import { tokenStorage } from '@/services/api';
 import { useAllSupportMessages, useCreateSupportMessage } from '@/hooks/useSupportHooks';
 
 const PatientSupport = () => {
   const { t } = useTranslation();
-  const { userName, userEmail } = useAuth();
+  const userName = tokenStorage.getUserName();
+  const userEmail = tokenStorage.getUserEmail();
   const { data: supportData, isLoading } = useAllSupportMessages(0, 50);
   const createMutation = useCreateSupportMessage();
   const [open, setOpen] = useState(false);
