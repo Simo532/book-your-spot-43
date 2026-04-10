@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Search, CalendarCheck, MapPin, ShieldCheck, ArrowRight, Star, CheckCircle2, Users, Clock, Stethoscope } from 'lucide-react';
+import { Search, CalendarCheck, MapPin, ShieldCheck, ArrowRight, Star, CheckCircle2, Users, Clock, Stethoscope, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -43,40 +43,43 @@ const Index = () => {
       <Navbar />
 
       {/* Hero */}
-      <section className="relative pt-28 pb-20 px-4 overflow-hidden">
+      <section className="relative pt-28 pb-24 px-4 overflow-hidden">
         <div className="absolute inset-0 bg-[var(--gradient-hero)]" />
-        <div className="absolute top-32 right-[5%] w-[500px] h-[500px] rounded-full bg-primary/[0.04] blur-[80px]" />
-        <div className="absolute bottom-0 left-[10%] w-[400px] h-[400px] rounded-full bg-accent/[0.04] blur-[80px]" />
+        <div className="absolute top-32 right-[5%] w-[600px] h-[600px] rounded-full bg-primary/[0.03] blur-[100px]" />
+        <div className="absolute bottom-0 left-[10%] w-[500px] h-[500px] rounded-full bg-accent/[0.04] blur-[100px]" />
 
         <div className="max-w-5xl mx-auto text-center relative">
           <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={0} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/8 border border-primary/15 text-primary text-sm font-medium mb-8">
-            <Star className="h-3.5 w-3.5 fill-primary" />
+            <Sparkles className="h-3.5 w-3.5" />
             {t('landing.trusted_by')}
           </motion.div>
 
-          <motion.h1 initial="hidden" animate="visible" variants={fadeUp} custom={1} className="text-4xl sm:text-5xl lg:text-[3.5rem] font-extrabold tracking-tight leading-[1.15]">
-            {t('landing.hero_title')}<br /><span className="text-gradient">{t('landing.hero_title_highlight')}</span>
+          <motion.h1 initial="hidden" animate="visible" variants={fadeUp} custom={1} className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1]">
+            {t('landing.hero_title')}<br />
+            <span className="text-gradient">{t('landing.hero_title_highlight')}</span>
           </motion.h1>
 
-          <motion.p initial="hidden" animate="visible" variants={fadeUp} custom={2} className="mt-6 text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          <motion.p initial="hidden" animate="visible" variants={fadeUp} custom={2} className="mt-6 text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             {t('landing.hero_subtitle')}
           </motion.p>
 
           <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={3} className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/search">
-              <Button size="lg" className="text-base px-8 rounded-xl shadow-[var(--shadow-primary)] gap-2 h-12" style={{ background: 'var(--gradient-primary)' }}>
+              <Button size="lg" className="text-base px-8 rounded-xl shadow-[var(--shadow-primary)] gap-2 h-13" style={{ background: 'var(--gradient-primary)' }}>
                 {t('landing.cta_search')}<ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
             <Link to="/signup">
-              <Button size="lg" variant="outline" className="text-base px-8 rounded-xl h-12 border-2">{t('landing.cta_join')}</Button>
+              <Button size="lg" variant="outline" className="text-base px-8 rounded-xl h-13 border-2 hover:bg-accent/50">{t('landing.cta_join')}</Button>
             </Link>
           </motion.div>
 
           <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={4} className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-4">
             {stats.map((stat) => (
-              <div key={stat.label} className="glass-card rounded-2xl p-5 text-center">
-                <stat.icon className="h-5 w-5 text-primary mx-auto mb-2" />
+              <div key={stat.label} className="glass-card rounded-2xl p-6 text-center hover-lift">
+                <div className="w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center" style={{ background: 'var(--gradient-subtle)' }}>
+                  <stat.icon className="h-5 w-5 text-primary" />
+                </div>
                 <CountUp target={stat.value} suffix={stat.suffix} className="text-2xl sm:text-3xl font-bold text-foreground" />
                 <div className="text-xs text-muted-foreground mt-1 font-medium uppercase tracking-wider">{stat.label}</div>
               </div>
@@ -107,7 +110,7 @@ const Index = () => {
             <h2 className="text-3xl sm:text-4xl font-bold mt-3">{t('landing.how_title')}</h2>
           </motion.div>
           <div className="grid md:grid-cols-3 gap-8 relative">
-            <div className="hidden md:block absolute top-12 left-[20%] right-[20%] h-px bg-border" />
+            <div className="hidden md:block absolute top-12 left-[20%] right-[20%] h-px bg-gradient-to-r from-transparent via-border to-transparent" />
             {steps.map((step, i) => <StepCard key={step.num} step={step} i={i} />)}
           </div>
         </div>
@@ -122,7 +125,7 @@ const Index = () => {
           </motion.div>
           <div className="grid sm:grid-cols-3 gap-6">
             {trustItems.map((item, i) => (
-              <motion.div key={item.label} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={i + 1} className="text-center p-8 rounded-2xl bg-card border border-border">
+              <motion.div key={item.label} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={i + 1} className="text-center p-8 rounded-2xl bg-card border border-border hover-lift">
                 <div className="text-3xl font-extrabold text-gradient">{item.num}</div>
                 <div className="text-sm text-muted-foreground mt-2 font-medium">{item.label}</div>
               </motion.div>
@@ -134,13 +137,14 @@ const Index = () => {
       {/* CTA */}
       <section className="py-24 px-4">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={0} className="max-w-4xl mx-auto rounded-3xl p-12 sm:p-16 text-center relative overflow-hidden" style={{ background: 'var(--gradient-primary)' }}>
-          <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-white/5 -translate-y-1/3 translate-x-1/3" />
-          <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full bg-white/5 translate-y-1/3 -translate-x-1/3" />
+          <div className="absolute top-0 right-0 w-72 h-72 rounded-full bg-white/5 -translate-y-1/3 translate-x-1/3" />
+          <div className="absolute bottom-0 left-0 w-56 h-56 rounded-full bg-white/5 translate-y-1/3 -translate-x-1/3" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-white/[0.02]" />
           <div className="relative z-10">
             <h2 className="text-3xl sm:text-4xl font-bold text-primary-foreground mb-4">{t('landing.cta_title')}</h2>
             <p className="text-primary-foreground/70 mb-8 max-w-lg mx-auto text-lg">{t('landing.cta_subtitle')}</p>
             <Link to="/signup">
-              <Button size="lg" className="bg-background text-foreground hover:bg-background/90 text-base px-8 gap-2 rounded-xl h-12 shadow-[var(--shadow-elevated)]">
+              <Button size="lg" className="bg-background text-foreground hover:bg-background/90 text-base px-8 gap-2 rounded-xl h-13 shadow-[var(--shadow-elevated)]">
                 {t('landing.cta_button')}<ArrowRight className="h-4 w-4" />
               </Button>
             </Link>

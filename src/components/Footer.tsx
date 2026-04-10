@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Heart, Mail, Phone, MapPin } from 'lucide-react';
+import { Heart, Mail, Phone, MapPin, ArrowUpRight } from 'lucide-react';
 
 const Footer = memo(() => {
   const { t } = useTranslation();
@@ -30,10 +30,14 @@ const Footer = memo(() => {
           <div>
             <h4 className="font-semibold text-foreground mb-4 text-sm uppercase tracking-wider">{t('footer.links')}</h4>
             <ul className="space-y-3 text-sm">
-              <li><Link to="/about" className="hover:text-primary transition-colors">{t('footer.about')}</Link></li>
-              <li><Link to="/contact" className="hover:text-primary transition-colors">{t('footer.contact')}</Link></li>
-              <li><Link to="/privacy" className="hover:text-primary transition-colors">{t('footer.privacy')}</Link></li>
-              <li><Link to="/terms" className="hover:text-primary transition-colors">{t('footer.terms')}</Link></li>
+              {['about', 'contact', 'privacy', 'terms'].map((key) => (
+                <li key={key}>
+                  <Link to={`/${key}`} className="hover:text-primary transition-colors inline-flex items-center gap-1 group">
+                    {t(`footer.${key}`)}
+                    <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -41,8 +45,18 @@ const Footer = memo(() => {
           <div>
             <h4 className="font-semibold text-foreground mb-4 text-sm uppercase tracking-wider">Professionals</h4>
             <ul className="space-y-3 text-sm">
-              <li><Link to="/signup" className="hover:text-primary transition-colors">Join as Doctor</Link></li>
-              <li><Link to="/search" className="hover:text-primary transition-colors">Find a Doctor</Link></li>
+              <li>
+                <Link to="/signup" className="hover:text-primary transition-colors inline-flex items-center gap-1 group">
+                  Join as Doctor
+                  <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </Link>
+              </li>
+              <li>
+                <Link to="/search" className="hover:text-primary transition-colors inline-flex items-center gap-1 group">
+                  Find a Doctor
+                  <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -50,16 +64,22 @@ const Footer = memo(() => {
           <div>
             <h4 className="font-semibold text-foreground mb-4 text-sm uppercase tracking-wider">{t('footer.contact')}</h4>
             <ul className="space-y-3 text-sm">
-              <li className="flex items-center gap-2">
-                <Mail className="h-4 w-4" />
+              <li className="flex items-center gap-2.5">
+                <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                  <Mail className="h-3.5 w-3.5 text-primary" />
+                </div>
                 contact@superdoc.com
               </li>
-              <li className="flex items-center gap-2">
-                <Phone className="h-4 w-4" />
+              <li className="flex items-center gap-2.5">
+                <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                  <Phone className="h-3.5 w-3.5 text-primary" />
+                </div>
                 +212 600 000 000
               </li>
-              <li className="flex items-center gap-2">
-                <MapPin className="h-4 w-4" />
+              <li className="flex items-center gap-2.5">
+                <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                  <MapPin className="h-3.5 w-3.5 text-primary" />
+                </div>
                 Casablanca, Morocco
               </li>
             </ul>
